@@ -21,19 +21,38 @@
     width: 100%;
     max-width: 414px; 
     min-height: 100vh;
-    padding: 20px 0; /* 左右留給內部元件控制 */
+    padding: 24px 0; /* 調整上方留白 */
     box-sizing: border-box;
     position: relative;
     overflow-x: hidden;
+  }
+
+  /* 頂部功能導覽列 */
+  .nav-tabs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    padding: 0 24px;
+    font-size: 14px;
+  }
+  
+  .nav-tab {
+    color: #B0ADA7; /* 未選取的淺灰色 */
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+  
+  .nav-tab.active {
+    color: #4A453F;
+    font-weight: 700;
   }
 
   /* 橫向滑動的日期選單 */
   .date-tabs {
     display: flex;
     overflow-x: auto;
-    padding: 0 20px 20px 20px;
+    padding: 0 24px 20px 24px;
     gap: 24px;
-    /* 隱藏原生捲軸 */
     scrollbar-width: none; 
   }
   .date-tabs::-webkit-scrollbar {
@@ -66,17 +85,17 @@
 
   /* 時間軸容器 */
   .timeline-container {
-    padding: 0 20px;
+    padding: 0 24px;
     position: relative;
   }
 
-  /* 左側淡淡的垂直引導線 */
+  /* 左側垂直引導線 */
   .timeline-container::before {
     content: '';
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 24px; /* 對齊圓點中心 */
+    left: 28px; /* 對齊圓點中心 */
     width: 1px;
     background-color: #E0DDD6;
   }
@@ -96,7 +115,7 @@
     background-color: #F6F5F0;
     border: 1.5px solid #4A453F;
     margin-top: 18px;
-    z-index: 1; /* 蓋在線上 */
+    z-index: 1;
   }
 
   .timeline-marker.solid {
@@ -127,7 +146,7 @@
     font-weight: 700;
   }
 
-  /* 標籤設計 (例如：活動、美食) */
+  /* 標籤樣式 */
   .event-tag {
     font-size: 10px;
     padding: 2px 8px;
@@ -155,7 +174,6 @@
     letter-spacing: 0.5px;
   }
 
-  /* 導航小圖示 (模擬飛機/箭頭圖示) */
   .nav-icon {
     position: absolute;
     right: 16px;
@@ -164,11 +182,11 @@
     font-size: 16px;
   }
 
-  /* 懸浮新增按鈕 (FAB) */
+  /* 懸浮新增按鈕 */
   .fab-button {
     position: fixed;
     bottom: 30px;
-    right: 20px;
+    right: 24px;
     width: 56px;
     height: 56px;
     background-color: #4A453F;
@@ -189,6 +207,13 @@
 
 <div class="app-container">
   
+  <div class="nav-tabs">
+    <a href="index.html" class="nav-tab" style="text-decoration: none;">首頁</a>
+    <a href="itinerary.html" class="nav-tab active" style="text-decoration: none;">行程</a>
+    <a href="#" class="nav-tab" style="text-decoration: none;">記帳</a>
+    <a href="#" class="nav-tab" style="text-decoration: none;">清單</a>
+  </div>
+
   <div class="date-tabs">
     <div class="date-tab">DAY 1</div>
     <div class="date-tab active">DAY 2</div>
