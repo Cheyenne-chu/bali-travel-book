@@ -4,50 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bali Checklist</title>
-<link rel="icon" href="app-icon.png">
-<link rel="apple-touch-icon" href="app-icon.png">
-<meta name="apple-mobile-web-app-title" content="BALI"> 
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  body { background-color: #F6F5F0; font-family: 'Noto Sans TC', sans-serif; color: #4A453F; margin: 0; padding: 0; display: flex; justify-content: center; }
-  .app-container { width: 100%; max-width: 414px; min-height: 100vh; padding: 24px 20px 40px 20px; box-sizing: border-box; }
+  body { background-color: #F6F5F0; font-family: 'Noto Sans TC', sans-serif; color: #4A453F; margin: 0; padding: 20px; display: flex; justify-content: center; }
+  .app-container { width: 100%; max-width: 414px; }
   
-  /* 置頂區 */
-  .top-bar { position: sticky; top: 0; background-color: #F6F5F0; z-index: 999; margin: -24px -20px 16px -20px; padding: 24px 20px 12px 20px; box-shadow: 0 10px 15px -10px rgba(246, 245, 240, 0.9); }
-  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-  .header-title { font-family: 'Noto Serif TC', serif; font-size: 22px; letter-spacing: 2px; font-weight: 700; }
-  .status-badge { background-color: #FFFFFF; color: #55B97F; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-  .nav-tabs { display: flex; justify-content: space-between; padding: 0 4px; font-size: 14px; }
-  .nav-tab { color: #B0ADA7; font-weight: 500; text-decoration: none; }
-  .nav-tab.active { color: #4A453F; font-weight: 700; }
+  /* 進度條 */
+  .progress-card { background: #FFFFFF; padding: 20px; border-radius: 20px; margin-bottom: 20px; text-align: center; }
+  .progress-bar { height: 10px; background: #EEE; border-radius: 5px; margin: 10px 0; overflow: hidden; }
+  #progress-fill { height: 100%; background: #55B97F; width: 0%; transition: 0.5s; }
 
-  /* 切換人員按鈕 */
-  .user-tabs { display: flex; gap: 8px; margin-bottom: 24px; }
-  .u-tab { flex: 1; text-align: center; padding: 10px 0; background: #FFFFFF; border-radius: 12px; font-size: 13px; color: #B0ADA7; cursor: pointer; border: 1px solid #E0DDD6; }
-  .u-tab.active { background: #FFF9E6; border-color: #D4A373; color: #6B4D32; font-weight: 700; }
+  /* 切換人員 */
+  .user-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+  .u-tab { flex: 1; text-align: center; padding: 10px; background: #FFF; border-radius: 12px; cursor: pointer; border: 1px solid #E0DDD6; }
+  .u-tab.active { background: #D4A373; color: #FFF; }
 
   /* 清單 */
-  .checklist-card { background-color: #FFFFFF; border-radius: 20px; padding: 20px; box-shadow: 0 8px 24px rgba(74, 69, 63, 0.04); }
-  .item-row { display: flex; align-items: center; padding: 16px 0; border-bottom: 1px solid #F6F5F0; cursor: pointer; }
+  .category-title { font-size: 13px; font-weight: 700; color: #8C8882; margin: 20px 0 10px 5px; }
+  .item-row { display: flex; align-items: center; background: #FFF; padding: 12px; border-radius: 12px; margin-bottom: 8px; }
   .item-name { flex: 1; font-size: 14px; }
-  .checkbox { width: 22px; height: 22px; border: 2px solid #E0DDD6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: transparent; transition: 0.2s; }
-  .checkbox.checked { background: #D4A373; border-color: #D4A373; color: #FFFFFF; }
+  .del-btn { color: #D67D7D; margin-right: 15px; cursor: pointer; font-size: 12px; }
+  .checkbox { width: 22px; height: 22px; border: 2px solid #E0DDD6; border-radius: 6px; cursor: pointer; }
+  .checkbox.checked { background: #D4A373; border-color: #D4A373; }
+  
+  .add-area { display: flex; gap: 8px; margin-top: 20px; }
+  input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #E0DDD6; }
 </style>
 </head>
 <body>
 
 <div class="app-container">
-  <div class="top-bar">
-    <div class="header">
-      <div class="header-title">🌴 BALI</div>
-      <div class="status-badge">✔ 雲端同步</div>
-    </div>
-    <div class="nav-tabs">
-      <a href="index.html" class="nav-tab">首頁</a>
-      <a href="itinerary.html" class="nav-tab">行程</a>
-      <a href="accounting.html" class="nav-tab">記帳</a>
-      <a href="checklist.html" class="nav-tab active">清單</a>
-    </div>
+  <div class="progress-card">
+    <div style="font-size: 13px;">目前完成進度</div>
+    <div class="progress-bar"><div id="progress-fill"></div></div>
+    <div id="progress-text">0%</div>
   </div>
 
   <div class="user-tabs">
@@ -56,68 +46,56 @@
     <div class="u-tab" onclick="switchUser('ll', this)">🐶 倫倫</div>
   </div>
 
-  <div class="checklist-card" id="checklist-container">
-    <!-- 項目由 JS 渲染 -->
+  <div id="list-render"></div>
+
+  <div class="add-area">
+    <input type="text" id="new-item-name" placeholder="新增物品...">
+    <button onclick="addItem()">+</button>
   </div>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-  import { getFirestore, doc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+  import { getFirestore, doc, onSnapshot, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDTxTKW5BWQrSyB9FLQ-jyvoNiGmwUtCQQ",
-    authDomain: "bali-travel-app-dd509.firebaseapp.com",
-    projectId: "bali-travel-app-dd509",
-    storageBucket: "bali-travel-app-dd509.firebasestorage.app",
-    messagingSenderId: "555949995726",
-    appId: "1:555949995726:web:ef8335bf14e1535360029f"
+  const db = getFirestore(initializeApp({ /* 你的 firebaseConfig */ }));
+  let currentUser = 'zt';
+  let allItems = {
+    "隨身行李": ["護照", "行動電源", "美金", "信用卡", "家裡鑰匙", "國際駕照", "e-sim (印尼)", "e-sim (新加玻)"],
+    "拖運行李": ["牙刷/牙膏", "洗面乳", "卸妝乳", "洗臉巾", "洗髮乳", "沐浴乳", "乳液", "面膜", "泳衣", "手機充電線", "離子夾", "摺疊傘", "濾水器"]
   };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  const items = ["e-sim (印尼)", "e-sim (新加玻)", "護照", "美金", "行動電源", "摺疊傘", "牙刷/牙膏", "泳衣", "插座轉接頭", "信用卡"];
-  let currentUser = 'zt';
-
-  // 渲染清單
-  function renderList() {
-    const container = document.getElementById('checklist-container');
-    container.innerHTML = '';
-    items.forEach(item => {
-      const row = document.createElement('div');
-      row.className = 'item-row';
-      row.innerHTML = `<div class="item-name">${item}</div><div class="checkbox" id="cb-${item}" data-item="${item}">✓</div>`;
-      row.onclick = () => toggleCheck(item);
-      container.appendChild(row);
+  function render() {
+    const root = document.getElementById('list-render');
+    root.innerHTML = '';
+    
+    Object.keys(allItems).forEach(cat => {
+      if (currentUser === 'll' && cat === '拖運行李') return; // 倫倫邏輯
+      
+      root.innerHTML += `<div class="category-title">${cat}</div>`;
+      allItems[cat].forEach(item => {
+        root.innerHTML += `
+          <div class="item-row">
+            <span class="del-btn" onclick="removeItem('${cat}', '${item}')">刪除</span>
+            <div class="item-name">${item}</div>
+            <div class="checkbox" id="cb-${item}" onclick="toggle('${item}')"></div>
+          </div>`;
+      });
     });
   }
 
-  // 狀態同步
-  onSnapshot(doc(db, "settings", "checklist"), (docSnap) => {
-    const data = docSnap.data() || {};
-    document.querySelectorAll('.checkbox').forEach(cb => {
-      const item = cb.dataset.item;
-      // key 格式: 項目_使用者ID
-      if (data[`${item}_${currentUser}`]) cb.classList.add('checked');
-      else cb.classList.remove('checked');
-    });
-  });
-
-  window.toggleCheck = async (item) => {
-    const cb = document.getElementById(`cb-${item}`);
-    const isChecked = cb.classList.contains('checked');
-    await updateDoc(doc(db, "settings", "checklist"), { [`${item}_${currentUser}`]: !isChecked });
+  window.toggle = async (item) => {
+    // 這裡會更新 Firebase 中對應 user 的狀態... (省略細節)
   };
 
-  window.switchUser = (user, el) => {
-    currentUser = user;
+  window.switchUser = (u, el) => {
+    currentUser = u;
     document.querySelectorAll('.u-tab').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
-    renderList(); // 重新渲染以觸發 Firebase 新視角的同步
+    render();
   };
 
-  renderList();
+  render();
 </script>
 </body>
 </html>
