@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bali Accounting</title>
+
+<link rel="icon" href="app-icon.png">
+<link rel="apple-touch-icon" href="app-icon.png">
+<meta name="apple-mobile-web-app-title" content="BALI"> 
+
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   /* === 基礎設定 === */
@@ -23,6 +28,17 @@
     padding: 24px 20px 80px 20px;
     box-sizing: border-box;
     position: relative;
+  }
+
+  /* === 常駐置頂區塊 === */
+  .top-bar {
+    position: sticky;
+    top: 0;
+    background-color: #F6F5F0;
+    z-index: 999;
+    margin: -24px -20px 16px -20px;
+    padding: 24px 20px 12px 20px;
+    box-shadow: 0 10px 15px -10px rgba(246, 245, 240, 0.9);
   }
 
   /* === 頂部 Header & 導覽列 === */
@@ -50,7 +66,6 @@
   .nav-tabs {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 24px;
     padding: 0 4px;
     font-size: 14px;
   }
@@ -116,7 +131,7 @@
   }
   .summary-table tr:last-child td { border-bottom: none; padding-bottom: 0; }
   
-  .text-highlight { color: #D4A373; } /* 花費文字顏色 */
+  .text-highlight { color: #D4A373; }
 
   /* === 2. 記帳輸入卡片 === */
   .form-group { margin-bottom: 20px; }
@@ -127,8 +142,6 @@
     display: block;
     font-weight: 500;
   }
-
-  /* 輸入框 */
   .input-field {
     width: 100%;
     padding: 12px 16px;
@@ -142,19 +155,9 @@
     outline: none;
     transition: border-color 0.2s ease;
   }
-  .input-field:focus {
-    border-color: #D4A373;
-    background-color: #FFFFFF;
-  }
-
-  /* 金額與幣別 */
+  .input-field:focus { border-color: #D4A373; background-color: #FFFFFF; }
   .amount-row { display: flex; gap: 12px; }
-  .amount-input {
-    flex: 1;
-    font-family: 'Noto Serif TC', serif;
-    font-size: 20px;
-    font-weight: 700;
-  }
+  .amount-input { flex: 1; font-family: 'Noto Serif TC', serif; font-size: 20px; font-weight: 700; }
   .toggle-group {
     display: flex;
     background-color: #F6F5F0;
@@ -164,224 +167,66 @@
     width: 120px;
   }
   .toggle-btn {
-    flex: 1;
-    text-align: center;
-    padding: 8px 0;
-    font-size: 13px;
-    color: #B0ADA7;
-    border-radius: 8px;
-    cursor: pointer;
+    flex: 1; text-align: center; padding: 8px 0; font-size: 13px; color: #B0ADA7; border-radius: 8px; cursor: pointer;
   }
-  .toggle-btn.active {
-    background-color: #FFFFFF;
-    color: #4A453F;
-    font-weight: 700;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  }
-
-  /* 類別選擇 */
+  .toggle-btn.active { background-color: #FFFFFF; color: #4A453F; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
   .category-row {
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    padding-bottom: 8px;
-    scrollbar-width: none;
+    display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none;
   }
   .category-row::-webkit-scrollbar { display: none; }
-  .category-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    min-width: 52px;
-    color: #B0ADA7;
-    cursor: pointer;
-  }
-  .category-icon {
-    font-size: 20px;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 12px;
-    border: 1px solid transparent;
-  }
+  .category-btn { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 52px; color: #B0ADA7; cursor: pointer; }
+  .category-icon { font-size: 20px; width: 44px; height: 44px; display: flex; justify-content: center; align-items: center; border-radius: 12px; border: 1px solid transparent; }
   .category-text { font-size: 11px; }
   .category-btn.active { color: #D4A373; font-weight: 700; }
-  .category-btn.active .category-icon {
-    border-color: #F4D399;
-    background-color: #FDF9F1;
-  }
-
-  /* 人員選擇網格 (強制3等分) */
-  .user-grid {
-    display: flex;
-    gap: 8px;
-    width: 100%;
-  }
+  .category-btn.active .category-icon { border-color: #F4D399; background-color: #FDF9F1; }
+  .user-grid { display: flex; gap: 8px; width: 100%; }
   .user-btn {
-    flex: 1; /* 平均分配寬度 */
-    text-align: center;
-    padding: 12px 0;
-    font-size: 13px;
-    border-radius: 12px;
-    background-color: #F6F5F0;
-    color: #8C8882;
-    border: 1px solid transparent;
-    cursor: pointer;
+    flex: 1; text-align: center; padding: 12px 0; font-size: 13px; border-radius: 12px; background-color: #F6F5F0; color: #8C8882; border: 1px solid transparent; cursor: pointer;
   }
-  .user-btn.payer-active {
-    background-color: #FDF9F1;
-    border-color: #F4D399;
-    color: #D4A373;
-    font-weight: 700;
-  }
-  .user-btn.split-active {
-    background-color: #FFFFFF;
-    border-color: #E0DDD6;
-    color: #4A453F;
-    font-weight: 700;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-  }
-
-  /* 照片上傳區塊 */
+  .user-btn.payer-active { background-color: #FDF9F1; border-color: #F4D399; color: #D4A373; font-weight: 700; }
+  .user-btn.split-active { background-color: #FFFFFF; border-color: #E0DDD6; color: #4A453F; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
   .photo-upload-box {
-    width: 100%;
-    height: 80px;
-    border: 2px dashed #E0DDD6;
-    border-radius: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #B0ADA7;
-    font-size: 24px;
-    cursor: pointer;
-    position: relative;
-    background-color: #FAFAFA;
+    width: 100%; height: 80px; border: 2px dashed #E0DDD6; border-radius: 12px; display: flex; justify-content: center; align-items: center; color: #B0ADA7; font-size: 24px; cursor: pointer; position: relative; background-color: #FAFAFA;
   }
-  .photo-upload-box input[type="file"] {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-  }
-
-  /* 新增/更新 按鈕 */
+  .photo-upload-box input[type="file"] { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
   .submit-btn {
-    width: 100%;
-    background-color: #4A453F;
-    color: #FFFFFF;
-    padding: 16px;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(74, 69, 63, 0.15);
-    margin-top: 8px;
+    width: 100%; background-color: #4A453F; color: #FFFFFF; padding: 16px; border-radius: 12px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(74, 69, 63, 0.15); margin-top: 8px;
   }
 
   /* === 3. 帳務明細清單 === */
-  .section-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: #6B4D32;
-    margin: 32px 0 16px 4px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
+  .section-title { font-size: 15px; font-weight: 700; color: #6B4D32; margin: 32px 0 16px 4px; display: flex; align-items: center; gap: 8px; }
   .record-item {
-    background-color: #FFFFFF;
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 12px;
-    box-shadow: 0 4px 12px rgba(74, 69, 63, 0.03);
-    cursor: pointer; /* 提示可點擊展開 */
-    transition: background-color 0.2s;
+    background-color: #FFFFFF; border-radius: 16px; padding: 16px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(74, 69, 63, 0.03); cursor: pointer; transition: background-color 0.2s;
   }
   .record-item:active { background-color: #FAFAFA; }
-  
-  .record-main {
-    display: flex;
-    align-items: center;
-  }
-  .record-dot {
-    width: 8px;
-    height: 8px;
-    background-color: #D67D7D; 
-    border-radius: 50%;
-    margin-right: 12px;
-  }
+  .record-main { display: flex; align-items: center; }
+  .record-dot { width: 8px; height: 8px; background-color: #D67D7D; border-radius: 50%; margin-right: 12px; }
   .record-content { flex: 1; }
-  .record-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: #4A453F;
-    margin-bottom: 4px;
-  }
-  .record-sub {
-    font-size: 11px;
-    color: #B0ADA7;
-  }
-  .record-amount {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: #4A453F;
-    margin-right: 12px;
-    text-align: right;
-  }
-  .record-actions {
-    color: #E0DDD6;
-    font-size: 16px;
-    display: flex;
-    gap: 12px;
-  }
+  .record-title { font-size: 15px; font-weight: 700; color: #4A453F; margin-bottom: 4px; }
+  .record-sub { font-size: 11px; color: #B0ADA7; }
+  .record-amount { font-family: 'Noto Serif TC', serif; font-size: 18px; font-weight: 700; color: #4A453F; margin-right: 12px; text-align: right; }
+  .record-actions { color: #E0DDD6; font-size: 16px; display: flex; gap: 12px; }
   .action-icon { padding: 4px; }
-
-  /* 展開的細節區塊 */
-  .record-details {
-    display: none; /* 預設隱藏 */
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px dashed #E0DDD6;
-    font-size: 12px;
-    color: #8C8882;
-    line-height: 1.6;
-  }
-  .detail-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 4px;
-  }
-  .detail-tag {
-    display: inline-block;
-    background-color: #F6F5F0;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 10px;
-    color: #6B4D32;
-    margin-top: 8px;
-  }
+  .record-details { display: none; margin-top: 16px; padding-top: 16px; border-top: 1px dashed #E0DDD6; font-size: 12px; color: #8C8882; line-height: 1.6; }
+  .detail-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+  .detail-tag { display: inline-block; background-color: #F6F5F0; padding: 2px 8px; border-radius: 4px; font-size: 10px; color: #6B4D32; margin-top: 8px; }
 </style>
 </head>
 <body>
 
 <div class="app-container">
-  <div class="header">
-    <div class="header-title">🌴 BALI</div>
-    <div class="status-badge">✔ 雲端同步中</div>
-  </div>
-
-  <div class="nav-tabs">
-    <a href="index.html" class="nav-tab">首頁</a>
-    <a href="itinerary.html" class="nav-tab">行程</a>
-    <a href="accounting.html" class="nav-tab active">記帳</a>
-    <a href="checklist.html" class="nav-tab">清單</a>
+  
+  <div class="top-bar">
+    <div class="header">
+      <div class="header-title">🌴 BALI</div>
+      <div class="status-badge">✔ 雲端同步中</div>
+    </div>
+    <div class="nav-tabs">
+      <a href="index.html" class="nav-tab">首頁</a>
+      <a href="itinerary.html" class="nav-tab">行程</a>
+      <a href="accounting.html" class="nav-tab active">記帳</a>
+      <a href="checklist.html" class="nav-tab">清單</a>
+    </div>
   </div>
 
   <div class="card">
@@ -390,44 +235,16 @@
       <span class="exchange-rate-note">匯率: 1 IDR = 0.002 TWD</span>
     </div>
     <table class="summary-table">
-      <tr>
-        <th>人員</th>
-        <th>已代墊</th>
-        <th>花費 IDR</th>
-        <th>花費 TWD</th>
-      </tr>
-      <tr>
-        <td>🧸 芷葶</td>
-        <td id="sum-paid-zt">0</td>
-        <td id="sum-idr-zt" class="text-highlight">0</td>
-        <td id="sum-twd-zt" class="text-highlight">0</td>
-      </tr>
-      <tr>
-        <td>🦁 嘉嘉</td>
-        <td id="sum-paid-jj">0</td>
-        <td id="sum-idr-jj" class="text-highlight">0</td>
-        <td id="sum-twd-jj" class="text-highlight">0</td>
-      </tr>
-      <tr>
-        <td>🐶 倫倫</td>
-        <td id="sum-paid-ll">0</td>
-        <td id="sum-idr-ll" class="text-highlight">0</td>
-        <td id="sum-twd-ll" class="text-highlight">0</td>
-      </tr>
+      <tr><th>人員</th><th>已代墊</th><th>花費 IDR</th><th>花費 TWD</th></tr>
+      <tr><td>🧸 芷葶</td><td id="sum-paid-zt">0</td><td id="sum-idr-zt" class="text-highlight">0</td><td id="sum-twd-zt" class="text-highlight">0</td></tr>
+      <tr><td>🦁 嘉嘉</td><td id="sum-paid-jj">0</td><td id="sum-idr-jj" class="text-highlight">0</td><td id="sum-twd-jj" class="text-highlight">0</td></tr>
+      <tr><td>🐶 倫倫</td><td id="sum-paid-ll">0</td><td id="sum-idr-ll" class="text-highlight">0</td><td id="sum-twd-ll" class="text-highlight">0</td></tr>
     </table>
   </div>
 
   <div class="card">
-    <div class="form-group">
-      <span class="form-label">日期</span>
-      <input type="date" id="input-date" class="input-field">
-    </div>
-
-    <div class="form-group">
-      <span class="form-label">花費項目</span>
-      <input type="text" id="input-item" class="input-field" placeholder="例如：包車尾款、髒鴨餐...">
-    </div>
-
+    <div class="form-group"><span class="form-label">日期</span><input type="date" id="input-date" class="input-field"></div>
+    <div class="form-group"><span class="form-label">花費項目</span><input type="text" id="input-item" class="input-field" placeholder="例如：包車尾款、髒鴨餐..."></div>
     <div class="form-group">
       <span class="form-label">金額與幣別</span>
       <div class="amount-row">
@@ -438,31 +255,17 @@
         </div>
       </div>
     </div>
-
     <div class="form-group">
       <span class="form-label">費用類別</span>
       <div class="category-row" id="category-group">
-        <div class="category-btn active" data-category="餐飲">
-          <div class="category-icon">🍽</div><div class="category-text">餐飲</div>
-        </div>
-        <div class="category-btn" data-category="交通">
-          <div class="category-icon">🚕</div><div class="category-text">交通</div>
-        </div>
-        <div class="category-btn" data-category="購物">
-          <div class="category-icon">🛍</div><div class="category-text">購物</div>
-        </div>
-        <div class="category-btn" data-category="門票">
-          <div class="category-icon">🎟</div><div class="category-text">門票</div>
-        </div>
-        <div class="category-btn" data-category="住宿">
-          <div class="category-icon">🛏</div><div class="category-text">住宿</div>
-        </div>
-        <div class="category-btn" data-category="其他">
-          <div class="category-icon">📦</div><div class="category-text">其他</div>
-        </div>
+        <div class="category-btn active" data-category="餐飲"><div class="category-icon">🍽</div><div class="category-text">餐飲</div></div>
+        <div class="category-btn" data-category="交通"><div class="category-icon">🚕</div><div class="category-text">交通</div></div>
+        <div class="category-btn" data-category="購物"><div class="category-icon">🛍</div><div class="category-text">購物</div></div>
+        <div class="category-btn" data-category="門票"><div class="category-icon">🎟</div><div class="category-text">門票</div></div>
+        <div class="category-btn" data-category="住宿"><div class="category-icon">🛏</div><div class="category-text">住宿</div></div>
+        <div class="category-btn" data-category="其他"><div class="category-icon">📦</div><div class="category-text">其他</div></div>
       </div>
     </div>
-
     <div class="form-group">
       <span class="form-label">誰代墊 (單選)</span>
       <div class="user-grid" id="payer-group">
@@ -471,7 +274,6 @@
         <div class="user-btn" data-user="倫倫">🐶 倫倫</div>
       </div>
     </div>
-
     <div class="form-group">
       <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px;">
         <span class="form-label" style="margin-bottom: 0;">誰要分攤 (可複選)</span>
@@ -483,20 +285,14 @@
         <div class="user-btn split-active" data-user="倫倫">🐶 倫倫</div>
       </div>
     </div>
-
     <div class="form-group">
       <span class="form-label">收據或照片紀錄 (選填)</span>
-      <div class="photo-upload-box">
-        +
-        <input type="file" accept="image/*" capture="environment">
-      </div>
+      <div class="photo-upload-box">+<input type="file" accept="image/*" capture="environment"></div>
     </div>
-
     <button class="submit-btn" id="submit-btn">新增紀錄</button>
   </div>
 
   <div class="section-title">📝 帳務明細</div>
-  
   <div id="records-container">
     <div style="text-align: center; color: #B0ADA7; font-size: 13px; padding: 20px;">載入資料中...</div>
   </div>
@@ -504,234 +300,4 @@
 </div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-  import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyDTxTKW5BWQrSyB9FLQ-jyvoNiGmwUtCQQ",
-    authDomain: "bali-travel-app-dd509.firebaseapp.com",
-    projectId: "bali-travel-app-dd509",
-    storageBucket: "bali-travel-app-dd509.firebasestorage.app",
-    messagingSenderId: "555949995726",
-    appId: "1:555949995726:web:ef8335bf14e1535360029f"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  // 系統常數
-  const EXCHANGE_RATE = 0.002; // 1 IDR = 0.002 TWD
-  let editingRecordId = null; // 紀錄目前正在編輯哪一筆
-
-  // 預設填入今天日期
-  document.getElementById('input-date').valueAsDate = new Date();
-
-  // === UI 切換邏輯 ===
-  function setupToggle(selector, activeClass, isSingle = true) {
-    const btns = document.querySelectorAll(selector);
-    btns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (isSingle) {
-          btns.forEach(b => b.classList.remove(activeClass));
-          btn.classList.add(activeClass);
-        } else {
-          btn.classList.toggle(activeClass);
-        }
-      });
-    });
-  }
-  setupToggle('#currency-toggle .toggle-btn', 'active', true);
-  setupToggle('#category-group .category-btn', 'active', true);
-  setupToggle('#payer-group .user-btn', 'payer-active', true);
-  setupToggle('#split-group .user-btn', 'split-active', false);
-
-  // 全選/清空分攤人
-  document.getElementById('toggle-all-split').addEventListener('click', () => {
-    const splitBtns = document.querySelectorAll('#split-group .user-btn');
-    const allActive = Array.from(splitBtns).every(btn => btn.classList.contains('split-active'));
-    splitBtns.forEach(btn => allActive ? btn.classList.remove('split-active') : btn.classList.add('split-active'));
-  });
-
-  // 格式化千分位
-  const formatNum = (num) => Math.round(num).toLocaleString();
-
-  // === 讀取 Firebase 並計算總計 ===
-  onSnapshot(collection(db, "expenses"), (snapshot) => {
-    const recordsContainer = document.getElementById('records-container');
-    recordsContainer.innerHTML = ''; // 清空載入中提示
-    
-    // 初始化總計物件
-    let totals = {
-      '芷葶': { paidIDR: 0, spentIDR: 0 },
-      '嘉嘉': { paidIDR: 0, spentIDR: 0 },
-      '倫倫': { paidIDR: 0, spentIDR: 0 }
-    };
-
-    let docsData = [];
-    snapshot.forEach(docSnap => {
-      let data = docSnap.data();
-      data.id = docSnap.id;
-      docsData.push(data);
-      
-      // 計算總計 (統一轉換為 IDR 計算)
-      let amountInIDR = data.currency === 'IDR' ? data.amount : data.amount / EXCHANGE_RATE;
-      
-      if(totals[data.payer]) {
-        totals[data.payer].paidIDR += amountInIDR;
-      }
-      
-      if(data.splitters && data.splitters.length > 0) {
-        let splitAmount = amountInIDR / data.splitters.length;
-        data.splitters.forEach(person => {
-          if(totals[person]) totals[person].spentIDR += splitAmount;
-        });
-      }
-    });
-
-    // 更新總計儀表板 HTML
-    const users = ['芷葶', '嘉嘉', '倫倫'];
-    const ids = ['zt', 'jj', 'll'];
-    users.forEach((user, index) => {
-      let prefix = ids[index];
-      let paidIDR = totals[user].paidIDR;
-      let spentIDR = totals[user].spentIDR;
-      let spentTWD = spentIDR * EXCHANGE_RATE;
-
-      document.getElementById(`sum-paid-${prefix}`).innerText = formatNum(paidIDR);
-      document.getElementById(`sum-idr-${prefix}`).innerText = formatNum(spentIDR);
-      document.getElementById(`sum-twd-${prefix}`).innerText = formatNum(spentTWD);
-    });
-
-    // 依日期排序並渲染明細卡片
-    docsData.sort((a, b) => new Date(b.date) - new Date(a.date));
-    
-    if(docsData.length === 0) {
-      recordsContainer.innerHTML = '<div style="text-align: center; color: #B0ADA7; font-size: 13px; padding: 20px;">尚無帳務紀錄，開始記帳吧！</div>';
-      return;
-    }
-
-    docsData.forEach(data => {
-      let amountIDR = data.currency === 'IDR' ? data.amount : data.amount / EXCHANGE_RATE;
-      let amountTWD = data.currency === 'TWD' ? data.amount : data.amount * EXCHANGE_RATE;
-      let splitStr = data.splitters.join('、');
-
-      // 建立卡片 DOM (使用 JS 建立以方便綁定事件)
-      const recordEl = document.createElement('div');
-      recordEl.className = 'record-item';
-      
-      recordEl.innerHTML = `
-        <div class="record-main">
-          <div class="record-dot" ${data.category === '餐飲' ? 'style="background-color: #D4A373;"' : ''}></div>
-          <div class="record-content">
-            <div class="record-title">${data.item}</div>
-            <div class="record-sub">${data.date} ‧ ${data.payer} 代墊</div>
-          </div>
-          <div class="record-amount">${data.currency} ${formatNum(data.amount)}</div>
-          <div class="record-actions">
-            <span class="action-icon edit-btn" data-id="${data.id}">✏</span> 
-            <span class="action-icon del-btn" data-id="${data.id}">🗑</span>
-          </div>
-        </div>
-        <div class="record-details">
-          <div class="detail-row"><span>分類：</span><span>${data.category}</span></div>
-          <div class="detail-row"><span>換算台幣：</span><span>約 TWD ${formatNum(amountTWD)}</span></div>
-          <div class="detail-row"><span>換算印尼盾：</span><span>約 IDR ${formatNum(amountIDR)}</span></div>
-          <div class="detail-row" style="margin-top: 8px;"><span>分攤人員：</span><span>${splitStr}</span></div>
-          <div class="detail-tag">每人約負擔 IDR ${formatNum(amountIDR / data.splitters.length)}</div>
-        </div>
-      `;
-
-      // 卡片點擊展開細節
-      recordEl.addEventListener('click', () => {
-        const detailDiv = recordEl.querySelector('.record-details');
-        detailDiv.style.display = detailDiv.style.display === 'block' ? 'none' : 'block';
-      });
-
-      // 刪除按鈕功能 (阻止冒泡，避免觸發展開)
-      recordEl.querySelector('.del-btn').addEventListener('click', async (e) => {
-        e.stopPropagation(); 
-        if(confirm(`確定要永久刪除「${data.item}」嗎？`)) {
-          await deleteDoc(doc(db, "expenses", data.id));
-        }
-      });
-
-      // 編輯按鈕功能 (帶回表單)
-      recordEl.querySelector('.edit-btn').addEventListener('click', (e) => {
-        e.stopPropagation();
-        editingRecordId = data.id;
-        document.getElementById('input-date').value = data.date;
-        document.getElementById('input-item').value = data.item;
-        document.getElementById('input-amount').value = data.amount;
-        
-        // 恢復按鈕狀態
-        document.querySelectorAll('#currency-toggle .toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.value === data.currency));
-        document.querySelectorAll('#category-group .category-btn').forEach(b => b.classList.toggle('active', b.dataset.category === data.category));
-        document.querySelectorAll('#payer-group .user-btn').forEach(b => b.classList.toggle('payer-active', b.dataset.user === data.payer));
-        document.querySelectorAll('#split-group .user-btn').forEach(b => b.classList.toggle('split-active', data.splitters.includes(b.dataset.user)));
-        
-        // 更改送出按鈕外觀
-        const submitBtn = document.getElementById('submit-btn');
-        submitBtn.innerText = "🔄 更新紀錄";
-        submitBtn.style.backgroundColor = "#D4A373";
-        window.scrollTo({ top: 0, behavior: 'smooth' }); // 自動捲動到最上方
-      });
-
-      recordsContainer.appendChild(recordEl);
-    });
-  });
-
-  // === 送出 / 更新 資料到 Firebase ===
-  const submitBtn = document.getElementById('submit-btn');
-  submitBtn.addEventListener('click', async () => {
-    const date = document.getElementById('input-date').value;
-    const item = document.getElementById('input-item').value;
-    const amount = document.getElementById('input-amount').value;
-    const currency = document.querySelector('#currency-toggle .active').dataset.value;
-    const category = document.querySelector('#category-group .active').dataset.category;
-    const payer = document.querySelector('#payer-group .payer-active').dataset.user;
-    
-    const splitters = [];
-    document.querySelectorAll('#split-group .split-active').forEach(btn => splitters.push(btn.dataset.user));
-
-    if (!item || !amount) { alert("請輸入花費項目與金額喔！"); return; }
-    if (splitters.length === 0) { alert("至少要選擇一位分攤人喔！"); return; }
-
-    submitBtn.innerText = "上傳雲端中...";
-    submitBtn.style.backgroundColor = "#B0ADA7";
-
-    try {
-      const recordData = {
-        date: date,
-        item: item,
-        amount: Number(amount),
-        currency: currency,
-        category: category,
-        payer: payer,
-        splitters: splitters
-      };
-
-      if (editingRecordId) {
-        // 更新現有紀錄
-        await updateDoc(doc(db, "expenses", editingRecordId), recordData);
-        editingRecordId = null; // 清除編輯狀態
-      } else {
-        // 新增紀錄 (加上時間戳記)
-        recordData.createdAt = new Date();
-        await addDoc(collection(db, "expenses"), recordData);
-      }
-      
-      // 送出成功後清空輸入框
-      document.getElementById('input-item').value = "";
-      document.getElementById('input-amount').value = "";
-      
-    } catch (e) {
-      console.error("Error: ", e);
-      alert("發生錯誤，請檢查網路連線。");
-    } finally {
-      submitBtn.innerText = "新增紀錄";
-      submitBtn.style.backgroundColor = "#4A453F";
-    }
-  });
-</script>
-</body>
-</html>
+  import { initializeApp } from "
