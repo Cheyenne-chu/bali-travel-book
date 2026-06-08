@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bali Itinerary</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* 基礎設定延續高質感風格 */
+  body {
+    background-color: #F6F5F0; 
+    font-family: 'Noto Sans TC', sans-serif;
+    color: #4A453F; 
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .app-container {
+    width: 100%;
+    max-width: 414px; 
+    min-height: 100vh;
+    padding: 20px 0; /* 左右留給內部元件控制 */
+    box-sizing: border-box;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* 橫向滑動的日期選單 */
+  .date-tabs {
+    display: flex;
+    overflow-x: auto;
+    padding: 0 20px 20px 20px;
+    gap: 24px;
+    /* 隱藏原生捲軸 */
+    scrollbar-width: none; 
+  }
+  .date-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .date-tab {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px;
+    color: #E0DDD6;
+    white-space: nowrap;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .date-tab.active {
+    color: #4A453F;
+    font-weight: 700;
+  }
+
+  .date-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #4A453F;
+  }
+
+  /* 時間軸容器 */
+  .timeline-container {
+    padding: 0 20px;
+    position: relative;
+  }
+
+  /* 左側淡淡的垂直引導線 */
+  .timeline-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 24px; /* 對齊圓點中心 */
+    width: 1px;
+    background-color: #E0DDD6;
+  }
+
+  /* 單個行程區塊 */
+  .timeline-item {
+    display: flex;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  /* 時間軸圓點 */
+  .timeline-marker {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: #F6F5F0;
+    border: 1.5px solid #4A453F;
+    margin-top: 18px;
+    z-index: 1; /* 蓋在線上 */
+  }
+
+  .timeline-marker.solid {
+    background-color: #4A453F;
+  }
+
+  /* 右側行程卡片 */
+  .event-card {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    padding: 16px;
+    margin-left: 16px;
+    flex-grow: 1;
+    box-shadow: 0 8px 24px rgba(74, 69, 63, 0.04);
+  }
+
+  .event-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .event-time {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 13px;
+    color: #B0ADA7;
+    font-weight: 700;
+  }
+
+  /* 標籤設計 (例如：活動、美食) */
+  .event-tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+  
+  .tag-activity { background-color: #FDF3E7; color: #D4A373; }
+  .tag-food { background-color: #F0F4F8; color: #7B9EBD; }
+
+  .event-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #4A453F;
+  }
+
+  .event-location {
+    font-size: 11px;
+    color: #B0ADA7;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* 導航小圖示 (模擬飛機/箭頭圖示) */
+  .nav-icon {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    color: #B0ADA7;
+    font-size: 16px;
+  }
+
+  /* 懸浮新增按鈕 (FAB) */
+  .fab-button {
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    background-color: #4A453F;
+    color: #FFFFFF;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    box-shadow: 0 8px 24px rgba(74, 69, 63, 0.2);
+    cursor: pointer;
+    border: none;
+    z-index: 10;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  
+  <div class="date-tabs">
+    <div class="date-tab">DAY 1</div>
+    <div class="date-tab active">DAY 2</div>
+    <div class="date-tab">DAY 3</div>
+    <div class="date-tab">DAY 4</div>
+    <div class="date-tab">DAY 5</div>
+  </div>
+
+  <div class="timeline-container">
+    
+    <div class="timeline-item">
+      <div class="timeline-marker"></div>
+      <div class="event-card">
+        <div class="event-header">
+          <span class="event-time">09:00</span>
+          <span class="event-tag tag-activity">☀ 活動</span>
+        </div>
+        <div class="nav-icon">↗</div>
+        <div class="event-title">德哥拉朗梯田漫步</div>
+        <div class="event-location">◎ TEGALLALANG RICE TERRACE</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-marker solid"></div>
+      <div class="event-card">
+        <div class="event-header">
+          <span class="event-time">12:45</span>
+          <span class="event-tag tag-food">🍽 美食</span>
+        </div>
+        <div class="nav-icon">↗</div>
+        <div class="event-title">預訂髒鴨餐 Bebek Bengil</div>
+        <div style="font-size: 12px; color: #8C8882; margin-bottom: 8px; padding-left: 8px; border-left: 2px solid #E0DDD6;">
+          靠窗座位，已付訂金
+        </div>
+        <div class="event-location">◎ UBUD MAIN STREET</div>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="fab-button">+</button>
+
+</div>
+
+</body>
+</html>
