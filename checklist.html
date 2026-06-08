@@ -4,25 +4,44 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bali Checklist</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   body { background-color: #F6F5F0; font-family: 'Noto Sans TC', sans-serif; color: #4A453F; margin: 0; padding: 20px; display: flex; justify-content: center; }
   .app-container { width: 100%; max-width: 414px; }
+  /* 導覽列 */
+  .nav-tabs { display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: 700; }
+  .nav-tab { color: #B0ADA7; text-decoration: none; }
+  .nav-tab.active { color: #4A453F; }
+  /* 進度區 */
+  .progress-card { background: #FFF; padding: 20px; border-radius: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+  .progress-bar { height: 8px; background: #EEE; border-radius: 4px; margin: 10px 0; }
+  #progress-fill { height: 100%; background: #55B97F; width: 0%; transition: 0.3s; border-radius: 4px; }
+  /* 人員切換 */
   .user-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-  .u-tab { flex: 1; text-align: center; padding: 10px; background: #FFF; border-radius: 12px; cursor: pointer; border: 1px solid #E0DDD6; font-size: 13px; }
-  .u-tab.active { background: #D4A373; color: white; border-color: #D4A373; }
-  .category-box { margin-bottom: 20px; }
-  .cat-title { font-size: 14px; font-weight: 700; color: #6B4D32; margin-bottom: 10px; border-bottom: 2px solid #D4A373; padding-bottom: 5px; }
+  .u-tab { flex: 1; text-align: center; padding: 10px; background: #FFF; border-radius: 12px; cursor: pointer; border: 1px solid #E0DDD6; }
+  .u-tab.active { background: #D4A373; color: #FFF; }
+  /* 清單 */
+  .cat-title { font-size: 14px; font-weight: 700; color: #6B4D32; margin: 15px 0 10px 5px; }
   .item-row { display: flex; align-items: center; background: #FFF; padding: 12px; border-radius: 10px; margin-bottom: 8px; }
-  .del-btn { color: #D67D7D; cursor: pointer; margin-right: 10px; font-size: 12px; }
   .checkbox { width: 20px; height: 20px; border: 2px solid #D4A373; border-radius: 5px; margin-left: auto; cursor: pointer; }
   .checkbox.checked { background: #D4A373; }
-  .add-input { width: 100%; padding: 12px; margin-top: 20px; border-radius: 10px; border: 1px solid #E0DDD6; box-sizing: border-box; }
 </style>
 </head>
 <body>
 
 <div class="app-container">
+  <div class="nav-tabs">
+    <a href="index.html" class="nav-tab">首頁</a>
+    <a href="itinerary.html" class="nav-tab">行程</a>
+    <a href="accounting.html" class="nav-tab">記帳</a>
+    <a href="checklist.html" class="nav-tab active">清單</a>
+  </div>
+
+  <div class="progress-card">
+    <div id="progress-text" style="font-size: 13px;">完成進度 0%</div>
+    <div class="progress-bar"><div id="progress-fill"></div></div>
+  </div>
+
   <div class="user-tabs">
     <div class="u-tab active" onclick="switchUser('zt', this)">🧸 芷葶</div>
     <div class="u-tab" onclick="switchUser('jj', this)">🦁 嘉嘉</div>
@@ -30,56 +49,44 @@
   </div>
 
   <div id="list-container"></div>
-  <input type="text" id="new-item" class="add-input" placeholder="新增物品 (輸入後按 Enter)">
 </div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-  import { getFirestore, doc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-  const db = getFirestore(initializeApp({ /* 你的設定 */ }));
-  
-  // 定義預設結構
-  let dataState = {
-    "隨身行李": ["護照", "行動電源", "美金", "信用卡"],
-    "拖運行李": ["牙刷", "泳衣", "充電線", "摺疊傘"]
-  };
   let currentUser = 'zt';
+  let items = {
+    "隨身行李": ["護照", "行動電源", "美金", "信用卡", "家裡鑰匙", "國際駕照"],
+    "拖運行李": ["牙刷/牙膏", "洗面乳", "泳衣", "充電線", "摺疊傘"]
+  };
+  let status = {}; // 假設這是從 Firebase 讀取的狀態
 
-  function render(serverData = {}) {
+  function render() {
     const container = document.getElementById('list-container');
     container.innerHTML = '';
+    let total = 0, checked = 0;
 
-    Object.keys(dataState).forEach(cat => {
-      // 倫倫邏輯：不顯示拖運
+    Object.keys(items).forEach(cat => {
       if (currentUser === 'll' && cat === '拖運行李') return;
-
+      
       container.innerHTML += `<div class="cat-title">${cat}</div>`;
-      dataState[cat].forEach(item => {
-        const isChecked = serverData[`${item}_${currentUser}`];
+      items[cat].forEach(item => {
+        total++;
+        if(status[`${item}_${currentUser}`]) checked++;
         container.innerHTML += `
           <div class="item-row">
-            <span class="del-btn" onclick="removeItem('${cat}', '${item}')">✕</span>
             <div>${item}</div>
-            <div class="checkbox ${isChecked ? 'checked' : ''}" onclick="toggle('${item}')"></div>
+            <div class="checkbox ${status[`${item}_${currentUser}`] ? 'checked' : ''}" onclick="toggle('${item}')"></div>
           </div>`;
       });
     });
+
+    const percent = total > 0 ? Math.round((checked/total)*100) : 0;
+    document.getElementById('progress-fill').style.width = percent + '%';
+    document.getElementById('progress-text').innerText = `完成進度 ${percent}%`;
   }
 
-  // 新增物品邏輯
-  document.getElementById('new-item').onkeypress = (e) => {
-    if (e.key === 'Enter') {
-      const name = e.target.value;
-      const cat = prompt("請選擇類別: 隨身行李 或 拖運行李");
-      if (dataState[cat]) {
-        dataState[cat].push(name);
-        render(); // 這裡可以進一步呼叫 updateDoc 更新 Firebase
-        e.target.value = '';
-      } else {
-        alert("分類輸入錯誤！");
-      }
-    }
+  window.toggle = (item) => {
+    status[`${item}_${currentUser}`] = !status[`${item}_${currentUser}`];
+    render();
   };
 
   window.switchUser = (u, el) => {
