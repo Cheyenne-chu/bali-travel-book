@@ -4,19 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bali Checklist</title>
-
-<!-- === App 圖示設定 === -->
 <link rel="icon" href="app-icon.png">
 <link rel="apple-touch-icon" href="app-icon.png">
 <meta name="apple-mobile-web-app-title" content="BALI"> 
-
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  /* === 基礎設定 === */
   body { background-color: #F6F5F0; font-family: 'Noto Sans TC', sans-serif; color: #4A453F; margin: 0; padding: 0; display: flex; justify-content: center; }
-  .app-container { width: 100%; max-width: 414px; min-height: 100vh; padding: 24px 20px 40px 20px; box-sizing: border-box; position: relative; margin: 0 auto; }
-
-  /* === 置頂區 === */
+  .app-container { width: 100%; max-width: 414px; min-height: 100vh; padding: 24px 20px 40px 20px; box-sizing: border-box; }
+  
+  /* 置頂區 */
   .top-bar { position: sticky; top: 0; background-color: #F6F5F0; z-index: 999; margin: -24px -20px 16px -20px; padding: 24px 20px 12px 20px; box-shadow: 0 10px 15px -10px rgba(246, 245, 240, 0.9); }
   .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
   .header-title { font-family: 'Noto Serif TC', serif; font-size: 22px; letter-spacing: 2px; font-weight: 700; }
@@ -25,17 +21,17 @@
   .nav-tab { color: #B0ADA7; font-weight: 500; text-decoration: none; }
   .nav-tab.active { color: #4A453F; font-weight: 700; }
 
-  /* === 清單樣式 === */
-  .checklist-card { background-color: #FFFFFF; border-radius: 20px; padding: 20px; box-shadow: 0 8px 24px rgba(74, 69, 63, 0.04); margin-bottom: 24px; }
-  .item-row { display: flex; align-items: center; padding: 14px 0; border-bottom: 1px solid #F6F5F0; }
-  .item-name { flex: 1; font-size: 14px; color: #4A453F; }
-  
-  /* 三人勾選區 */
-  .checkbox-group { display: flex; gap: 12px; }
-  .cb-box { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 36px; }
-  .cb-label { font-size: 10px; color: #B0ADA7; }
-  .checkbox { width: 20px; height: 20px; border: 2px solid #E0DDD6; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-  .checkbox.checked { background-color: #D4A373; border-color: #D4A373; color: #FFFFFF; }
+  /* 切換人員按鈕 */
+  .user-tabs { display: flex; gap: 8px; margin-bottom: 24px; }
+  .u-tab { flex: 1; text-align: center; padding: 10px 0; background: #FFFFFF; border-radius: 12px; font-size: 13px; color: #B0ADA7; cursor: pointer; border: 1px solid #E0DDD6; }
+  .u-tab.active { background: #FFF9E6; border-color: #D4A373; color: #6B4D32; font-weight: 700; }
+
+  /* 清單 */
+  .checklist-card { background-color: #FFFFFF; border-radius: 20px; padding: 20px; box-shadow: 0 8px 24px rgba(74, 69, 63, 0.04); }
+  .item-row { display: flex; align-items: center; padding: 16px 0; border-bottom: 1px solid #F6F5F0; cursor: pointer; }
+  .item-name { flex: 1; font-size: 14px; }
+  .checkbox { width: 22px; height: 22px; border: 2px solid #E0DDD6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: transparent; transition: 0.2s; }
+  .checkbox.checked { background: #D4A373; border-color: #D4A373; color: #FFFFFF; }
 </style>
 </head>
 <body>
@@ -44,7 +40,7 @@
   <div class="top-bar">
     <div class="header">
       <div class="header-title">🌴 BALI</div>
-      <div class="status-badge">✔ 雲端同步中</div>
+      <div class="status-badge">✔ 雲端同步</div>
     </div>
     <div class="nav-tabs">
       <a href="index.html" class="nav-tab">首頁</a>
@@ -54,9 +50,14 @@
     </div>
   </div>
 
+  <div class="user-tabs">
+    <div class="u-tab active" onclick="switchUser('zt', this)">🧸 芷葶</div>
+    <div class="u-tab" onclick="switchUser('jj', this)">🦁 嘉嘉</div>
+    <div class="u-tab" onclick="switchUser('ll', this)">🐶 倫倫</div>
+  </div>
+
   <div class="checklist-card" id="checklist-container">
-    <!-- 行李項目清單 -->
-    <!-- (JS 會自動渲染這裡) -->
+    <!-- 項目由 JS 渲染 -->
   </div>
 </div>
 
@@ -77,47 +78,46 @@
   const db = getFirestore(app);
 
   const items = ["e-sim (印尼)", "e-sim (新加玻)", "護照", "美金", "行動電源", "摺疊傘", "牙刷/牙膏", "泳衣", "插座轉接頭", "信用卡"];
-  const users = [ {id: 'zt', name: '芷葶', icon: '🧸'}, {id: 'jj', name: '嘉嘉', icon: '🦁'}, {id: 'll', name: '倫倫', icon: '🐶'} ];
+  let currentUser = 'zt';
 
-  // 初始化畫面
-  const container = document.getElementById('checklist-container');
-  items.forEach(item => {
-    const row = document.createElement('div');
-    row.className = 'item-row';
-    row.innerHTML = `
-      <div class="item-name">${item}</div>
-      <div class="checkbox-group">
-        ${users.map(u => `
-          <div class="cb-box">
-            <span class="cb-label">${u.icon}</span>
-            <div class="checkbox" id="cb-${item}-${u.id}" data-item="${item}" data-user="${u.id}">✓</div>
-          </div>
-        `).join('')}
-      </div>
-    `;
-    container.appendChild(row);
-  });
+  // 渲染清單
+  function renderList() {
+    const container = document.getElementById('checklist-container');
+    container.innerHTML = '';
+    items.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'item-row';
+      row.innerHTML = `<div class="item-name">${item}</div><div class="checkbox" id="cb-${item}" data-item="${item}">✓</div>`;
+      row.onclick = () => toggleCheck(item);
+      container.appendChild(row);
+    });
+  }
 
-  // 監聽 Firebase 資料
+  // 狀態同步
   onSnapshot(doc(db, "settings", "checklist"), (docSnap) => {
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      document.querySelectorAll('.checkbox').forEach(cb => {
-        const itemId = cb.id.replace('cb-', '');
-        if (data[itemId]) cb.classList.add('checked');
-        else cb.classList.remove('checked');
-      });
-    }
-  });
-
-  // 點擊勾選
-  document.querySelectorAll('.checkbox').forEach(cb => {
-    cb.addEventListener('click', async () => {
-      const itemId = cb.id.replace('cb-', '');
-      const isChecked = cb.classList.contains('checked');
-      await updateDoc(doc(db, "settings", "checklist"), { [itemId]: !isChecked });
+    const data = docSnap.data() || {};
+    document.querySelectorAll('.checkbox').forEach(cb => {
+      const item = cb.dataset.item;
+      // key 格式: 項目_使用者ID
+      if (data[`${item}_${currentUser}`]) cb.classList.add('checked');
+      else cb.classList.remove('checked');
     });
   });
+
+  window.toggleCheck = async (item) => {
+    const cb = document.getElementById(`cb-${item}`);
+    const isChecked = cb.classList.contains('checked');
+    await updateDoc(doc(db, "settings", "checklist"), { [`${item}_${currentUser}`]: !isChecked });
+  };
+
+  window.switchUser = (user, el) => {
+    currentUser = user;
+    document.querySelectorAll('.u-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    renderList(); // 重新渲染以觸發 Firebase 新視角的同步
+  };
+
+  renderList();
 </script>
 </body>
 </html>
