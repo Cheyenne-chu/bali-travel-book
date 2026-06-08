@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bali Accounting</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* 基礎設定延續高質感風格 */
+  body {
+    background-color: #F6F5F0; 
+    font-family: 'Noto Sans TC', sans-serif;
+    color: #4A453F; 
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .app-container {
+    width: 100%;
+    max-width: 414px; 
+    min-height: 100vh;
+    padding: 24px 0;
+    box-sizing: border-box;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* 頂部功能導覽列 */
+  .nav-tabs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding: 0 24px;
+    font-size: 14px;
+  }
+  
+  .nav-tab {
+    color: #B0ADA7;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+  
+  .nav-tab.active {
+    color: #4A453F;
+    font-weight: 700;
+  }
+
+  /* 記帳輸入卡片 */
+  .input-card {
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    padding: 24px 20px;
+    margin: 0 20px 32px 20px;
+    box-shadow: 0 8px 24px rgba(74, 69, 63, 0.04);
+  }
+
+  /* 類別選擇 (橫向滑動) */
+  .category-scroll {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+    scrollbar-width: none;
+  }
+  .category-scroll::-webkit-scrollbar { display: none; }
+
+  .category-btn {
+    min-width: 56px;
+    height: 64px;
+    border-radius: 12px;
+    border: 1.5px solid #F0F0F0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    color: #B0ADA7;
+    cursor: pointer;
+  }
+  
+  .category-btn.active {
+    border-color: #D4A373; /* 溫暖的銘黃色 */
+    color: #D4A373;
+    background-color: #FFFDF9;
+  }
+  
+  .category-icon { font-size: 20px; }
+  .category-text { font-size: 11px; font-weight: 500; }
+
+  /* 設定區塊標題 */
+  .section-title {
+    font-size: 11px;
+    color: #B0ADA7;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* 選項按鈕群組 */
+  .toggle-group {
+    display: flex;
+    background-color: #F8F8F8;
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 20px;
+  }
+
+  .toggle-btn {
+    flex: 1;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 13px;
+    color: #8C8882;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .toggle-btn.active {
+    background-color: #FFFFFF;
+    color: #4A453F;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  /* 分攤方式網格 (2x2) */
+  .split-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .split-btn {
+    border: 1px solid #F0F0F0;
+    background-color: transparent;
+    border-radius: 10px;
+    padding: 12px 0;
+    text-align: center;
+    font-size: 13px;
+    color: #8C8882;
+  }
+
+  .split-btn.active {
+    border-color: #4A453F;
+    color: #4A453F;
+    font-weight: 700;
+  }
+
+  /* 卡片底部操作區 */
+  .card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .icon-btns {
+    display: flex;
+    gap: 12px;
+    color: #D4A373;
+    font-size: 20px;
+  }
+
+  .submit-btn {
+    background-color: #4A453F;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(74, 69, 63, 0.2);
+    cursor: pointer;
+  }
+
+  /* 歷史紀錄清單 */
+  .record-list {
+    padding: 0 24px;
+  }
+
+  .record-item {
+    display: flex;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid #E0DDD6;
+  }
+  .record-item:last-child { border-bottom: none; }
+
+  .record-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #D67A7A; /* 柔和的磚紅色 */
+    border-radius: 50%;
+    margin-right: 16px;
+  }
+
+  .record-info { flex: 1; }
+
+  .record-title {
+    font-size: 15px;
+    color: #4A453F;
+    font-weight: 500;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .record-tag {
+    font-size: 10px;
+    background-color: #F0F0F0;
+    color: #8C8882;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .record-sub {
+    font-size: 11px;
+    color: #B0ADA7;
+  }
+
+  .record-amount {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #4A453F;
+    margin-right: 12px;
+  }
+
+  .record-actions {
+    color: #B0ADA7;
+    font-size: 14px;
+    display: flex;
+    gap: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  
+  <!-- 功能導覽列 (記帳頁面狀態) -->
+  <div class="nav-tabs">
+    <a href="index.html" class="nav-tab" style="text-decoration: none;">首頁</a>
+    <a href="itinerary.html" class="nav-tab" style="text-decoration: none;">行程</a>
+    <a href="accounting.html" class="nav-tab active" style="text-decoration: none;">記帳</a>
+    <a href="#" class="nav-tab" style="text-decoration: none;">清單</a>
+  </div>
+
+  <!-- 記帳輸入卡片 -->
+  <div class="input-card">
+    
+    <!-- 類別選擇 -->
+    <div class="category-scroll">
+      <div class="category-btn active">
+        <div class="category-icon">🍴</div>
+        <div class="category-text">餐飲</div>
+      </div>
+      <div class="category-btn">
+        <div class="category-icon">🚕</div>
+        <div class="category-text">交通</div>
+      </div>
+      <div class="category-btn">
+        <div class="category-icon">🛍️</div>
+        <div class="category-text">購物</div>
+      </div>
+      <div class="category-btn">
+        <div class="category-icon">🎫</div>
+        <div class="category-text">門票</div>
+      </div>
+      <div class="category-btn">
+        <div class="category-icon">🏨</div>
+        <div class="category-text">住宿</div>
+      </div>
+    </div>
+
+    <!-- 幣別與付款人 -->
+    <div style="display: flex; gap: 16px;">
+      <div style="flex: 1;">
+        <div class="section-title">幣別</div>
+        <div class="toggle-group">
+          <div class="toggle-btn active">IDR</div>
+          <div class="toggle-btn">TWD</div>
+        </div>
+      </div>
+      <div style="flex: 1.5;">
+        <div class="section-title">付款人</div>
+        <div class="toggle-group" style="background-color: #FFFDF9; border: 1px solid #FDF3E7;">
+          <div class="toggle-btn active" style="background-color: #FDF3E7; color: #D4A373;">Cheyenne</div>
+          <div class="toggle-btn">伴侶</div>
+          <div class="toggle-btn">公費</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 分攤方式 -->
+    <div class="section-title">分攤方式</div>
+    <div class="split-grid">
+      <div class="split-btn active">共同分攤</div>
+      <div class="split-btn">個人自付</div>
+      <div class="split-btn">幫人代墊</div>
+      <div class="split-btn">公費入金</div>
+    </div>
+
+    <!-- 底部操作區 -->
+    <div class="card-actions">
+      <div class="icon-btns">
+        <span>📷</span>
+        <span>📝</span>
+      </div>
+      <button class="submit-btn">新增紀錄</button>
+    </div>
+  </div>
+
+  <!-- 歷史紀錄清單 -->
+  <div class="record-list">
+    
+    <div class="record-item">
+      <div class="record-dot"></div>
+      <div class="record-info">
+        <div class="record-title">預付包車訂金 <span class="record-tag">交通</span></div>
+        <div class="record-sub">共同分攤 · 轉帳</div>
+      </div>
+      <div class="record-amount">$1,500</div>
+      <div class="record-actions">✏️ 🗑️</div>
+    </div>
+
+    <div class="record-item">
+      <div class="record-dot"></div>
+      <div class="record-info">
+        <div class="record-title">髒鴨餐 Bebek Bengil <span class="record-tag">餐飲</span></div>
+        <div class="record-sub">共同分攤 · 刷卡</div>
+      </div>
+      <div class="record-amount">$1,250</div>
+      <div class="record-actions">✏️ 🗑️</div>
+    </div>
+
+    <div class="record-item">
+      <div class="record-dot" style="background-color: #B0ADA7;"></div>
+      <div class="record-info">
+        <div class="record-title">防蚊液與零食 <span class="record-tag">其他</span></div>
+        <div class="record-sub">個人自付 · 現金</div>
+      </div>
+      <div class="record-amount">$210</div>
+      <div class="record-actions">✏️ 🗑️</div>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
