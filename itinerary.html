@@ -4,9 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bali Itinerary</title>
+
+<link rel="icon" href="app-icon.png">
+<link rel="apple-touch-icon" href="app-icon.png">
+<meta name="apple-mobile-web-app-title" content="BALI"> 
+
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  /* 基礎設定延續高質感風格 */
+  /* 基礎設定 */
   body {
     background-color: #F6F5F0; 
     font-family: 'Noto Sans TC', sans-serif;
@@ -21,27 +26,59 @@
     width: 100%;
     max-width: 414px; 
     min-height: 100vh;
-    padding: 24px 0; /* 調整上方留白 */
+    padding: 24px 0 80px 0; /* 調整邊界 */
     box-sizing: border-box;
     position: relative;
     overflow-x: hidden;
   }
 
-  /* 頂部功能導覽列 */
+  /* === 常駐置頂區塊 (包含導覽與日期選單) === */
+  .top-bar {
+    position: sticky;
+    top: 0;
+    background-color: #F6F5F0;
+    z-index: 999;
+    margin-top: -24px; 
+    padding-top: 24px;
+    box-shadow: 0 10px 15px -10px rgba(246, 245, 240, 0.9);
+  }
+
+  /* 頂部 Header & 導覽列 */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding: 0 20px;
+  }
+  .header-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    font-weight: 700;
+  }
+  .status-badge {
+    background-color: #FFFFFF;
+    color: #55B97F; 
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
   .nav-tabs {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 32px;
+    margin-bottom: 20px;
     padding: 0 24px;
     font-size: 14px;
   }
-  
   .nav-tab {
-    color: #B0ADA7; /* 未選取的淺灰色 */
+    color: #B0ADA7; 
     font-weight: 500;
     transition: color 0.2s ease;
+    text-decoration: none;
   }
-  
   .nav-tab.active {
     color: #4A453F;
     font-weight: 700;
@@ -51,14 +88,11 @@
   .date-tabs {
     display: flex;
     overflow-x: auto;
-    padding: 0 24px 20px 24px;
+    padding: 0 24px 16px 24px;
     gap: 24px;
     scrollbar-width: none; 
   }
-  .date-tabs::-webkit-scrollbar {
-    display: none;
-  }
-
+  .date-tabs::-webkit-scrollbar { display: none; }
   .date-tab {
     font-family: 'Noto Serif TC', serif;
     font-size: 14px;
@@ -67,12 +101,10 @@
     position: relative;
     cursor: pointer;
   }
-
   .date-tab.active {
     color: #4A453F;
     font-weight: 700;
   }
-
   .date-tab.active::after {
     content: '';
     position: absolute;
@@ -85,17 +117,15 @@
 
   /* 時間軸容器 */
   .timeline-container {
-    padding: 0 24px;
+    padding: 20px 24px 0 24px;
     position: relative;
   }
-
-  /* 左側垂直引導線 */
   .timeline-container::before {
     content: '';
     position: absolute;
-    top: 0;
+    top: 20px;
     bottom: 0;
-    left: 28px; /* 對齊圓點中心 */
+    left: 28px; 
     width: 1px;
     background-color: #E0DDD6;
   }
@@ -106,8 +136,6 @@
     margin-bottom: 24px;
     position: relative;
   }
-
-  /* 時間軸圓點 */
   .timeline-marker {
     width: 9px;
     height: 9px;
@@ -117,10 +145,7 @@
     margin-top: 18px;
     z-index: 1;
   }
-
-  .timeline-marker.solid {
-    background-color: #4A453F;
-  }
+  .timeline-marker.solid { background-color: #4A453F; }
 
   /* 右側行程卡片 */
   .event-card {
@@ -131,29 +156,24 @@
     flex-grow: 1;
     box-shadow: 0 8px 24px rgba(74, 69, 63, 0.04);
   }
-
   .event-header {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 8px;
   }
-
   .event-time {
     font-family: 'Noto Serif TC', serif;
     font-size: 13px;
     color: #B0ADA7;
     font-weight: 700;
   }
-
-  /* 標籤樣式 */
   .event-tag {
     font-size: 10px;
     padding: 2px 8px;
     border-radius: 12px;
     font-weight: 500;
   }
-  
   .tag-activity { background-color: #FDF3E7; color: #D4A373; }
   .tag-food { background-color: #F0F4F8; color: #7B9EBD; }
 
@@ -163,7 +183,6 @@
     margin-bottom: 12px;
     color: #4A453F;
   }
-
   .event-location {
     font-size: 11px;
     color: #B0ADA7;
@@ -173,7 +192,6 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
-
   .nav-icon {
     position: absolute;
     right: 16px;
@@ -207,19 +225,24 @@
 
 <div class="app-container">
   
-  <div class="nav-tabs">
-    <a href="index.html" class="nav-tab" style="text-decoration: none;">首頁</a>
-    <a href="itinerary.html" class="nav-tab active" style="text-decoration: none;">行程</a>
-    <a href="accounting.html" class="nav-tab" style="text-decoration: none;">記帳</a>
-    <a href="checklist.html" class="nav-tab" style="text-decoration: none;">清單</a>
-  </div>
-
-  <div class="date-tabs">
-    <div class="date-tab">DAY 1</div>
-    <div class="date-tab active">DAY 2</div>
-    <div class="date-tab">DAY 3</div>
-    <div class="date-tab">DAY 4</div>
-    <div class="date-tab">DAY 5</div>
+  <div class="top-bar">
+    <div class="header">
+      <div class="header-title">🌴 BALI</div>
+      <div class="status-badge">✔ 已儲存</div>
+    </div>
+    <div class="nav-tabs">
+      <a href="index.html" class="nav-tab">首頁</a>
+      <a href="itinerary.html" class="nav-tab active">行程</a>
+      <a href="accounting.html" class="nav-tab">記帳</a>
+      <a href="checklist.html" class="nav-tab">清單</a>
+    </div>
+    <div class="date-tabs">
+      <div class="date-tab">DAY 1</div>
+      <div class="date-tab active">DAY 2</div>
+      <div class="date-tab">DAY 3</div>
+      <div class="date-tab">DAY 4</div>
+      <div class="date-tab">DAY 5</div>
+    </div>
   </div>
 
   <div class="timeline-container">
