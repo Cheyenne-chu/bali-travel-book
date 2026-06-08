@@ -4,105 +4,92 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bali Checklist</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
 <style>
   body { background-color: #F6F5F0; font-family: 'Noto Sans TC', sans-serif; color: #4A453F; margin: 0; padding: 20px; display: flex; justify-content: center; }
   .app-container { width: 100%; max-width: 414px; }
-  .progress-card { background: #FFFFFF; padding: 20px; border-radius: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-  .progress-bar { height: 8px; background: #F6F5F0; border-radius: 4px; margin: 12px 0; overflow: hidden; }
-  #progress-fill { height: 100%; background: #55B97F; width: 0%; transition: 0.5s; }
   .user-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-  .u-tab { flex: 1; text-align: center; padding: 10px; background: #FFF; border-radius: 12px; cursor: pointer; border: 1px solid #E0DDD6; font-size: 13px; color: #B0ADA7; }
-  .u-tab.active { background: #FDF9F1; border-color: #D4A373; color: #D4A373; font-weight: 700; }
-  .category-title { font-size: 13px; font-weight: 700; color: #6B4D32; margin: 20px 0 10px 5px; border-left: 3px solid #D4A373; padding-left: 10px; }
-  .item-row { display: flex; align-items: center; background: #FFF; padding: 14px; border-radius: 12px; margin-bottom: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-  .item-name { flex: 1; font-size: 14px; }
-  .del-btn { color: #D67D7D; margin-right: 15px; cursor: pointer; font-size: 12px; opacity: 0.5; }
-  .checkbox { width: 22px; height: 22px; border: 2px solid #E0DDD6; border-radius: 6px; cursor: pointer; }
-  .checkbox.checked { background: #D4A373; border-color: #D4A373; }
+  .u-tab { flex: 1; text-align: center; padding: 10px; background: #FFF; border-radius: 12px; cursor: pointer; border: 1px solid #E0DDD6; font-size: 13px; }
+  .u-tab.active { background: #D4A373; color: white; border-color: #D4A373; }
+  .category-box { margin-bottom: 20px; }
+  .cat-title { font-size: 14px; font-weight: 700; color: #6B4D32; margin-bottom: 10px; border-bottom: 2px solid #D4A373; padding-bottom: 5px; }
+  .item-row { display: flex; align-items: center; background: #FFF; padding: 12px; border-radius: 10px; margin-bottom: 8px; }
+  .del-btn { color: #D67D7D; cursor: pointer; margin-right: 10px; font-size: 12px; }
+  .checkbox { width: 20px; height: 20px; border: 2px solid #D4A373; border-radius: 5px; margin-left: auto; cursor: pointer; }
+  .checkbox.checked { background: #D4A373; }
+  .add-input { width: 100%; padding: 12px; margin-top: 20px; border-radius: 10px; border: 1px solid #E0DDD6; box-sizing: border-box; }
 </style>
 </head>
 <body>
 
 <div class="app-container">
-  <div class="progress-card">
-    <div id="progress-text" style="font-weight: 700;">進度 0%</div>
-    <div class="progress-bar"><div id="progress-fill"></div></div>
-  </div>
-
   <div class="user-tabs">
     <div class="u-tab active" onclick="switchUser('zt', this)">🧸 芷葶</div>
     <div class="u-tab" onclick="switchUser('jj', this)">🦁 嘉嘉</div>
     <div class="u-tab" onclick="switchUser('ll', this)">🐶 倫倫</div>
   </div>
 
-  <div id="list-render"></div>
+  <div id="list-container"></div>
+  <input type="text" id="new-item" class="add-input" placeholder="新增物品 (輸入後按 Enter)">
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
   import { getFirestore, doc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-  const db = getFirestore(initializeApp({ 
-    /* 請填入你的 firebaseConfig */
-  }));
-
-  let currentUser = 'zt';
-  // 定義完整分類
-  const categories = {
-    "隨身行李": ["護照", "行動電源", "美金", "信用卡", "家裡鑰匙", "國際駕照"],
-    "盥洗用具": ["牙刷/牙膏", "洗面乳", "卸妝乳", "洗臉巾", "洗髮乳", "沐浴乳"],
-    "保養用品": ["乳液", "面膜"],
-    "換洗衣物": ["泳衣"],
-    "3C用品": ["手機充電線", "離子夾"],
-    "其他用品": ["摺疊傘", "濾水器"]
+  const db = getFirestore(initializeApp({ /* 你的設定 */ }));
+  
+  // 定義預設結構
+  let dataState = {
+    "隨身行李": ["護照", "行動電源", "美金", "信用卡"],
+    "拖運行李": ["牙刷", "泳衣", "充電線", "摺疊傘"]
   };
+  let currentUser = 'zt';
 
-  function render(data = {}) {
-    const root = document.getElementById('list-render');
-    root.innerHTML = '';
-    let total = 0, checkedCount = 0;
+  function render(serverData = {}) {
+    const container = document.getElementById('list-container');
+    container.innerHTML = '';
 
-    Object.keys(categories).forEach(cat => {
-      // 倫倫排除拖運分類 (盥洗/保養/3C/其他 視為拖運相關)
-      if (currentUser === 'll' && cat !== "隨身行李") return;
+    Object.keys(dataState).forEach(cat => {
+      // 倫倫邏輯：不顯示拖運
+      if (currentUser === 'll' && cat === '拖運行李') return;
 
-      root.innerHTML += `<div class="category-title">${cat}</div>`;
-      categories[cat].forEach(item => {
-        total++;
-        const isChecked = data[`${item}_${currentUser}`] || false;
-        if(isChecked) checkedCount++;
-
-        root.innerHTML += `
+      container.innerHTML += `<div class="cat-title">${cat}</div>`;
+      dataState[cat].forEach(item => {
+        const isChecked = serverData[`${item}_${currentUser}`];
+        container.innerHTML += `
           <div class="item-row">
-            <span class="del-btn" onclick="alert('請手動刪除')">刪除</span>
-            <div class="item-name">${item}</div>
+            <span class="del-btn" onclick="removeItem('${cat}', '${item}')">✕</span>
+            <div>${item}</div>
             <div class="checkbox ${isChecked ? 'checked' : ''}" onclick="toggle('${item}')"></div>
           </div>`;
       });
     });
-
-    const percent = total > 0 ? Math.round((checkedCount / total) * 100) : 0;
-    document.getElementById('progress-fill').style.width = percent + '%';
-    document.getElementById('progress-text').innerText = `進度 ${percent}%`;
   }
 
-  // 自動監聽 Firebase 資料更新
-  onSnapshot(doc(db, "settings", "checklist"), (docSnap) => {
-    render(docSnap.exists() ? docSnap.data() : {});
-  });
-
-  window.toggle = async (item) => {
-    // 這裡連接你的 Firestore 更新邏輯
+  // 新增物品邏輯
+  document.getElementById('new-item').onkeypress = (e) => {
+    if (e.key === 'Enter') {
+      const name = e.target.value;
+      const cat = prompt("請選擇類別: 隨身行李 或 拖運行李");
+      if (dataState[cat]) {
+        dataState[cat].push(name);
+        render(); // 這裡可以進一步呼叫 updateDoc 更新 Firebase
+        e.target.value = '';
+      } else {
+        alert("分類輸入錯誤！");
+      }
+    }
   };
 
   window.switchUser = (u, el) => {
     currentUser = u;
     document.querySelectorAll('.u-tab').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
-    // 重新繪製畫面
-    onSnapshot(doc(db, "settings", "checklist"), (docSnap) => render(docSnap.data()));
+    render();
   };
+
+  render();
 </script>
 </body>
 </html>
