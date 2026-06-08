@@ -203,7 +203,7 @@
   .pax-name { color: #4A453F; font-weight: 500; }
   .pax-detail { color: #8C8882; text-align: right; }
 
-  /* === 3. 住宿預定 (表格版) === */
+  /* === 3. 住宿預定 === */
   .hotel-table {
     width: 100%;
     border-collapse: collapse;
@@ -232,45 +232,58 @@
   }
   .hotel-table .add-link:hover { color: #D4A373; }
 
-  /* === 4. 文件區塊 (頁籤版) === */
-  .doc-tabs-container {
+  /* === 4. 文件區塊 (全新排版) === */
+  .doc-sub-header {
+    font-size: 15px;
+    font-weight: 700;
+    color: #6B4D32;
+    margin-bottom: 12px;
+    padding-left: 4px;
     display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #F0EFEA;
-    margin-bottom: 16px;
-    scrollbar-width: none;
+    align-items: center;
+    gap: 6px;
   }
-  .doc-tabs-container::-webkit-scrollbar { display: none; }
-  .doc-tab {
-    padding: 8px 16px;
-    font-size: 13px;
+  
+  /* 個人頁籤按鈕 */
+  .personal-tabs-container {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .p-tab {
+    flex: 1;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 12px;
     color: #8C8882;
     background-color: #FFFFFF;
     border: 1px solid #E0DDD6;
     border-radius: 8px;
-    white-space: nowrap;
     cursor: pointer;
     transition: all 0.2s ease;
   }
-  .doc-tab.active {
+  .p-tab.active {
     background-color: #FFF9E6; 
     border-color: #D4A373;
     color: #6B4D32;
     font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
   }
+
+  /* 文件清單樣式 */
   .doc-list { display: flex; flex-direction: column; gap: 12px; }
   .doc-item {
     display: flex;
     align-items: center;
-    padding: 8px 0;
+    padding: 6px 0;
   }
   .doc-idx {
-    width: 24px;
+    width: 28px;
     font-size: 14px;
     color: #4A453F;
     text-align: center;
+    font-weight: 500;
   }
   .doc-title {
     flex: 1;
@@ -464,16 +477,10 @@
   </div>
 
   <div class="card" style="padding-bottom: 32px;">
-    <div class="card-header">📁 電子文件與憑證</div>
+    <div class="card-header" style="margin-bottom: 12px;">📁 電子文件與憑證</div>
     
-    <div class="doc-tabs-container">
-      <div class="doc-tab active" onclick="switchDoc('shared', this)">⭐ 共用文件</div>
-      <div class="doc-tab" onclick="switchDoc('zt', this)">🧸 芷葶</div>
-      <div class="doc-tab" onclick="switchDoc('jj', this)">🦁 嘉嘉</div>
-      <div class="doc-tab" onclick="switchDoc('ll', this)">🐶 倫倫</div>
-    </div>
-
-    <div id="doc-shared" class="doc-list">
+    <div class="doc-sub-header">⭐ 共用文件</div>
+    <div class="doc-list" style="margin-bottom: 24px;">
       <div class="doc-item">
         <div class="doc-idx">1</div>
         <div class="doc-title">[住宿] Kintamani</div>
@@ -486,26 +493,39 @@
       </div>
     </div>
 
-    <div id="doc-zt" class="doc-list" style="display: none;">
+    <hr style="border: none; border-top: 1px dashed #E0DDD6; margin-bottom: 20px;">
+
+    <div class="personal-tabs-container">
+      <div class="p-tab active" onclick="switchPersonalDoc('zt', this)">🧸 芷葶</div>
+      <div class="p-tab" onclick="switchPersonalDoc('jj', this)">🦁 嘉嘉</div>
+      <div class="p-tab" onclick="switchPersonalDoc('ll', this)">🐶 倫倫</div>
+    </div>
+
+    <div id="doc-zt" class="doc-list personal-doc-list">
       <div class="doc-item">
         <div class="doc-idx">1</div>
-        <div class="doc-title">[簽證] 電子簽證 e-VOA</div>
+        <div class="doc-title">簽證</div>
+        <a href="#" class="pdf-badge">PDF</a>
+      </div>
+      <div class="doc-item">
+        <div class="doc-idx">2</div>
+        <div class="doc-title">預留</div>
         <a href="#" class="pdf-badge">PDF</a>
       </div>
     </div>
 
-    <div id="doc-jj" class="doc-list" style="display: none;">
+    <div id="doc-jj" class="doc-list personal-doc-list" style="display: none;">
       <div class="doc-item">
         <div class="doc-idx">1</div>
-        <div class="doc-title">[簽證] 電子簽證 e-VOA</div>
+        <div class="doc-title">簽證</div>
         <a href="#" class="pdf-badge">PDF</a>
       </div>
     </div>
 
-    <div id="doc-ll" class="doc-list" style="display: none;">
+    <div id="doc-ll" class="doc-list personal-doc-list" style="display: none;">
       <div class="doc-item">
         <div class="doc-idx">1</div>
-        <div class="doc-title">[簽證] 電子簽證 e-VOA</div>
+        <div class="doc-title">簽證</div>
         <a href="#" class="pdf-badge">PDF</a>
       </div>
     </div>
@@ -548,14 +568,14 @@
     }
   }
 
-  // 3. 電子文件 頁籤切換邏輯 (優化版)
-  function switchDoc(person, element) {
-    // 移除所有頁籤的 active
-    const tabs = document.querySelectorAll('.doc-tab');
+  // 3. 個人文件 頁籤切換邏輯
+  function switchPersonalDoc(person, element) {
+    // 移除所有個人頁籤的 active
+    const tabs = document.querySelectorAll('.p-tab');
     tabs.forEach(tab => tab.classList.remove('active'));
     
-    // 隱藏所有清單
-    const lists = document.querySelectorAll('.doc-list');
+    // 隱藏所有個人清單
+    const lists = document.querySelectorAll('.personal-doc-list');
     lists.forEach(list => list.style.display = 'none');
 
     // 顯示被點擊的對象
