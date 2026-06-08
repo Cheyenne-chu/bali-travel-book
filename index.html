@@ -142,8 +142,6 @@
     color: #4A453F;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   }
-  
-  /* 飛行時間軸設計 */
   .flight-route {
     position: relative;
     padding-left: 20px;
@@ -184,8 +182,6 @@
     color: #B0ADA7;
     text-align: right;
   }
-
-  /* 乘客名單小表 */
   .pax-box {
     background-color: #FAFAFA;
     border-radius: 12px;
@@ -202,269 +198,15 @@
   .pax-name { color: #4A453F; font-weight: 500; }
   .pax-detail { color: #8C8882; text-align: right; }
 
-  /* === 3. 住宿資料卡 === */
-  .hotel-item {
-    border-bottom: 1px dashed #E0DDD6;
-    padding: 16px 0;
+  /* === 3. 住宿資料區 (表格版) === */
+  .hotel-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    text-align: center;
   }
-  .hotel-item:last-child { border-bottom: none; padding-bottom: 0; }
-  .h-date { font-size: 11px; color: #D4A373; font-weight: 700; margin-bottom: 4px; }
-  .h-name { font-size: 15px; font-weight: 700; color: #4A453F; margin-bottom: 8px; }
-  .h-map-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    color: #8C8882;
-    background-color: #F6F5F0;
-    padding: 6px 12px;
-    border-radius: 20px;
-    text-decoration: none;
-    transition: background 0.2s;
-  }
-  .h-map-btn:hover { background-color: #EFECE6; }
-
-  /* === 4. 文件區塊 === */
-  .doc-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-  .doc-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #FAFAFA;
-    border: 1px solid #E0DDD6;
-    border-radius: 12px;
-    padding: 16px;
-    text-decoration: none;
-    color: #4A453F;
-    font-size: 13px;
+  .hotel-table th {
+    color: #B0ADA7;
     font-weight: 500;
-    transition: all 0.2s;
-  }
-  .doc-btn:hover {
-    border-color: #D4A373;
-    background-color: #FDF9F1;
-  }
-  .doc-icon { font-size: 24px; margin-bottom: 8px; }
-
-</style>
-</head>
-<body>
-
-<div class="app-container">
-  <div class="header">
-    <div class="header-title">🌴 BALI</div>
-    <div class="status-badge">✔ 已儲存</div>
-  </div>
-
-  <div class="nav-tabs">
-    <a href="index.html" class="nav-tab active">首頁</a>
-    <a href="itinerary.html" class="nav-tab">行程</a>
-    <a href="accounting.html" class="nav-tab">記帳</a>
-    <a href="checklist.html" class="nav-tab">清單</a>
-  </div>
-
-  <div class="card">
-    <div class="card-header">🔢 匯率試算</div>
-    <div class="exchange-row">
-      <div class="currency-group">
-        <span class="currency-label">IDR 印尼盾</span>
-        <input type="number" id="idr-input" class="currency-input" placeholder="100000">
-      </div>
-      <div style="font-size: 20px; color: #B0ADA7;">=</div>
-      <div class="currency-group" style="align-items: flex-end;">
-        <span class="currency-label">TWD 台幣</span>
-        <span class="currency-result" id="twd-result">0</span>
-      </div>
-    </div>
-    <div class="rate-info">預估匯率: 1 IDR = 0.002 TWD (僅供參考)</div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">✈️ 航班資訊 (酷航 Scoot)</div>
-    
-    <div class="flight-tabs">
-      <div class="f-tab active" onclick="switchFlight('outbound')">去程 9/11</div>
-      <div class="f-tab" onclick="switchFlight('inbound')">回程 9/17</div>
-    </div>
-
-    <div id="flight-outbound">
-      <div class="flight-route">
-        <div class="f-point">
-          <div class="f-time">00:55</div>
-          <div class="f-loc">TPE 台北 (第一航廈)</div>
-          <div class="f-flight-num">TR875<br>4h 25m</div>
-        </div>
-        <div class="f-point">
-          <div class="f-time">05:20</div>
-          <div class="f-loc">SIN 新加坡 (第一航廈)</div>
-        </div>
-      </div>
-      
-      <div style="padding-left: 20px;"><div class="f-layover">⏱ 停留轉機 2h 10m</div></div>
-
-      <div class="flight-route" style="margin-bottom: 24px;">
-        <div class="f-point">
-          <div class="f-time">07:30</div>
-          <div class="f-loc">SIN 新加坡 (第一航廈)</div>
-          <div class="f-flight-num">TR280<br>2h 50m</div>
-        </div>
-        <div class="f-point">
-          <div class="f-time">10:20</div>
-          <div class="f-loc">DPS 峇里島 (國際航廈)</div>
-        </div>
-      </div>
-
-      <div class="pax-box">
-        <div style="font-weight: 700; color:#6B4D32; margin-bottom: 8px;">去程托運與座位</div>
-        <div class="pax-row">
-          <span class="pax-name">🧸 芷葶</span>
-          <span class="pax-detail">20kg | 6K, 6A</span>
-        </div>
-        <div class="pax-row">
-          <span class="pax-name">🦁 嘉嘉</span>
-          <span class="pax-detail">20kg | 6A, 6K</span>
-        </div>
-        <div class="pax-row">
-          <span class="pax-name">🐶 倫倫</span>
-          <span class="pax-detail">無托運 | 6J, 6B</span>
-        </div>
-        <div style="font-size: 10px; color:#B0ADA7; margin-top:8px; text-align:right;">*每人皆有 7kg 手提行李</div>
-      </div>
-    </div>
-
-    <div id="flight-inbound" style="display: none;">
-      <div class="flight-route">
-        <div class="f-point">
-          <div class="f-time">01:05</div>
-          <div class="f-loc">DPS 峇里島 (國際航廈)</div>
-          <div class="f-flight-num">TR347<br>2h 45m</div>
-        </div>
-        <div class="f-point">
-          <div class="f-time">03:50</div>
-          <div class="f-loc">SIN 新加坡 (第一航廈)</div>
-        </div>
-      </div>
-      
-      <div style="padding-left: 20px;"><div class="f-layover">⏱ 停留轉機 8h 35m</div></div>
-
-      <div class="flight-route" style="margin-bottom: 24px;">
-        <div class="f-point">
-          <div class="f-time">12:25</div>
-          <div class="f-loc">SIN 新加坡 (第一航廈)</div>
-          <div class="f-flight-num">TR872<br>4h 45m</div>
-        </div>
-        <div class="f-point">
-          <div class="f-time">17:10</div>
-          <div class="f-loc">TPE 台北 (第一航廈)</div>
-        </div>
-      </div>
-
-      <div class="pax-box">
-        <div style="font-weight: 700; color:#6B4D32; margin-bottom: 8px;">回程托運與座位</div>
-        <div class="pax-row">
-          <span class="pax-name">🧸 芷葶</span>
-          <span class="pax-detail">25kg | 1A, 6A</span>
-        </div>
-        <div class="pax-row">
-          <span class="pax-name">🦁 嘉嘉</span>
-          <span class="pax-detail">20kg | 1F, 6K</span>
-        </div>
-        <div class="pax-row">
-          <span class="pax-name">🐶 倫倫</span>
-          <span class="pax-detail">無托運 | 1B, 6B</span>
-        </div>
-        <div style="font-size: 10px; color:#B0ADA7; margin-top:8px; text-align:right;">*每人皆有 7kg 手提行李</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">🏨 住宿預定</div>
-    
-    <div class="hotel-item">
-      <div class="h-date">9/11 - 9/12 ‧ 1 Night</div>
-      <div class="h-name">Kintamani Resort (佔位範例)</div>
-      <a href="https://maps.google.com/?q=Kintamani+Bali" target="_blank" class="h-map-btn">📍 點擊開啟地圖</a>
-    </div>
-
-    <div class="hotel-item">
-      <div class="h-date">9/12 - 9/15 ‧ 3 Nights</div>
-      <div class="h-name">Ubud Villa (佔位範例)</div>
-      <a href="https://maps.google.com/?q=Ubud+Bali" target="_blank" class="h-map-btn">📍 點擊開啟地圖</a>
-    </div>
-
-    <div class="hotel-item">
-      <div class="h-date">9/15 - 9/17 ‧ 2 Nights</div>
-      <div class="h-name">Seminyak Beach Hotel (佔位範例)</div>
-      <a href="https://maps.google.com/?q=Seminyak+Bali" target="_blank" class="h-map-btn">📍 點擊開啟地圖</a>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">📂 電子文件與憑證</div>
-    <div class="doc-grid">
-      <a href="#" class="doc-btn">
-        <span class="doc-icon">⭐</span>
-        共用文件
-      </a>
-      <a href="#" class="doc-btn">
-        <span class="doc-icon">🧸</span>
-        芷葶專屬
-      </a>
-      <a href="#" class="doc-btn">
-        <span class="doc-icon">🦁</span>
-        嘉嘉專屬
-      </a>
-      <a href="#" class="doc-btn">
-        <span class="doc-icon">🐶</span>
-        倫倫專屬
-      </a>
-    </div>
-  </div>
-
-</div>
-
-<script>
-  // 1. 匯率自動計算邏輯
-  const idrInput = document.getElementById('idr-input');
-  const twdResult = document.getElementById('twd-result');
-  const EXCHANGE_RATE = 0.002;
-
-  // 監聽輸入框的改變，即時計算
-  idrInput.addEventListener('input', function() {
-    const idrValue = parseFloat(this.value);
-    if (!isNaN(idrValue)) {
-      const twdValue = Math.round(idrValue * EXCHANGE_RATE);
-      twdResult.innerText = twdValue.toLocaleString(); // 加入千分位逗號
-    } else {
-      twdResult.innerText = "0";
-    }
-  });
-
-  // 2. 航班 去程/回程 切換邏輯
-  function switchFlight(direction) {
-    const tabs = document.querySelectorAll('.f-tab');
-    const outboundDiv = document.getElementById('flight-outbound');
-    const inboundDiv = document.getElementById('flight-inbound');
-
-    // 移除所有 active 樣式
-    tabs.forEach(tab => tab.classList.remove('active'));
-
-    if (direction === 'outbound') {
-      tabs[0].classList.add('active');
-      outboundDiv.style.display = 'block';
-      inboundDiv.style.display = 'none';
-    } else {
-      tabs[1].classList.add('active');
-      outboundDiv.style.display = 'none';
-      inboundDiv.style.display = 'block';
-    }
-  }
-</script>
-</body>
-</html>
+    padding-bottom: 12px;
+    border
