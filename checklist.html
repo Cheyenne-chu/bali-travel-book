@@ -4,333 +4,120 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bali Checklist</title>
+
+<!-- === App 圖示設定 === -->
+<link rel="icon" href="app-icon.png">
+<link rel="apple-touch-icon" href="app-icon.png">
+<meta name="apple-mobile-web-app-title" content="BALI"> 
+
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  /* 基礎設定延續燕麥奶高質感風格 */
-  body {
-    background-color: #F6F5F0; 
-    font-family: 'Noto Sans TC', sans-serif;
-    color: #4A453F; 
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-  }
+  /* === 基礎設定 === */
+  body { background-color: #F6F5F0; font-family: 'Noto Sans TC', sans-serif; color: #4A453F; margin: 0; padding: 0; display: flex; justify-content: center; }
+  .app-container { width: 100%; max-width: 414px; min-height: 100vh; padding: 24px 20px 40px 20px; box-sizing: border-box; position: relative; margin: 0 auto; }
+
+  /* === 置頂區 === */
+  .top-bar { position: sticky; top: 0; background-color: #F6F5F0; z-index: 999; margin: -24px -20px 16px -20px; padding: 24px 20px 12px 20px; box-shadow: 0 10px 15px -10px rgba(246, 245, 240, 0.9); }
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .header-title { font-family: 'Noto Serif TC', serif; font-size: 22px; letter-spacing: 2px; font-weight: 700; }
+  .status-badge { background-color: #FFFFFF; color: #55B97F; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+  .nav-tabs { display: flex; justify-content: space-between; padding: 0 4px; font-size: 14px; }
+  .nav-tab { color: #B0ADA7; font-weight: 500; text-decoration: none; }
+  .nav-tab.active { color: #4A453F; font-weight: 700; }
+
+  /* === 清單樣式 === */
+  .checklist-card { background-color: #FFFFFF; border-radius: 20px; padding: 20px; box-shadow: 0 8px 24px rgba(74, 69, 63, 0.04); margin-bottom: 24px; }
+  .item-row { display: flex; align-items: center; padding: 14px 0; border-bottom: 1px solid #F6F5F0; }
+  .item-name { flex: 1; font-size: 14px; color: #4A453F; }
   
-  .app-container {
-    width: 100%;
-    max-width: 414px; 
-    min-height: 100vh;
-    padding: 24px 20px 80px 20px; /* 底部多留白給懸浮按鈕 */
-    box-sizing: border-box;
-    position: relative;
-  }
-
-  /* 頂部 Header */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-  }
-  
-  .header-title {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 22px;
-    letter-spacing: 2px;
-    font-weight: 700;
-  }
-
-  /* 導覽列 */
-  .nav-tabs {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 32px;
-    padding: 0 4px;
-    font-size: 14px;
-  }
-  
-  .nav-tab {
-    color: #B0ADA7; 
-    font-weight: 500;
-    transition: color 0.2s ease;
-  }
-  
-  .nav-tab.active {
-    color: #4A453F;
-    font-weight: 700;
-  }
-
-  /* 準備進度大字 */
-  .progress-section {
-    text-align: center;
-    margin-bottom: 32px;
-  }
-
-  .progress-number {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 80px;
-    font-weight: 700;
-    color: #4A453F;
-    line-height: 1;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-  }
-
-  .progress-percent {
-    font-size: 32px;
-    margin-bottom: 12px;
-    margin-left: 4px;
-  }
-
-  .progress-label {
-    font-size: 12px;
-    color: #8C8882;
-    margin-top: 16px;
-    position: relative;
-    display: inline-block;
-  }
-
-  /* 準備進度下方的底線 */
-  .progress-label::before {
-    content: '';
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 120px;
-    height: 2px;
-    background-color: #4A453F;
-  }
-
-  /* 兩人分頁切換 */
-  .user-tabs {
-    display: flex;
-    background-color: #EFECE6; /* 更深的灰底凸顯白色按鈕 */
-    border-radius: 12px;
-    padding: 4px;
-    margin-bottom: 32px;
-  }
-
-  .user-tab {
-    flex: 1;
-    text-align: center;
-    padding: 12px 0;
-    font-size: 14px;
-    color: #B0ADA7;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .user-tab.active {
-    background-color: #FFFFFF;
-    color: #4A453F;
-    font-weight: 700;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  }
-
-  /* 清單群組與標題 */
-  .checklist-group {
-    margin-bottom: 24px;
-  }
-
-  .group-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: #6B4D32;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding-left: 4px;
-  }
-
-  /* 獨立清單項目 (客製化 Checkbox) */
-  .check-item {
-    background-color: #FFFFFF;
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 4px 12px rgba(74, 69, 63, 0.03);
-    cursor: pointer;
-  }
-
-  /* 隱藏原生 Checkbox */
-  .check-item input[type="checkbox"] {
-    display: none;
-  }
-
-  /* 假 Checkbox 外觀 */
-  .custom-checkbox {
-    width: 22px;
-    height: 22px;
-    border: 1.5px solid #E0DDD6;
-    border-radius: 6px;
-    margin-right: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: transparent; /* 預設隱藏打勾 */
-    font-size: 14px;
-    transition: all 0.2s ease;
-  }
-
-  /* 文字區塊 */
-  .check-text-group {
-    flex: 1;
-  }
-
-  .check-title {
-    font-size: 15px;
-    color: #4A453F;
-    font-weight: 500;
-    margin-bottom: 4px;
-    transition: all 0.2s ease;
-  }
-
-  .check-sub {
-    font-size: 11px;
-    color: #D4A373; /* 黃橘色標示共同物品 */
-  }
-
-  .check-more {
-    color: #E0DDD6;
-    font-size: 20px;
-    letter-spacing: 2px;
-    padding-left: 12px;
-  }
-
-  /* --- 打勾後的狀態變化 --- */
-  /* 當 input 被 checked 時，改變相鄰的假 checkbox 與文字樣式 */
-  .check-item input[type="checkbox"]:checked + .custom-checkbox {
-    background-color: #4A453F;
-    border-color: #4A453F;
-    color: #FFFFFF; /* 顯示打勾符號 */
-  }
-
-  .check-item input[type="checkbox"]:checked ~ .check-text-group .check-title {
-    color: #B0ADA7;
-    text-decoration: line-through; /* 加上刪除線 */
-  }
-
-  /* 懸浮新增按鈕 */
-  .fab-button {
-    position: fixed;
-    bottom: 30px;
-    right: 20px;
-    width: 56px;
-    height: 56px;
-    background-color: #4A453F;
-    color: #FFFFFF;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    box-shadow: 0 8px 24px rgba(74, 69, 63, 0.2);
-    cursor: pointer;
-    border: none;
-    z-index: 10;
-  }
+  /* 三人勾選區 */
+  .checkbox-group { display: flex; gap: 12px; }
+  .cb-box { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 36px; }
+  .cb-label { font-size: 10px; color: #B0ADA7; }
+  .checkbox { width: 20px; height: 20px; border: 2px solid #E0DDD6; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .checkbox.checked { background-color: #D4A373; border-color: #D4A373; color: #FFFFFF; }
 </style>
 </head>
 <body>
 
 <div class="app-container">
-  <div class="header">
-    <div class="header-title">🌴 BALI</div>
-    <div class="status-badge">✔ 已儲存</div>
-  </div>
-
-  <div class="nav-tabs">
-    <a href="index.html" class="nav-tab" style="text-decoration: none;">首頁</a>
-    <a href="itinerary.html" class="nav-tab" style="text-decoration: none;">行程</a>
-    <a href="accounting.html" class="nav-tab" style="text-decoration: none;">記帳</a>
-    <a href="checklist.html" class="nav-tab active" style="text-decoration: none;">清單</a>
-  </div>
-
-  <div class="progress-section">
-    <div class="progress-number">
-      69<span class="progress-percent">%</span>
+  <div class="top-bar">
+    <div class="header">
+      <div class="header-title">🌴 BALI</div>
+      <div class="status-badge">✔ 雲端同步中</div>
     </div>
-    <div class="progress-label">準備進度</div>
-  </div>
-
-  <div class="user-tabs">
-    <div class="user-tab active">
-      <span style="font-size: 16px;">👤</span> Cheyenne
-    </div>
-    <div class="user-tab">
-      <span style="font-size: 16px;">👤</span> 伴侶
+    <div class="nav-tabs">
+      <a href="index.html" class="nav-tab">首頁</a>
+      <a href="itinerary.html" class="nav-tab">行程</a>
+      <a href="accounting.html" class="nav-tab">記帳</a>
+      <a href="checklist.html" class="nav-tab active">清單</a>
     </div>
   </div>
 
-  <div class="checklist-group">
-    <div class="group-title">🪪 證件與錢包</div>
-    
-    <label class="check-item">
-      <input type="checkbox" checked>
-      <div class="custom-checkbox">✔</div>
-      <div class="check-text-group">
-        <div class="check-title">護照 (效期6個月以上)</div>
-        <div class="check-sub">共同物品</div>
-      </div>
-      <div class="check-more">⋮</div>
-    </label>
-
-    <label class="check-item">
-      <input type="checkbox">
-      <div class="custom-checkbox">✔</div>
-      <div class="check-text-group">
-        <div class="check-title">國際駕照 + 台灣駕照</div>
-        <div class="check-sub">共同物品</div>
-      </div>
-      <div class="check-more">⋮</div>
-    </label>
-
-    <label class="check-item">
-      <input type="checkbox" checked>
-      <div class="custom-checkbox">✔</div>
-      <div class="check-text-group">
-        <div class="check-title">信用卡 (海外回饋高)</div>
-        <div class="check-sub">共同物品</div>
-      </div>
-      <div class="check-more">⋮</div>
-    </label>
-
-    <label class="check-item">
-      <input type="checkbox" checked>
-      <div class="custom-checkbox">✔</div>
-      <div class="check-text-group">
-        <div class="check-title">印尼盾 / 美金現金</div>
-        <div class="check-sub">共同物品</div>
-      </div>
-      <div class="check-more">⋮</div>
-    </label>
+  <div class="checklist-card" id="checklist-container">
+    <!-- 行李項目清單 -->
+    <!-- (JS 會自動渲染這裡) -->
   </div>
-
-  <div class="checklist-group">
-    <div class="group-title">🔌 電子產品</div>
-    <label class="check-item">
-      <input type="checkbox">
-      <div class="custom-checkbox">✔</div>
-      <div class="check-text-group">
-        <div class="check-title">萬國轉接頭 (雙圓孔)</div>
-        <div class="check-sub">個人物品</div>
-      </div>
-      <div class="check-more">⋮</div>
-    </label>
-  </div>
-
-  <button class="fab-button">+</button>
-
 </div>
 
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+  import { getFirestore, doc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDTxTKW5BWQrSyB9FLQ-jyvoNiGmwUtCQQ",
+    authDomain: "bali-travel-app-dd509.firebaseapp.com",
+    projectId: "bali-travel-app-dd509",
+    storageBucket: "bali-travel-app-dd509.firebasestorage.app",
+    messagingSenderId: "555949995726",
+    appId: "1:555949995726:web:ef8335bf14e1535360029f"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const items = ["e-sim (印尼)", "e-sim (新加玻)", "護照", "美金", "行動電源", "摺疊傘", "牙刷/牙膏", "泳衣", "插座轉接頭", "信用卡"];
+  const users = [ {id: 'zt', name: '芷葶', icon: '🧸'}, {id: 'jj', name: '嘉嘉', icon: '🦁'}, {id: 'll', name: '倫倫', icon: '🐶'} ];
+
+  // 初始化畫面
+  const container = document.getElementById('checklist-container');
+  items.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    row.innerHTML = `
+      <div class="item-name">${item}</div>
+      <div class="checkbox-group">
+        ${users.map(u => `
+          <div class="cb-box">
+            <span class="cb-label">${u.icon}</span>
+            <div class="checkbox" id="cb-${item}-${u.id}" data-item="${item}" data-user="${u.id}">✓</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    container.appendChild(row);
+  });
+
+  // 監聽 Firebase 資料
+  onSnapshot(doc(db, "settings", "checklist"), (docSnap) => {
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      document.querySelectorAll('.checkbox').forEach(cb => {
+        const itemId = cb.id.replace('cb-', '');
+        if (data[itemId]) cb.classList.add('checked');
+        else cb.classList.remove('checked');
+      });
+    }
+  });
+
+  // 點擊勾選
+  document.querySelectorAll('.checkbox').forEach(cb => {
+    cb.addEventListener('click', async () => {
+      const itemId = cb.id.replace('cb-', '');
+      const isChecked = cb.classList.contains('checked');
+      await updateDoc(doc(db, "settings", "checklist"), { [itemId]: !isChecked });
+    });
+  });
+</script>
 </body>
 </html>
