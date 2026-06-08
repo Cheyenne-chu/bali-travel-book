@@ -30,12 +30,24 @@
     position: relative;
   }
 
+  /* === 常駐置頂區塊 (魔法在這裡) === */
+  .top-bar {
+    position: sticky;
+    top: 0;
+    background-color: #F6F5F0; /* 燕麥奶底色，遮住往上滑的卡片 */
+    z-index: 999; /* 確保永遠在最上層 */
+    margin: -24px -20px 16px -20px; /* 往外延展填滿邊緣 */
+    padding: 24px 20px 12px 20px; /* 補回排版空間 */
+    /* 微微的陰影，增加滑動時的層次感 */
+    box-shadow: 0 10px 15px -10px rgba(246, 245, 240, 0.9); 
+  }
+
   /* === 頂部 Header & 導覽列 === */
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
   .header-title {
     font-family: 'Noto Serif TC', serif;
@@ -55,7 +67,6 @@
   .nav-tabs {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 24px;
     padding: 0 4px;
     font-size: 14px;
   }
@@ -232,7 +243,7 @@
   }
   .hotel-table .add-link:hover { color: #D4A373; }
 
-  /* === 4. 文件區塊 (全新排版) === */
+  /* === 4. 文件區塊 === */
   .doc-sub-header {
     font-size: 15px;
     font-weight: 700;
@@ -243,8 +254,6 @@
     align-items: center;
     gap: 6px;
   }
-  
-  /* 個人頁籤按鈕 */
   .personal-tabs-container {
     display: flex;
     justify-content: center;
@@ -270,8 +279,6 @@
     font-weight: 700;
     box-shadow: 0 2px 8px rgba(0,0,0,0.02);
   }
-
-  /* 文件清單樣式 */
   .doc-list { display: flex; flex-direction: column; gap: 12px; }
   .doc-item {
     display: flex;
@@ -306,16 +313,19 @@
 <body>
 
 <div class="app-container">
-  <div class="header">
-    <div class="header-title">🌴 BALI</div>
-    <div class="status-badge">✔ 已儲存</div>
-  </div>
+  
+  <div class="top-bar">
+    <div class="header">
+      <div class="header-title">🌴 BALI</div>
+      <div class="status-badge">✔ 已儲存</div>
+    </div>
 
-  <div class="nav-tabs">
-    <a href="index.html" class="nav-tab active">首頁</a>
-    <a href="itinerary.html" class="nav-tab">行程</a>
-    <a href="accounting.html" class="nav-tab">記帳</a>
-    <a href="checklist.html" class="nav-tab">清單</a>
+    <div class="nav-tabs">
+      <a href="index.html" class="nav-tab active">首頁</a>
+      <a href="itinerary.html" class="nav-tab">行程</a>
+      <a href="accounting.html" class="nav-tab">記帳</a>
+      <a href="checklist.html" class="nav-tab">清單</a>
+    </div>
   </div>
 
   <div class="card">
@@ -570,15 +580,12 @@
 
   // 3. 個人文件 頁籤切換邏輯
   function switchPersonalDoc(person, element) {
-    // 移除所有個人頁籤的 active
     const tabs = document.querySelectorAll('.p-tab');
     tabs.forEach(tab => tab.classList.remove('active'));
     
-    // 隱藏所有個人清單
     const lists = document.querySelectorAll('.personal-doc-list');
     lists.forEach(list => list.style.display = 'none');
 
-    // 顯示被點擊的對象
     element.classList.add('active');
     document.getElementById(`doc-${person}`).style.display = 'flex';
   }
