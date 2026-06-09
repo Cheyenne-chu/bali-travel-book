@@ -4,99 +4,351 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bali Checklist</title>
+<link rel="icon" href="app-icon.png">
+<link rel="apple-touch-icon" href="app-icon.png">
+<meta name="apple-mobile-web-app-title" content="BALI"> 
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  body { background-color: #F6F5F0; font-family: 'Noto Sans TC', sans-serif; color: #4A453F; margin: 0; padding: 20px; display: flex; justify-content: center; }
-  .app-container { width: 100%; max-width: 414px; }
-  /* 導覽列 */
-  .nav-tabs { display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: 700; }
-  .nav-tab { color: #B0ADA7; text-decoration: none; }
-  .nav-tab.active { color: #4A453F; }
-  /* 進度區 */
-  .progress-card { background: #FFF; padding: 20px; border-radius: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
-  .progress-bar { height: 8px; background: #EEE; border-radius: 4px; margin: 10px 0; }
-  #progress-fill { height: 100%; background: #55B97F; width: 0%; transition: 0.3s; border-radius: 4px; }
-  /* 人員切換 */
-  .user-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-  .u-tab { flex: 1; text-align: center; padding: 10px; background: #FFF; border-radius: 12px; cursor: pointer; border: 1px solid #E0DDD6; }
-  .u-tab.active { background: #D4A373; color: #FFF; }
-  /* 清單 */
-  .cat-title { font-size: 14px; font-weight: 700; color: #6B4D32; margin: 15px 0 10px 5px; }
-  .item-row { display: flex; align-items: center; background: #FFF; padding: 12px; border-radius: 10px; margin-bottom: 8px; }
-  .checkbox { width: 20px; height: 20px; border: 2px solid #D4A373; border-radius: 5px; margin-left: auto; cursor: pointer; }
-  .checkbox.checked { background: #D4A373; }
+  /* === 基礎設定 === */
+  *, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { background-color: #F6F5F0; font-family: 'Noto Sans TC', sans-serif; color: #4A453F; margin: 0; padding: 0; display: flex; justify-content: center; overflow-x: hidden; }
+  .app-container { width: 100%; max-width: 414px; min-height: 100vh; padding: 24px 20px 80px 20px; position: relative; margin: 0 auto; }
+
+  /* === 常駐置頂區塊 === */
+  .top-bar { position: sticky; top: 0; background-color: #F6F5F0; z-index: 990; margin: -24px -20px 16px -20px; padding: 24px 20px 12px 20px; box-shadow: 0 10px 15px -10px rgba(246, 245, 240, 0.9); }
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .header-title { font-family: 'Noto Serif TC', serif; font-size: 22px; letter-spacing: 2px; font-weight: 700; }
+  .status-badge { background-color: #FFFFFF; color: #55B97F; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+  .nav-tabs { display: flex; justify-content: space-between; padding: 0 4px; font-size: 14px; }
+  .nav-tab { color: #B0ADA7; font-weight: 500; text-decoration: none; }
+  .nav-tab.active { color: #4A453F; font-weight: 700; }
+
+  /* === 1. 總進度區塊 === */
+  .progress-card { background: #FFFFFF; padding: 20px; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+  .progress-title { font-size: 13px; font-weight: 700; color: #6B4D32; margin-bottom: 16px; }
+  .prog-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .prog-row:last-child { margin-bottom: 0; }
+  .prog-name { font-size: 13px; font-weight: 700; color: #4A453F; width: 45px; }
+  .prog-bar-bg { flex: 1; height: 8px; background: #F6F5F0; border-radius: 4px; overflow: hidden; }
+  .prog-bar-fill { height: 100%; background: #55B97F; width: 0%; transition: width 0.5s ease; }
+  .prog-pct { font-size: 12px; font-weight: 700; color: #8C8882; width: 35px; text-align: right; }
+
+  /* === 2. 人員切換 === */
+  .user-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .u-tab { flex: 1; text-align: center; padding: 12px 0; background: #FFFFFF; border-radius: 12px; cursor: pointer; border: 1px solid #E0DDD6; font-size: 13px; color: #B0ADA7; transition: 0.2s; }
+  .u-tab.active { background: #FDF9F1; border-color: #D4A373; color: #D4A373; font-weight: 700; box-shadow: 0 4px 12px rgba(212,163,115,0.15); }
+
+  /* === 清單內容 === */
+  .checklist-card { background: #FFFFFF; border-radius: 20px; padding: 20px; box-shadow: 0 8px 24px rgba(74, 69, 63, 0.04); }
+  .main-cat-title { font-family: 'Noto Serif TC', serif; font-size: 18px; font-weight: 700; color: #4A453F; margin: 24px 0 12px 0; border-bottom: 2px solid #F6F5F0; padding-bottom: 8px; }
+  .main-cat-title:first-child { margin-top: 0; }
+  .sub-cat-title { font-size: 12px; font-weight: 700; color: #D4A373; margin: 16px 0 8px 8px; }
+  
+  .item-row { display: flex; align-items: center; padding: 12px 8px; border-bottom: 1px dashed #F0EFEA; }
+  .item-row:last-child { border-bottom: none; }
+  .del-btn { color: #D67D7D; margin-right: 12px; cursor: pointer; font-size: 16px; font-weight: 700; padding: 0 4px; }
+  .item-name { flex: 1; font-size: 14px; color: #4A453F; }
+  
+  .checkbox { width: 24px; height: 24px; border: 2px solid #E0DDD6; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: transparent; transition: 0.2s; font-size: 14px; }
+  .checkbox.checked { background: #D4A373; border-color: #D4A373; color: #FFFFFF; }
+
+  /* 新增按鈕 (卡片底部) */
+  .add-btn-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 24px; padding: 14px; background: #FAFAFA; border: 1px dashed #D4A373; border-radius: 12px; color: #D4A373; font-weight: 700; font-size: 14px; cursor: pointer; }
+  .add-icon { font-size: 18px; }
+
+  /* === 對話框 Modal === */
+  .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(74, 69, 63, 0.6); z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.3s; }
+  .modal-overlay.show { opacity: 1; pointer-events: auto; }
+  .modal-card { background: #FFFFFF; width: 90%; max-width: 340px; border-radius: 20px; padding: 24px; box-shadow: 0 12px 40px rgba(0,0,0,0.15); transform: translateY(20px); transition: 0.3s; }
+  .modal-overlay.show .modal-card { transform: translateY(0); }
+  .modal-title { font-size: 18px; font-weight: 700; color: #4A453F; margin-bottom: 20px; text-align: center; }
+  
+  .modal-group { margin-bottom: 16px; }
+  .modal-label { font-size: 12px; color: #B0ADA7; margin-bottom: 8px; display: block; font-weight: 700; }
+  .modal-select, .modal-input { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #E0DDD6; background: #FAFAFA; font-size: 14px; color: #4A453F; font-family: inherit; outline: none; }
+  .modal-select:focus, .modal-input:focus { border-color: #D4A373; background: #FFFFFF; }
+  
+  .modal-btns { display: flex; gap: 12px; margin-top: 24px; }
+  .btn-cancel { flex: 1; padding: 12px; background: #F6F5F0; color: #8C8882; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; }
+  .btn-confirm { flex: 1; padding: 12px; background: #4A453F; color: #FFFFFF; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; }
 </style>
 </head>
 <body>
 
 <div class="app-container">
-  <div class="nav-tabs">
-    <a href="index.html" class="nav-tab">首頁</a>
-    <a href="itinerary.html" class="nav-tab">行程</a>
-    <a href="accounting.html" class="nav-tab">記帳</a>
-    <a href="checklist.html" class="nav-tab active">清單</a>
+  
+  <!-- === 置頂選單區塊 === -->
+  <div class="top-bar">
+    <div class="header">
+      <div class="header-title">🌴 BALI</div>
+      <div class="status-badge">✔ 雲端同步中</div>
+    </div>
+    <div class="nav-tabs">
+      <a href="index.html" class="nav-tab">首頁</a>
+      <a href="itinerary.html" class="nav-tab">行程</a>
+      <a href="accounting.html" class="nav-tab">記帳</a>
+      <a href="checklist.html" class="nav-tab active">清單</a>
+    </div>
   </div>
 
+  <!-- === 1. 總進度區塊 === -->
   <div class="progress-card">
-    <div id="progress-text" style="font-size: 13px;">完成進度 0%</div>
-    <div class="progress-bar"><div id="progress-fill"></div></div>
+    <div class="progress-title">🎯 行李準備進度</div>
+    <div class="prog-row">
+      <div class="prog-name">🧸 芷葶</div>
+      <div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-zt"></div></div>
+      <div class="prog-pct" id="pct-zt">0%</div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-name">🦁 嘉嘉</div>
+      <div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-jj"></div></div>
+      <div class="prog-pct" id="pct-jj">0%</div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-name">🐶 倫倫</div>
+      <div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-ll"></div></div>
+      <div class="prog-pct" id="pct-ll">0%</div>
+    </div>
   </div>
 
+  <!-- === 2. 人員切換與清單 === -->
   <div class="user-tabs">
     <div class="u-tab active" onclick="switchUser('zt', this)">🧸 芷葶</div>
     <div class="u-tab" onclick="switchUser('jj', this)">🦁 嘉嘉</div>
     <div class="u-tab" onclick="switchUser('ll', this)">🐶 倫倫</div>
   </div>
 
-  <div id="list-container"></div>
+  <div class="checklist-card">
+    <div id="list-render">
+      <!-- JS 動態渲染清單 -->
+    </div>
+    
+    <!-- 新增按鈕 -->
+    <div class="add-btn-row" onclick="openModal()">
+      <div class="add-icon">+</div>
+      <span>新增自訂項目</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- === 新增項目對話框 === -->
+<div id="addModal" class="modal-overlay">
+  <div class="modal-card">
+    <div class="modal-title">新增行李項目</div>
+    
+    <div class="modal-group">
+      <span class="modal-label">主分類</span>
+      <select id="modal-cat" class="modal-select" onchange="toggleSubcat()">
+        <option value="隨身行李">🎒 隨身行李</option>
+        <option value="拖運行李">🧳 拖運行李</option>
+      </select>
+    </div>
+
+    <div class="modal-group" id="subcat-group" style="display: none;">
+      <span class="modal-label">細項分類</span>
+      <select id="modal-subcat" class="modal-select">
+        <option value="盥洗用品">盥洗用品</option>
+        <option value="3C電子">3C電子</option>
+        <option value="替換衣物">替換衣物</option>
+        <option value="彩妝用品">彩妝用品</option>
+        <option value="保養用品">保養用品</option>
+        <option value="其他用品">其他用品</option>
+      </select>
+    </div>
+
+    <div class="modal-group">
+      <span class="modal-label">物品名稱</span>
+      <input type="text" id="modal-name" class="modal-input" placeholder="例如：隱形眼鏡、太陽眼鏡...">
+    </div>
+
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal()">取消</button>
+      <button class="btn-confirm" onclick="confirmAdd()">確認新增</button>
+    </div>
+  </div>
 </div>
 
 <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+  import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+  const app = initializeApp({
+    apiKey: "AIzaSyDTxTKW5BWQrSyB9FLQ-jyvoNiGmwUtCQQ",
+    authDomain: "bali-travel-app-dd509.firebaseapp.com",
+    projectId: "bali-travel-app-dd509",
+    storageBucket: "bali-travel-app-dd509.firebasestorage.app",
+    messagingSenderId: "555949995726",
+    appId: "1:555949995726:web:ef8335bf14e1535360029f"
+  });
+  const db = getFirestore(app);
+
   let currentUser = 'zt';
-  let items = {
-    "隨身行李": ["護照", "行動電源", "美金", "信用卡", "家裡鑰匙", "國際駕照"],
-    "拖運行李": ["牙刷/牙膏", "洗面乳", "泳衣", "充電線", "摺疊傘"]
+  const userIds = ['zt', 'jj', 'll'];
+
+  // 預設行李清單結構
+  const defaultItems = {
+    "隨身行李": { "預設": ["護照", "行動電源", "美金", "信用卡", "家裡鑰匙", "國際駕照", "e-sim (印尼)", "e-sim (新加玻)"] },
+    "拖運行李": {
+      "盥洗用品": ["牙刷/牙膏", "洗面乳", "卸妝乳", "洗臉巾", "洗髮乳", "沐浴乳"],
+      "保養用品": ["乳液", "面膜"],
+      "替換衣物": ["泳衣"],
+      "3C電子": ["手機充電線", "離子夾"],
+      "其他用品": ["摺疊傘", "濾水器"]
+    }
   };
-  let status = {}; // 假設這是從 Firebase 讀取的狀態
 
-  function render() {
-    const container = document.getElementById('list-container');
-    container.innerHTML = '';
-    let total = 0, checked = 0;
+  // 全域狀態儲存 (從 Firebase 讀取)
+  let serverData = {
+    checked: {}, 
+    customItems: { zt: [], jj: [], ll: [] }, 
+    deletedItems: { zt: [], jj: [], ll: [] }
+  };
 
-    Object.keys(items).forEach(cat => {
-      if (currentUser === 'll' && cat === '拖運行李') return;
-      
-      container.innerHTML += `<div class="cat-title">${cat}</div>`;
-      items[cat].forEach(item => {
-        total++;
-        if(status[`${item}_${currentUser}`]) checked++;
-        container.innerHTML += `
-          <div class="item-row">
-            <div>${item}</div>
-            <div class="checkbox ${status[`${item}_${currentUser}`] ? 'checked' : ''}" onclick="toggle('${item}')"></div>
-          </div>`;
-      });
+  // 取得某位使用者的「完整最終清單」
+  function getFullList(userId) {
+    let list = JSON.parse(JSON.stringify(defaultItems)); // 拷貝預設值
+    const customs = serverData.customItems[userId] || [];
+    const deleteds = serverData.deletedItems[userId] || [];
+
+    // 掛載自訂項目
+    customs.forEach(c => {
+      if(!list[c.cat]) list[c.cat] = {};
+      if(!list[c.cat][c.subcat]) list[c.cat][c.subcat] = [];
+      list[c.cat][c.subcat].push(c.name);
     });
 
-    const percent = total > 0 ? Math.round((checked/total)*100) : 0;
-    document.getElementById('progress-fill').style.width = percent + '%';
-    document.getElementById('progress-text').innerText = `完成進度 ${percent}%`;
+    // 倫倫自動過濾拖運行李
+    if(userId === 'll') delete list['拖運行李'];
+
+    // 過濾掉被刪除的項目
+    Object.keys(list).forEach(cat => {
+      Object.keys(list[cat]).forEach(sub => {
+        list[cat][sub] = list[cat][sub].filter(item => !deleteds.includes(item));
+        if(list[cat][sub].length === 0) delete list[cat][sub]; // 清空空分類
+      });
+      if(Object.keys(list[cat]).length === 0) delete list[cat];
+    });
+
+    return list;
   }
 
-  window.toggle = (item) => {
-    status[`${item}_${currentUser}`] = !status[`${item}_${currentUser}`];
-    render();
+  // 重新渲染全部 (進度條 + 當前清單)
+  function renderAll() {
+    // 1. 更新三人進度條
+    userIds.forEach(uid => {
+      const list = getFullList(uid);
+      let total = 0, checkedCount = 0;
+      Object.keys(list).forEach(cat => {
+        Object.keys(list[cat]).forEach(sub => {
+          list[cat][sub].forEach(item => {
+            total++;
+            if(serverData.checked[`${item}_${uid}`]) checkedCount++;
+          });
+        });
+      });
+      const percent = total > 0 ? Math.round((checkedCount / total) * 100) : 0;
+      document.getElementById(`prog-${uid}`).style.width = percent + '%';
+      document.getElementById(`pct-${uid}`).innerText = percent + '%';
+      // 滿百變色
+      document.getElementById(`prog-${uid}`).style.backgroundColor = percent === 100 ? '#D4A373' : '#55B97F'; 
+    });
+
+    // 2. 渲染當前使用者的清單
+    const root = document.getElementById('list-render');
+    root.innerHTML = '';
+    const myUserList = getFullList(currentUser);
+
+    if(Object.keys(myUserList).length === 0) {
+      root.innerHTML = `<div style="text-align:center; color:#B0ADA7; padding: 20px; font-size: 13px;">清單空空如也，趕快新增吧！</div>`;
+      return;
+    }
+
+    Object.keys(myUserList).forEach(cat => {
+      root.innerHTML += `<div class="main-cat-title">${cat === '隨身行李' ? '🎒' : '🧳'} ${cat}</div>`;
+      Object.keys(myUserList[cat]).forEach(sub => {
+        if(sub !== '預設') root.innerHTML += `<div class="sub-cat-title">✦ ${sub}</div>`;
+        
+        myUserList[cat][sub].forEach(item => {
+          const isChecked = serverData.checked[`${item}_${currentUser}`];
+          root.innerHTML += `
+            <div class="item-row">
+              <div class="del-btn" onclick="removeItem('${item}')">×</div>
+              <div class="item-name">${item}</div>
+              <div class="checkbox ${isChecked ? 'checked' : ''}" onclick="toggleCheck('${item}')">✓</div>
+            </div>`;
+        });
+      });
+    });
+  }
+
+  // === Firebase 監聽與寫入 ===
+  onSnapshot(doc(db, "settings", "checklist_v2"), (docSnap) => {
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      serverData.checked = data.checked || {};
+      serverData.customItems = data.customItems || { zt: [], jj: [], ll: [] };
+      serverData.deletedItems = data.deletedItems || { zt: [], jj: [], ll: [] };
+    }
+    renderAll();
+  });
+
+  async function updateFirebase() {
+    await setDoc(doc(db, "settings", "checklist_v2"), serverData, { merge: true });
+  }
+
+  // === 互動功能 ===
+  window.toggleCheck = (item) => {
+    const key = `${item}_${currentUser}`;
+    serverData.checked[key] = !serverData.checked[key];
+    updateFirebase();
+  };
+
+  window.removeItem = (item) => {
+    if(confirm(`確定要從清單移除「${item}」嗎？`)) {
+      if(!serverData.deletedItems[currentUser]) serverData.deletedItems[currentUser] = [];
+      serverData.deletedItems[currentUser].push(item);
+      updateFirebase();
+    }
   };
 
   window.switchUser = (u, el) => {
     currentUser = u;
     document.querySelectorAll('.u-tab').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
-    render();
+    renderAll();
   };
 
-  render();
+  // === Modal 對話框邏輯 ===
+  window.openModal = () => {
+    document.getElementById('addModal').classList.add('show');
+    document.getElementById('modal-name').value = '';
+    toggleSubcat();
+  };
+  
+  window.closeModal = () => {
+    document.getElementById('addModal').classList.remove('show');
+  };
+
+  window.toggleSubcat = () => {
+    const cat = document.getElementById('modal-cat').value;
+    document.getElementById('subcat-group').style.display = (cat === '拖運行李') ? 'block' : 'none';
+  };
+
+  window.confirmAdd = () => {
+    const name = document.getElementById('modal-name').value.trim();
+    if(!name) return alert("請輸入物品名稱！");
+
+    const cat = document.getElementById('modal-cat').value;
+    const subcat = (cat === '拖運行李') ? document.getElementById('modal-subcat').value : '預設';
+
+    if(!serverData.customItems[currentUser]) serverData.customItems[currentUser] = [];
+    serverData.customItems[currentUser].push({ cat, subcat, name });
+    
+    updateFirebase();
+    closeModal();
+  };
+
 </script>
 </body>
 </html>
