@@ -26,6 +26,7 @@
     padding: 0;
     display: flex;
     justify-content: center;
+    overflow-x: hidden; /* 💡 把防破版的設定移到這裡，就不會影響置頂了 */
   }
   .app-container {
     width: 100%;
@@ -34,7 +35,7 @@
     padding: 24px 20px 80px 20px;
     margin: 0 auto;
     position: relative;
-    overflow-x: hidden; /* 強制防止右側撐爆跑出捲軸 */
+    /* 💡 這裡移除了 overflow-x: hidden; 解除對 sticky 的封印 */
   }
 
   /* === 常駐置頂區塊 === */
@@ -211,8 +212,8 @@
   }
   .photo-upload-box input[type="file"] { 
     position: absolute; 
-    top: 0;   /* 加入定位原點，防止往上飄移 */
-    left: 0;  /* 加入定位原點，防止往上飄移 */
+    top: 0;   
+    left: 0;  
     width: 100%; 
     height: 100%; 
     opacity: 0; 
