@@ -14,13 +14,10 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  /* === 基礎重置 (解決邊界跑版與點擊閃爍問題) === */
-  *, *::before, *::after {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent; 
-  }
+  /* === 基礎重置 === */
+  *, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-  /* === 基礎設定 === */
+  /* === 基礎設定 (避免破版與置頂失效) === */
   body {
     background-color: #F6F5F0; 
     font-family: 'Noto Sans TC', sans-serif;
@@ -29,7 +26,7 @@
     padding: 0;
     display: flex;
     justify-content: center;
-    overflow-x: hidden; /* 💡 把防破版的設定移到這裡，就不會影響置頂了 */
+    overflow-x: hidden; 
   }
   .app-container {
     width: 100%;
@@ -38,7 +35,6 @@
     padding: 24px 20px 80px 20px;
     margin: 0 auto;
     position: relative;
-    /* 💡 這裡移除了 overflow-x: hidden; 解除對 sticky 的封印 */
   }
 
   /* === 常駐置頂區塊 === */
@@ -53,185 +49,59 @@
   }
 
   /* === 頂部 Header & 導覽列 === */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-  }
-  .header-title {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 22px;
-    letter-spacing: 2px;
-    font-weight: 700;
-  }
-  .status-badge {
-    background-color: #FFFFFF;
-    color: #55B97F; 
-    font-size: 12px;
-    font-weight: 500;
-    padding: 6px 12px;
-    border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-  }
-  .nav-tabs {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 4px;
-    font-size: 14px;
-  }
-  .nav-tab {
-    color: #B0ADA7; 
-    font-weight: 500;
-    transition: color 0.2s ease;
-    text-decoration: none;
-  }
-  .nav-tab.active {
-    color: #4A453F;
-    font-weight: 700;
-  }
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .header-title { font-family: 'Noto Serif TC', serif; font-size: 22px; letter-spacing: 2px; font-weight: 700; }
+  .status-badge { background-color: #FFFFFF; color: #55B97F; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+  .nav-tabs { display: flex; justify-content: space-between; padding: 0 4px; font-size: 14px; }
+  .nav-tab { color: #B0ADA7; font-weight: 500; text-decoration: none; }
+  .nav-tab.active { color: #4A453F; font-weight: 700; border-bottom: 2px solid #4A453F; padding-bottom: 2px;}
 
   /* === 共用卡片樣式 === */
-  .card {
-    background-color: #FFFFFF;
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0 8px 24px rgba(74, 69, 63, 0.04);
-    margin-bottom: 24px;
-  }
+  .card { background-color: #FFFFFF; border-radius: 20px; padding: 20px; box-shadow: 0 8px 24px rgba(74, 69, 63, 0.04); margin-bottom: 24px; }
 
   /* === 1. 總計儀表板區塊 === */
-  .summary-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-    font-weight: 700;
-    color: #6B4D32;
-  }
-  .exchange-rate-note {
-    font-size: 11px;
-    color: #B0ADA7;
-    background-color: #F6F5F0;
-    padding: 4px 8px;
-    border-radius: 6px;
-  }
-  .summary-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-    text-align: right;
-  }
-  .summary-table th {
-    color: #B0ADA7;
-    font-weight: 500;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #F0EFEA;
-    font-size: 11px;
-  }
-  .summary-table td {
-    padding: 12px 0;
-    border-bottom: 1px dashed #F0EFEA;
-    font-family: 'Noto Serif TC', serif;
-    font-weight: 700;
-  }
-  .summary-table td:first-child, .summary-table th:first-child {
-    text-align: left;
-    font-family: 'Noto Sans TC', sans-serif;
-    color: #4A453F;
-  }
+  .summary-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-weight: 700; color: #6B4D32; }
+  .exchange-rate-note { font-size: 10px; color: #B0ADA7; background-color: #F6F5F0; padding: 4px 8px; border-radius: 6px; }
+  .summary-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: right; }
+  .summary-table th { color: #B0ADA7; font-weight: 500; padding-bottom: 12px; border-bottom: 1px solid #F0EFEA; font-size: 11px; }
+  .summary-table td { padding: 12px 0; border-bottom: 1px dashed #F0EFEA; font-family: 'Noto Serif TC', serif; font-weight: 700; }
+  .summary-table td:first-child, .summary-table th:first-child { text-align: left; font-family: 'Noto Sans TC', sans-serif; color: #4A453F; }
   .summary-table tr:last-child td { border-bottom: none; padding-bottom: 0; }
   .text-highlight { color: #D4A373; }
 
   /* === 2. 記帳輸入卡片 === */
   .form-group { margin-bottom: 20px; position: relative; z-index: 2; }
-  .form-label {
-    font-size: 12px;
-    color: #B0ADA7;
-    margin-bottom: 8px;
-    display: block;
-    font-weight: 500;
-  }
-
-  /* 輸入框 */
-  .input-field {
-    width: 100%;
-    min-width: 0; /* 修正 iOS Safari 破版問題 */
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 1px solid #E0DDD6;
-    background-color: #FAFAFA;
-    font-size: 14px;
-    color: #4A453F;
-    font-family: inherit;
-    outline: none;
-    transition: border-color 0.2s ease;
-  }
+  .form-label { font-size: 12px; color: #B0ADA7; margin-bottom: 8px; display: block; font-weight: 500; }
+  .input-field { width: 100%; min-width: 0; padding: 12px 16px; border-radius: 12px; border: 1px solid #E0DDD6; background-color: #FAFAFA; font-size: 14px; color: #4A453F; font-family: inherit; outline: none; transition: 0.2s ease; }
   .input-field:focus { border-color: #D4A373; background-color: #FFFFFF; }
-  
-  /* 特殊處理日期選擇器 */
-  input[type="date"].input-field {
-    display: block;
-    -webkit-appearance: none;
-  }
+  input[type="date"].input-field { display: block; -webkit-appearance: none; }
 
   .amount-row { display: flex; gap: 12px; align-items: center; }
   .amount-input { flex: 1; font-family: 'Noto Serif TC', serif; font-size: 20px; font-weight: 700; }
-  
-  .toggle-group {
-    display: flex; background-color: #F6F5F0; border-radius: 12px; padding: 4px; gap: 4px; width: 120px;
-  }
-  .toggle-btn {
-    flex: 1; text-align: center; padding: 8px 0; font-size: 13px; color: #B0ADA7; border-radius: 8px; cursor: pointer; user-select: none;
-  }
+  .toggle-group { display: flex; background-color: #F6F5F0; border-radius: 12px; padding: 4px; gap: 4px; width: 120px; }
+  .toggle-btn { flex: 1; text-align: center; padding: 8px 0; font-size: 13px; color: #B0ADA7; border-radius: 8px; cursor: pointer; user-select: none; }
   .toggle-btn.active { background-color: #FFFFFF; color: #4A453F; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
 
-  /* 類別選擇 */
-  .category-row {
-    display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none;
-  }
+  .category-row { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
   .category-row::-webkit-scrollbar { display: none; }
-  .category-btn { 
-    display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 52px; color: #B0ADA7; cursor: pointer; user-select: none;
-  }
-  .category-icon { 
-    font-size: 20px; width: 44px; height: 44px; display: flex; justify-content: center; align-items: center; border-radius: 12px; border: 1px solid transparent; 
-  }
+  .category-btn { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 52px; color: #B0ADA7; cursor: pointer; user-select: none; }
+  .category-icon { font-size: 20px; width: 44px; height: 44px; display: flex; justify-content: center; align-items: center; border-radius: 12px; border: 1px solid transparent; }
   .category-text { font-size: 11px; }
   .category-btn.active { color: #D4A373; font-weight: 700; }
   .category-btn.active .category-icon { border-color: #F4D399; background-color: #FDF9F1; }
 
-  /* 人員選擇網格 */
   .user-grid { display: flex; gap: 8px; width: 100%; }
-  .user-btn {
-    flex: 1; text-align: center; padding: 12px 0; font-size: 13px; border-radius: 12px; background-color: #F6F5F0; color: #8C8882; border: 1px solid transparent; cursor: pointer; user-select: none;
-  }
+  .user-btn { flex: 1; text-align: center; padding: 12px 0; font-size: 13px; border-radius: 12px; background-color: #F6F5F0; color: #8C8882; border: 1px solid transparent; cursor: pointer; user-select: none; }
   .user-btn.payer-active { background-color: #FDF9F1; border-color: #F4D399; color: #D4A373; font-weight: 700; }
   .user-btn.split-active { background-color: #FFFFFF; border-color: #E0DDD6; color: #4A453F; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
 
-  /* 照片上傳區塊 (修正透明玻璃罩問題) */
-  .photo-upload-box {
-    width: 100%; height: 80px; border: 2px dashed #E0DDD6; border-radius: 12px; display: flex; justify-content: center; align-items: center; color: #B0ADA7; font-size: 24px; cursor: pointer; position: relative; background-color: #FAFAFA;
-  }
-  .photo-upload-box input[type="file"] { 
-    position: absolute; 
-    top: 0;   
-    left: 0;  
-    width: 100%; 
-    height: 100%; 
-    opacity: 0; 
-    cursor: pointer; 
-  }
-  
-  .submit-btn {
-    width: 100%; background-color: #4A453F; color: #FFFFFF; padding: 16px; border-radius: 12px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(74, 69, 63, 0.15); margin-top: 8px;
-  }
+  .photo-upload-box { width: 100%; height: 80px; border: 2px dashed #E0DDD6; border-radius: 12px; display: flex; justify-content: center; align-items: center; color: #B0ADA7; font-size: 24px; cursor: pointer; position: relative; background-color: #FAFAFA; }
+  .photo-upload-box input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+  .submit-btn { width: 100%; background-color: #4A453F; color: #FFFFFF; padding: 16px; border-radius: 12px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(74, 69, 63, 0.15); margin-top: 8px; }
 
-  /* === 3. 帳務明細清單 === */
+  /* === 3. 帳務明細清清單 === */
   .section-title { font-size: 15px; font-weight: 700; color: #6B4D32; margin: 32px 0 16px 4px; display: flex; align-items: center; gap: 8px; }
-  .record-item {
-    background-color: #FFFFFF; border-radius: 16px; padding: 16px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(74, 69, 63, 0.03); cursor: pointer; transition: background-color 0.2s;
-  }
+  .record-item { background-color: #FFFFFF; border-radius: 16px; padding: 16px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(74, 69, 63, 0.03); cursor: pointer; transition: background-color 0.2s; }
   .record-item:active { background-color: #FAFAFA; }
   .record-main { display: flex; align-items: center; }
   .record-dot { width: 8px; height: 8px; background-color: #D67D7D; border-radius: 50%; margin-right: 12px; }
@@ -266,10 +136,10 @@
   <div class="card">
     <div class="summary-header">
       <span>📊 財務總覽</span>
-      <span class="exchange-rate-note">匯率: 1 IDR = 0.002 TWD</span>
+      <span class="exchange-rate-note">匯率: 1 IDR = 0.002 TWD (K=千)</span>
     </div>
     <table class="summary-table">
-      <tr><th>人員</th><th>已代墊</th><th>花費 IDR</th><th>花費 TWD</th></tr>
+      <tr><th>人員</th><th>已代墊 TWD</th><th>花費 IDR</th><th>花費 TWD</th></tr>
       <tr><td>🧸 芷葶</td><td id="sum-paid-zt">0</td><td id="sum-idr-zt" class="text-highlight">0</td><td id="sum-twd-zt" class="text-highlight">0</td></tr>
       <tr><td>🦁 嘉嘉</td><td id="sum-paid-jj">0</td><td id="sum-idr-jj" class="text-highlight">0</td><td id="sum-twd-jj" class="text-highlight">0</td></tr>
       <tr><td>🐶 倫倫</td><td id="sum-paid-ll">0</td><td id="sum-idr-ll" class="text-highlight">0</td><td id="sum-twd-ll" class="text-highlight">0</td></tr>
@@ -288,7 +158,7 @@
     </div>
 
     <div class="form-group">
-      <span class="form-label">金額與幣別</span>
+      <span class="form-label">金額與幣別 (請輸入完整數字)</span>
       <div class="amount-row">
         <input type="number" id="input-amount" class="input-field amount-input" placeholder="0">
         <div class="toggle-group" id="currency-toggle">
@@ -370,6 +240,7 @@
 
   document.getElementById('input-date').valueAsDate = new Date();
 
+  // === UI 互動 ===
   function setupToggle(selector, activeClass, isSingle = true) {
     const btns = document.querySelectorAll(selector);
     btns.forEach(btn => {
@@ -394,8 +265,14 @@
     splitBtns.forEach(btn => allActive ? btn.classList.remove('split-active') : btn.classList.add('split-active'));
   });
 
-  const formatNum = (num) => Math.round(num).toLocaleString();
+  // === 數字縮寫魔法 (K邏輯) ===
+  const formatIDR = (num) => {
+    let kValue = num / 1000;
+    return kValue.toLocaleString('en-US', { maximumFractionDigits: 1 }) + 'K';
+  };
+  const formatTWD = (num) => Math.round(num).toLocaleString('en-US');
 
+  // === 載入資料與計算 ===
   onSnapshot(collection(db, "expenses"), (snapshot) => {
     const recordsContainer = document.getElementById('records-container');
     recordsContainer.innerHTML = ''; 
@@ -427,10 +304,13 @@
     const ids = ['zt', 'jj', 'll'];
     users.forEach((user, index) => {
       let prefix = ids[index];
+      // 💡 計算代墊的台幣並顯示
+      let paidTWD = totals[user].paidIDR * EXCHANGE_RATE;
       let spentTWD = totals[user].spentIDR * EXCHANGE_RATE;
-      document.getElementById(`sum-paid-${prefix}`).innerText = formatNum(totals[user].paidIDR);
-      document.getElementById(`sum-idr-${prefix}`).innerText = formatNum(totals[user].spentIDR);
-      document.getElementById(`sum-twd-${prefix}`).innerText = formatNum(spentTWD);
+      
+      document.getElementById(`sum-paid-${prefix}`).innerText = formatTWD(paidTWD); // 換成 TWD 顯示
+      document.getElementById(`sum-idr-${prefix}`).innerText = formatIDR(totals[user].spentIDR);
+      document.getElementById(`sum-twd-${prefix}`).innerText = formatTWD(spentTWD);
     });
 
     docsData.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -442,6 +322,7 @@
     docsData.forEach(data => {
       let amountIDR = data.currency === 'IDR' ? data.amount : data.amount / EXCHANGE_RATE;
       let amountTWD = data.currency === 'TWD' ? data.amount : data.amount * EXCHANGE_RATE;
+      let displayAmount = data.currency === 'IDR' ? formatIDR(data.amount) : formatTWD(data.amount);
       let splitStr = data.splitters.join('、');
 
       const recordEl = document.createElement('div');
@@ -453,7 +334,7 @@
             <div class="record-title">${data.item}</div>
             <div class="record-sub">${data.date} ‧ ${data.payer} 代墊</div>
           </div>
-          <div class="record-amount">${data.currency} ${formatNum(data.amount)}</div>
+          <div class="record-amount">${data.currency} ${displayAmount}</div>
           <div class="record-actions">
             <span class="action-icon edit-btn" data-id="${data.id}">✏</span> 
             <span class="action-icon del-btn" data-id="${data.id}">🗑</span>
@@ -461,10 +342,10 @@
         </div>
         <div class="record-details">
           <div class="detail-row"><span>分類：</span><span>${data.category}</span></div>
-          <div class="detail-row"><span>換算台幣：</span><span>約 TWD ${formatNum(amountTWD)}</span></div>
-          <div class="detail-row"><span>換算印尼盾：</span><span>約 IDR ${formatNum(amountIDR)}</span></div>
+          <div class="detail-row"><span>換算台幣：</span><span>約 TWD ${formatTWD(amountTWD)}</span></div>
+          <div class="detail-row"><span>換算印尼盾：</span><span>約 IDR ${formatIDR(amountIDR)}</span></div>
           <div class="detail-row" style="margin-top: 8px;"><span>分攤人員：</span><span>${splitStr}</span></div>
-          <div class="detail-tag">每人約負擔 IDR ${formatNum(amountIDR / data.splitters.length)}</div>
+          <div class="detail-tag">每人約負擔 IDR ${formatIDR(amountIDR / data.splitters.length)}</div>
         </div>
       `;
 
@@ -502,6 +383,7 @@
     });
   });
 
+  // === 送出寫入 Firebase ===
   const submitBtn = document.getElementById('submit-btn');
   submitBtn.addEventListener('click', async () => {
     const date = document.getElementById('input-date').value;
@@ -529,7 +411,7 @@
         await updateDoc(doc(db, "expenses", editingRecordId), recordData);
         editingRecordId = null; 
       } else {
-        recordData.createdAt = new Date();
+        recordData.createdAt = Date.now();
         await addDoc(collection(db, "expenses"), recordData);
       }
       
@@ -537,7 +419,7 @@
       document.getElementById('input-amount').value = "";
     } catch (e) {
       console.error("Error: ", e);
-      alert("發生錯誤，請檢查網路連線。");
+      alert("發生錯誤，請檢查網路連線或 Firebase 權限！");
     } finally {
       submitBtn.innerText = "新增紀錄";
       submitBtn.style.backgroundColor = "#4A453F";
