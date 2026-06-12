@@ -60,7 +60,6 @@
   .tag-hotel { background-color: #F0F4F8; color: #7B9EBD; }
 
   .event-title { font-size: 16px; font-weight: 700; color: #4A453F; padding-right: 24px; margin-bottom: 4px; }
-  /* 💡 這是新增的停留時間樣式 */
   .event-duration { font-size: 12px; color: #8C8882; display: flex; align-items: center; font-weight: 500; }
   
   .expand-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #D4A373; font-size: 18px; transition: 0.3s; }
@@ -88,7 +87,7 @@
 
   .detail-notes { background: #FFF9E6; padding: 14px; border-radius: 8px; font-size: 13px; color: #6B4D32; line-height: 1.6; margin-bottom: 8px; }
   .notes-title { font-weight: 700; display: flex; align-items: center; gap: 6px; margin-bottom: 8px; color: #D4A373; }
-  .notes-content { padding-left: 4px; }
+  .notes-content { padding-left: 4px; margin: 0; }
 </style>
 </head>
 <body>
@@ -133,8 +132,8 @@
           tagClass: "tag-flight", 
           tagText: "✈️ 交通",
           title: "抵達 - 峇里島機場(DPS)",
-          duration: "⚓ 預計停留 1h 30m", // 💡 新增的停留時間欄位
-          image: "airport.jpg", // 💡 換成你傳到 GitHub 上的檔名
+          duration: "⚓ 預計停留 1h 30m",
+          image: "airport.jpg", 
           address: "Ngurah Rai International Airport",
           mapUrl: "https://maps.app.goo.gl/pYdbEAWAQ3MrYsuF7",
           notes: "<ul><li>入境手續預留 1.5h</li><li>請先換少許印尼盾 IDR</li></ul>",
@@ -208,7 +207,7 @@
   };
 
   // ==========================================
-  // UI 渲染邏輯
+  // UI 渲染邏輯 (防呆升級版)
   // ==========================================
   let currentDay = 1;
 
@@ -238,7 +237,7 @@
     const dayData = itineraryData[currentDay];
     
     if (!dayData || !dayData.events || dayData.events.length === 0) {
-      stickyDate.innerText = `Day ${currentDay}`;
+      stickyDate.innerText = dayData ? dayData.dateHeader : `Day ${currentDay}`;
       container.innerHTML = '<div style="text-align:center; padding: 40px; color:#B0ADA7; font-size: 14px;">此日行程規劃中... 🌴</div>';
       return;
     }
@@ -248,54 +247,54 @@
     dayData.events.forEach((event, index) => {
       const isSolid = index % 2 === 1 ? 'solid' : ''; 
       
-      let html = `
+      // 安全地組裝各個區塊，避免引號打架
+      let durationHtml = event.duration ? `<div class="event-duration">${event.duration}</div>` : '';
+      let imageHtml = event.image ? `<img src="${event.image}" class="detail-img">` : '';
+      let hoursHtml = event.hours ? `<div class="info-row"><div class="info-icon">🕒</div><div class="info-text">${event.hours}</div></div>` : '';
+      let priceHtml = event.price ? `<div class="info-row"><div class="info-icon">💰</div><div class="info-text">${event.price}</div></div>` : '';
+      
+      let addressHtml = '';
+      if (event.address) {
+        let linkHtml = event.mapUrl ? `<a href="${event.mapUrl}" target="_blank" class="map-link">${event.address}</a>` : event.address;
+        addressHtml = `<div class="info-row"><div class="info-icon">📍</div><div class="info-text">${linkHtml}</div></div>`;
+      }
+
+      let notesHtml = event.notes ? `<div class="detail-notes"><div class="notes-title">💡 注意事項：</div><div class="notes-content">${event.notes}</div></div>` : '';
+
+      // 卡片主體
+      let cardHtml = `
         <div class="timeline-item">
           <div class="timeline-marker ${isSolid}"></div>
           <div class="event-card" onclick="this.classList.toggle('open')">
-            
             <div class="event-summary">
               <div class="event-header">
                 <span class="event-time">${event.time}</span>
                 <span class="event-tag ${event.tagClass}">${event.tagText}</span>
               </div>
               <div class="event-title">${event.title}</div>
-              ${event.duration ? `<div class="event-duration">${event.duration}</div>` : ''}
+              ${durationHtml}
               <div class="expand-icon">▼</div>
             </div>
             
             <div class="event-details">
-              ${event.image ? `<img src="${event.image}" class="detail-img">` : ''}
-              
+              ${imageHtml}
               <div class="info-grid">
-                ${event.hours ? `<div class="info-row"><div class="info-icon">🕒</div><div class="info-text">${event.hours}</div></div>` : ''}
-                ${event.price ? `<div class="info-row"><div class="info-icon">💰</div><div class="info-text">${event.price}</div></div>` : ''}
-                ${event.address ? `
-                  <div class="info-row">
-                    <div class="info-icon">📍</div>
-                    <div class="info-text">
-                      ${event.mapUrl ? `<a href="${event.mapUrl}" target="_blank" class="map-link">${event.address}</a>` : event.address}
-                    </div>
-                  </div>
-                ` : ''}
+                ${hoursHtml}
+                ${priceHtml}
+                ${addressHtml}
               </div>
-
-              ${event.notes ? `
-                <div class="detail-notes">
-                  <div class="notes-title">💡 注意事項：</div>
-                  <div class="notes-content">${event.notes}</div>
-                </div>
-              ` : ''}
+              ${notesHtml}
             </div>
           </div>
         </div>
       `;
-      container.innerHTML += html;
 
+      // 車程連結段落
+      let transitHtml = '';
       if (event.transit) {
         const icon = event.transit.mode === 'car' ? '🚗' : '🛵';
         const docHtml = event.transit.docUrl ? `<a href="${event.transit.docUrl}" target="_blank" class="transit-doc">📄 ${event.transit.docName}</a>` : '';
-        
-        container.innerHTML += `
+        transitHtml = `
           <div class="transit-row">
             <div class="transit-icon">${icon}</div>
             <div class="transit-time">${event.transit.time}</div>
@@ -303,8 +302,10 @@
           </div>
         `;
       } else if (index < dayData.events.length - 1) {
-        container.innerHTML += `<div style="height: 24px;"></div>`;
+        transitHtml = `<div style="height: 24px;"></div>`;
       }
+
+      container.innerHTML += (cardHtml + transitHtml);
     });
   }
 
