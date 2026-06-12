@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bali Itinerary</title>
 
-<!-- === App 圖示與全螢幕設定 === -->
 <link rel="icon" href="app-icon.png">
 <link rel="apple-touch-icon" href="app-icon.png">
 <meta name="apple-mobile-web-app-title" content="BALI"> 
@@ -29,7 +28,7 @@
   .nav-tab { color: #B0ADA7; font-weight: 500; text-decoration: none; }
   .nav-tab.active { color: #4A453F; font-weight: 700; border-bottom: 2px solid #4A453F; padding-bottom: 2px; }
 
-  /* 💡 副選單 (底色區隔) */
+  /* 副選單 (底色區隔) */
   .date-tabs-wrapper { background-color: #EBE7DF; padding: 12px 0 0 0; }
   .date-tabs { display: flex; overflow-x: auto; padding: 0 24px; gap: 24px; scrollbar-width: none; }
   .date-tabs::-webkit-scrollbar { display: none; }
@@ -37,12 +36,11 @@
   .date-tab.active { color: #6B4D32; font-weight: 700; }
   .date-tab.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background-color: #D4A373; border-radius: 3px 3px 0 0; }
 
-  /* 💡 置頂日期 Header */
+  /* 置頂日期 Header */
   .sticky-date { position: sticky; top: 127px; background-color: #D67D7D; color: #FFFFFF; font-family: 'Noto Serif TC', serif; font-size: 16px; font-weight: 700; padding: 12px 24px; z-index: 980; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(214,125,125,0.2); }
 
   /* === 時間軸與行程卡片 === */
   .timeline-container { padding: 24px 24px 0 24px; position: relative; }
-  /* 左側虛線 */
   .timeline-container::before { content: ''; position: absolute; top: 24px; bottom: 0; left: 32px; width: 2px; border-left: 2px dashed #E0DDD6; }
 
   .timeline-item { display: flex; margin-bottom: 0; position: relative; }
@@ -53,7 +51,7 @@
   .event-card:active { background-color: #FAFAFA; }
   
   .event-summary { padding: 16px; position: relative; }
-  .event-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .event-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
   .event-time { font-family: 'Noto Serif TC', serif; font-size: 14px; color: #B0ADA7; font-weight: 700; }
   .event-tag { font-size: 10px; padding: 4px 8px; border-radius: 12px; font-weight: 700; }
   .tag-flight { background-color: #E8F0FE; color: #5B7FA6; }
@@ -61,12 +59,11 @@
   .tag-food { background-color: #FDECEC; color: #D67D7D; }
   .tag-hotel { background-color: #F0F4F8; color: #7B9EBD; }
 
-  .event-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; color: #4A453F; padding-right: 20px; }
-  .event-location { font-size: 11px; color: #B0ADA7; display: flex; align-items: center; gap: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .event-title { font-size: 16px; font-weight: 700; color: #4A453F; padding-right: 24px; }
   .expand-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #D4A373; font-size: 18px; transition: 0.3s; }
   .event-card.open .expand-icon { transform: translateY(-50%) rotate(180deg); }
 
-  /* 💡 車程與憑證區塊 */
+  /* 車程與憑證區塊 */
   .transit-row { display: flex; align-items: center; padding: 12px 0 12px 36px; position: relative; gap: 12px; }
   .transit-icon { font-size: 16px; background: #FFFFFF; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.05); z-index: 2; transform: translateX(-24px); }
   .transit-time { font-size: 13px; color: #4A453F; font-weight: 500; transform: translateX(-24px); }
@@ -79,10 +76,18 @@
 
   .detail-img { width: 100%; height: 140px; object-fit: cover; border-radius: 12px; margin-bottom: 16px; background-color: #F6F5F0; }
   .info-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px; }
-  .info-row { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: #6B4D32; }
-  .info-icon { width: 16px; text-align: center; font-size: 14px; flex-shrink: 0; opacity: 0.7; }
+  .info-row { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: #4A453F; }
+  .info-icon { width: 16px; text-align: center; font-size: 14px; flex-shrink: 0; color: #B0ADA7; }
   .info-text { flex: 1; line-height: 1.5; font-weight: 500; }
-  .detail-notes { background: #FFF9E6; padding: 12px; border-radius: 8px; font-size: 12px; color: #D4A373; font-weight: 500; line-height: 1.5; margin-bottom: 16px; }
+  
+  /* 💡 Google 地圖連結樣式 */
+  .map-link { color: #5B7FA6; text-decoration: underline; text-underline-offset: 2px; }
+  .map-link:active { opacity: 0.7; }
+
+  /* 💡 注意事項區塊 */
+  .detail-notes { background: #FFF9E6; padding: 14px; border-radius: 8px; font-size: 13px; color: #6B4D32; line-height: 1.6; margin-bottom: 8px; }
+  .notes-title { font-weight: 700; display: flex; align-items: center; gap: 6px; margin-bottom: 8px; color: #D4A373; }
+  .notes-content { padding-left: 4px; }
 </style>
 </head>
 <body>
@@ -101,18 +106,15 @@
       <a href="checklist.html" class="nav-tab">清單</a>
     </div>
     
-    <!-- 副選單底色區隔 -->
     <div class="date-tabs-wrapper">
       <div class="date-tabs" id="date-tabs-container"></div>
     </div>
   </div>
 
-  <!-- 置頂日期 -->
   <div class="sticky-date" id="sticky-date">9/11 (五)</div>
 
   <div class="timeline-container" id="timeline-container">
-    <!-- JS 會自動渲染行程卡片 -->
-  </div>
+    </div>
 
 </div>
 
@@ -120,79 +122,110 @@
   // ==========================================
   // 📝 編輯你的行程資料
   // ==========================================
-  const itineraryData = {
+const itineraryData = {
     1: {
       tabName: "Day 1",
       dateHeader: "9/11 (五)",
       events: [
         {
           time: "10:20",
-          tagClass: "tag-flight", tagText: "✈️ 交通",
-          title: "抵達峇里島 DPS 機場",
-          location: "Ngurah Rai International Airport",
-          image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=600&q=80",
-          notes: "入境手續預估抓 1h 30m，出關後先換少許印尼盾與確認網路。",
-          // 💡 在這裡設定前往下一個地點的車程與憑證
+          tagClass: "tag-flight", 
+          tagText: "✈️ 交通",
+          title: "抵達 - 峇里島機場(DPS)",
+          address: "Ngurah Rai International Airport",
+          mapUrl: "https://maps.app.goo.gl/pYdbEAWAQ3MrYsuF7",
+          notes: "<b>⚓ 預計停留 1h 30m</b><br><ul><li>入境手續預留 1.5h</li><li>請先換少許印尼盾 IDR</li></ul>",
           transit: {
-            mode: "car", // 可填 "car" 🚗 或 "scooter" 🛵
-            time: "1h 20m",
-            docName: "包車憑證.pdf", // 若無憑證，可將整行刪除
-            docUrl: "#" // 放入 Google Drive 連結
+            mode: "car",
+            time: "1h 40m",
+            docName: "包車憑證",
+            docUrl: "#" // 這裡之後可以換成真實的 Google Drive 連結
           }
         },
         {
           time: "13:30",
-          tagClass: "tag-spot", tagText: "📍 景點",
-          title: "聖泉寺 Tirta Empul",
-          location: "Tampak Siring",
-          image: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&w=600&q=80",
-          price: "IDR 50,000 / 人",
+          tagClass: "tag-food", 
+          tagText: "🍽️ 餐飲",
+          title: "Kagemusha 影武者",
+          hours: "10:00 - 22:00",
+          price: "55,000 IDR +",
+          address: "Jl. Raya Nyuh Kuning, Mas, Kecamatan Ubud",
+          mapUrl: "https://maps.app.goo.gl/rZ8AGttpqqxFh3Ys8",
+          notes: "<b>⚓ 預計停留 1h 30m</b><br><ul><li>必點：雞翅、豬排、照燒蓋飯</li></ul>",
           transit: {
             mode: "car",
-            time: "45m"
+            time: "1h"
           }
         },
         {
-          time: "18:00",
-          tagClass: "tag-food", tagText: "🍽️ 晚餐",
-          title: "Montana Del Cafe",
-          location: "Kintamani Batur",
-          image: "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=600&q=80",
+          time: "16:00",
+          tagClass: "tag-spot", 
+          tagText: "📷 景點",
+          title: "Tirta Empul 聖泉寺",
+          hours: "08:00 - 18:00",
+          price: "150,000 IDR + <a href='#' style='color:#D4A373; text-decoration:underline; font-weight:bold;'>🎫 Klook 憑證</a>",
+          address: "Tampaksiring, Gianyar Regency",
+          mapUrl: "https://maps.app.goo.gl/rZ8AGttpqqxFh3Ys8",
+          notes: "<b>⚓ 預計停留 1h 30m</b><br><ul><li>門票包含一條沙龍(可能有異味，建議另外買自己的)</li><li><b>禮儀與注意事項：</b><br>- 經期禁入：處於經期的女性嚴格禁止進入寺廟範圍及參與淨化儀式。<br>- 保持莊重/安靜：不可嬉鬧或在水池內游泳。儀式中請全程穿著沙龍。<br>- 攝影規範：允許拍照，但請避免過度擺拍或裸露。</li><li><b>淨化儀式步驟：</b><br>1. 慢慢走下水池，先讓身體適應冰涼水溫。<br>2. 從左邊第一個出水口開始，依序向右邊移動。<br>3. 每個出水口動作：潑水到頭上(清淨思緒) ➔ 洗臉(去除煩惱) ➔ 漱口(淨化言語，水可吐掉)。<br>4. ⚠️ 請跳過專門用於喪葬淨化的兩個泉口。<br>5. 完成後雙手合十，心中默念感謝與祈願。</li></ul>",
           transit: {
-            mode: "scooter",
+            mode: "car",
+            time: "40m"
+          }
+        },
+        {
+          time: "18:10",
+          tagClass: "tag-food", 
+          tagText: "🍽️ 餐飲",
+          title: "Montana Del Cafe",
+          hours: "05:30 - 21:00",
+          price: "100,000 IDR +",
+          address: "Jl. Raya Penelokan No.889, Batur Sel., Kec. Kintamani",
+          mapUrl: "https://maps.app.goo.gl/ncXZUSNc3WDscGc67",
+          notes: "<b>⚓ 預計停留 1h 30m</b>",
+          transit: {
+            mode: "car",
             time: "20m"
           }
         },
         {
           time: "20:00",
-          tagClass: "tag-hotel", tagText: "🏨 住宿",
-          title: "Kintamani 住宿 Check-in",
-          location: "Batur Area",
-          notes: "早點休息，明天清晨要早起搭 Jeep 看日出！",
+          tagClass: "tag-hotel", 
+          tagText: "🏠 住宿",
+          title: "住宿：巴杜爾火山附近",
+          hours: "Check-in 15:00 | Check-out 12:00",
+          address: "待確認",
+          notes: "<ul><li>可以烤火</li><li>隔天看日出，請早睡！</li></ul>"
         }
       ]
     },
+
+    // ==========================================
+    // 👇 以下是預留給 Day 2 ~ Day 7 的框架，直接把新行程塞進 events 的中括號裡即可！
+    // ==========================================
     2: {
-      tabName: "Day 2",
-      dateHeader: "9/12 (六)",
-      events: [
-        {
-          time: "04:30",
-          tagClass: "tag-spot", tagText: "🌋 活動",
-          title: "Batur Jeep 日出行程",
-          location: "Mount Batur",
-          notes: "山上清晨氣溫極低(約15度)，一定要穿防風保暖外套！",
-          transit: { mode: "car", time: "30m" }
-        },
-        {
-          time: "10:30",
-          tagClass: "tag-spot", tagText: "📍 景點",
-          title: "Penglipuran Village",
-          location: "Bangli Regency"
-        }
-      ]
+      tabName: "Day 2", dateHeader: "9/12 (六)",
+      events: []
+    },
+    3: {
+      tabName: "Day 3", dateHeader: "9/13 (日)",
+      events: []
+    },
+    4: {
+      tabName: "Day 4", dateHeader: "9/14 (一)",
+      events: []
+    },
+    5: {
+      tabName: "Day 5", dateHeader: "9/15 (二)",
+      events: []
+    },
+    6: {
+      tabName: "Day 6", dateHeader: "9/16 (三)",
+      events: []
+    },
+    7: {
+      tabName: "Day 7", dateHeader: "9/17 (四)",
+      events: []
     }
-    // 往下繼續新增 Day 3, 4, 5...
   };
 
   // ==========================================
@@ -231,24 +264,22 @@
       return;
     }
 
-    // 更新置頂日期
     stickyDate.innerText = dayData.dateHeader;
 
     dayData.events.forEach((event, index) => {
       const isSolid = index % 2 === 1 ? 'solid' : ''; 
       
-      // 生成卡片主體
       let html = `
         <div class="timeline-item">
           <div class="timeline-marker ${isSolid}"></div>
           <div class="event-card" onclick="this.classList.toggle('open')">
+            
             <div class="event-summary">
               <div class="event-header">
                 <span class="event-time">${event.time}</span>
                 <span class="event-tag ${event.tagClass}">${event.tagText}</span>
               </div>
               <div class="event-title">${event.title}</div>
-              <div class="event-location">📍 ${event.location}</div>
               <div class="expand-icon">▼</div>
             </div>
             
@@ -256,19 +287,34 @@
               ${event.image ? `<img src="${event.image}" class="detail-img">` : ''}
               
               <div class="info-grid">
-                ${event.address ? `<div class="info-row"><div class="info-icon">🗺️</div><div class="info-text">${event.address}</div></div>` : ''}
-                ${event.price ? `<div class="info-row"><div class="info-icon">💰</div><div class="info-text">${event.price}</div></div>` : ''}
                 ${event.hours ? `<div class="info-row"><div class="info-icon">🕒</div><div class="info-text">${event.hours}</div></div>` : ''}
+                ${event.price ? `<div class="info-row"><div class="info-icon">💰</div><div class="info-text">${event.price}</div></div>` : ''}
+                
+                ${event.address ? `
+                  <div class="info-row">
+                    <div class="info-icon">📍</div>
+                    <div class="info-text">
+                      ${event.mapUrl 
+                        ? `<a href="${event.mapUrl}" target="_blank" class="map-link">${event.address}</a>` 
+                        : event.address}
+                    </div>
+                  </div>
+                ` : ''}
               </div>
 
-              ${event.notes ? `<div class="detail-notes">💡 <b>注意事項：</b><br>${event.notes}</div>` : ''}
+              ${event.notes ? `
+                <div class="detail-notes">
+                  <div class="notes-title">💡 注意事項：</div>
+                  <div class="notes-content">${event.notes}</div>
+                </div>
+              ` : ''}
             </div>
           </div>
         </div>
       `;
       container.innerHTML += html;
 
-      // 判斷是否需要生成車程連結段落
+      // 車程段落
       if (event.transit) {
         const icon = event.transit.mode === 'car' ? '🚗' : '🛵';
         const docHtml = event.transit.docUrl ? `<a href="${event.transit.docUrl}" target="_blank" class="transit-doc">📄 ${event.transit.docName}</a>` : '';
@@ -281,7 +327,6 @@
           </div>
         `;
       } else if (index < dayData.events.length - 1) {
-        // 如果沒有填寫 transit，但還有下一個行程，就補上空白間距保持虛線連貫
         container.innerHTML += `<div style="height: 24px;"></div>`;
       }
     });
