@@ -123,10 +123,7 @@
   // 📝 編輯你的行程資料
   // ==========================================
   const itineraryData = {
-    1: {
-      tabName: "Day 1",
-      dateHeader: "9/11 (五)",
-      events: [
+    1: {tabName: "Day 1", dateHeader: "9/11 (五)", events: [
         {
           time: "10:20",
           tagClass: "tag-flight", 
@@ -136,12 +133,7 @@
           address: "Ngurah Rai International Airport",
           mapUrl: "https://maps.app.goo.gl/pYdbEAWAQ3MrYsuF7",
           notes: "<ul><li>入境手續預留 1.5h</li><li>請先換少許印尼盾 IDR</li></ul>",
-          transit: {
-            mode: "car",
-            time: "車程約 - 1h",
-            docName: "包車憑證",
-            docUrl: "#" 
-          }
+          transit: {mode: "car", time: "車程約 - 1h", docName: "包車憑證", docUrl: "#" }
         },
         {
           time: "12:50",
@@ -166,20 +158,7 @@
           address: "Jl. Raya Canggu, Munggu, Kec. Kuta Utara, Kabupaten Badung",
           mapUrl: "https://maps.app.goo.gl/2omiunGjLM1Ys1gJ6",
           notes: "<ul><li>可以刷卡、口味偏辣</li><li>推薦烤豬肉飯(Babi Guling)</li></ul>",
-          transit: { mode: "scooter", time: "車程約 - 10m" }
-        },
-        {
-          time: "Flexible Schedule",
-          tagClass: "tag-spot", 
-          tagText: "🛍️ 購物",
-          title: "Love Anchor Concept Store",
-          duration: "⚓ 預計停留 30m",
-          image: "LoveAnchorConceptStore.jpg", 
-          hours: "08:00 - 22:00",
-          address: "Jl. Pantai Batu Bolong No.56 Unit B, Canggu, Kec. Kuta Utara, Kabupaten Badung",
-          mapUrl: "https://maps.app.goo.gl/VZ6BLBwpVWVojZXu9",
-          notes: "<ul><li>主要賣紀念品、飾品、衣物，重複性稍高且通常沒標價</li><li>殺價建議從3-5折開始砍，概念店通常不二價</li></ul>",
-          transit: { mode: "scooter", time: "車程約 - 15m (視逛街地點)" }
+          transit: { mode: "scooter", time: "車程約 - 15m (視逛街地點" }
         },
         {
           time: "Flexible Schedule",
@@ -194,7 +173,7 @@
           transit: { mode: "scooter", time: "車程約 - 15m (視逛街地點)" }
         },
         {
-          time: "18:30",
+          time: "18:00",
           tagClass: "tag-food", 
           tagText: "🍽️ 餐飲",
           title: "Santanera",
@@ -214,12 +193,84 @@
           title: "TBC待確認-Checkin",
           hours: "Check-in 15:00 | Check-out 12:00",
           address: "待確認",
-          notes: "<ul><li>可以烤火</li><li>隔天看日出，請早睡！</li></ul>"
+          notes: "<ul><li>隔天早上有皮拉提斯課程，請早睡！</li></ul>"
         }
       ]
     },
     // 下方預留 Day 2 ~ Day 7
-    2: { tabName: "Day 2", dateHeader: "9/12 (六)", events: [] },
+    2: { tabName: "Day 2", dateHeader: "9/12 (六)", events: [
+     {
+      time: "10：00",
+      tagClass: "tag-spot", 
+      tagText: "⭐ 體驗",
+      title: "Nala Pilates",
+      duration: "⚓ 預計停留 1h",
+      hours: "Book the 10:00 class.",
+      address: "Teratai Promenade, Jl. Shortcut Teratai Batu Bolong Shop P2",
+      mapUrl: "https://maps.app.goo.gl/eE8sYTNmagoyVRgx7",
+      notes: "<ul><li>預約10:00課程，3位。</li><li>請著寬鬆或瑜珈衣服，並將頭髮綁起。</li></ul>",
+      transit: { mode: "scooter", time: "車程約 - 15m" },
+     },
+     {
+      time: "11:15",
+      tagClass: "tag-food", 
+      tagText: "🍽️ 餐飲",
+      title: "BOSSMAN Burgers Canggu",
+      duration: "⚓ 預計停留 1h 30m",
+      image: "bossman.jpg", 
+      hours: "11:00 – 05:00",
+      price: "150,000 IDR +" ,
+      address: "Jl. Pantai Batu Bolong No.69",
+      mapUrl: "https://maps.app.goo.gl/dffxT2kK3mKNcTUp8",
+      notes: "<ul><li>漢堡份量大、肉汁飽滿。</li><li>必點：漢堡、松露薯條</li></ul>",
+     },
+     {
+      time: "12:45",
+      tagClass: "tag-spot", 
+      tagText: "🛍️ 購物",
+      title: "Love Anchor Concept Store",
+      duration: "⚓ 預計停留 1h",
+      image: "LoveAnchorConceptStore.jpg", 
+      hours: "08:00 – 22:00",
+      address: "Jl. Pantai Batu Bolong No.56 Unit B",
+      mapUrl: "https://maps.app.goo.gl/mJAS4sZAexWf5m4D7",
+      notes: "<ul><li>主要賣紀念品、飾品、衣物，重複性稍高且通常沒標價</li><li>殺價建議從3-5折開始砍，概念店通常不二價</li></ul>",
+      transit: { mode: "scooter", time: "車程約 - 15m" },
+     },
+     {
+      time: "14:00",
+      tagClass: "tag-spot", 
+      tagText: "🛍️ 購物",
+      title: "Gourmet Market Echo Beach by Pepito",
+      duration: "⚓ 預計停留 1h",
+      hours: "08:00 – 22:00",
+      address: "Jl. Munduk Catu No.94, Canggu, Kec. Kuta Utara, Kabupaten Badung",
+      mapUrl: "https://maps.app.goo.gl/fwZ6bvGXrNDjRX499",
+      notes: "<ul><li>零食伴手禮</li><li>推薦必買：</li></ul>",
+      transit: { mode: "scooter", time: "車程約 - 15m" },
+     },
+     {
+      time: "15:15",
+      tagClass: "tag-hotel", 
+      tagText: "🏠 住宿",
+      title: "回飯店休息&補妝",
+      duration: "⚓ 預計停留 1h",
+      transit: { mode: "car", time: "車程約 - 40m" },
+     },
+     {
+      time: "16：55",
+      tagClass: "tag-spot", 
+      tagText: "⭐ 體驗",
+      title: "Tanah Lot 海神廟",
+      duration: "⚓ 預計停留 1h 30m",
+      hours: "06:00 – 19:00 須注意退潮時間",
+      address: "Beraban, Kediri, Tabanan Regency",
+      mapUrl: "https://maps.app.goo.gl/bZyiwYd7zrXu1sMu9",
+      notes: "<ul><li>當地為著名觀光景點，車郎壟斷，自行叫車需要往外走約1公里</li><li>退潮時往海蝕洞走，在海蝕洞下會有人灑水祈福(要付小費)，會在額頭貼米&耳朵戴朵花</li><li>不要喝聖水會拉肚子</li><li><b>詐騙注意：</b><br>- 只要付</li></ul>",
+      transit: { mode: "car", time: "車程約 - 40m" },
+     },
+     
+    ] },
     3: { tabName: "Day 3", dateHeader: "9/13 (日)", events: [] },
     4: { tabName: "Day 4", dateHeader: "9/14 (一)", events: [] },
     5: { tabName: "Day 5", dateHeader: "9/15 (二)", events: [] },
