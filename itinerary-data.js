@@ -26,8 +26,13 @@
 //   ],
 //
 //   ⭐ 卡片之間的車程：
-//   transit: { mode: "car" 或 "scooter", time: "車程約 - 1h",
+//   transit: { mode: "car"🚗 / "scooter"🛵 / "walk"🚶, time: "車程約 - 1h",
 //              docName: "包車憑證", docUrl: "連結" }   ← doc 兩項可省略
+//
+//   ⭐ 分頭行動時：
+//   who: "🧸🐶葶&倫" 或 "🦁嘉嘉"   ← 卡片上會多一個灰色小標籤
+//   想插入一條分隔線，就加一筆只有 divider 的資料：
+//   { divider: "🔀 晚上分頭行動" },
 //
 // 欄位順序不重要，不需要的欄位直接整行刪掉即可。
 // 小提醒：每個欄位結尾記得加逗號，文字裡如果要用雙引號請改用「」。
@@ -221,10 +226,41 @@ const itineraryData = {
         ],
         transit: { mode: "car", time: "車程約 - 40m" },
       },
+      // ⭐ 晚上開始分頭行動：卡片用 who 標籤標明誰去哪
+      {
+        divider: "🔀 晚上分頭行動",
+      },
       {
         time: "18:40",
         tag: "hotel",
-        title: "Jiva Jules by RE|VIVE (dinner)",
+        who: "🧸🐶葶&倫",
+        title: "lodgeinthewoods (Check-in & 晚餐)",
+        duration: "🌙 Good Night",
+        notes: [
+          "晚餐直接在住宿內享用",
+          "記得先跟住宿確認晚餐供應時間＆是否需預訂",
+        ],
+      },
+      {
+        time: "18:40",
+        tag: "food",
+        who: "🦁嘉嘉",
+        title: "LOVA CAFE",
+        duration: "⚓ 預計停留 1h 30m",
+        hours: "08:00 – 23:00",
+        address: "Gg. Strawberry, Tibubeneng, Kec. Kuta Utara",
+        mapUrl: "https://maps.app.goo.gl/4AfvisY4vsML1UAn8",
+        notes: [
+          "從 Jiva Jules <b>走路約 3 分鐘</b>就到，不用擔心迷路！",
+          "義式料理，推薦海鮮義大利麵，也有調酒和稻田景觀",
+        ],
+        transit: { mode: "walk", time: "走路約 - 3m 回飯店" },
+      },
+      {
+        time: "Flexible Schedule",
+        tag: "hotel",
+        who: "🦁嘉嘉",
+        title: "Jiva Jules by RE|VIVE",
         duration: "🌙 Good Night",
         address: "Gg. Klp. Gading No.4, Tibubeneng, Kec. Kuta Utara, Kabupaten Badung",
         mapUrl: "https://maps.app.goo.gl/JMtF1Qp1w2cJv6vK7",
