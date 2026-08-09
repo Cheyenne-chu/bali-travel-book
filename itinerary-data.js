@@ -449,11 +449,14 @@ const itineraryData = {
       {
         time: "9:30",
         tag: "ship",
-        title: "搭船前往 Nusa Penida",
+        title: "前往Nusa Penida(Tara Resto換票)",
         duration: "⚓ 航程約 1h 30m",
+        mapUrl: "https://maps.app.goo.gl/o1nLXr3cDtkshBFTA",
         notes: [
+          "告知計司機前往沙努爾馬塔哈里特比特海灘，到Tara Resto兌換櫃台換票，領取實體票後，請前往*沙努爾新港*等候並登船",
+          "船隻名稱：Wahana Virendra Fast Boat",
           "船票：9:30，預計航程45m",
-          "登島後須付入島費",
+          "登島後須付入島費25,000/人（現場支付現金）",
         ],
         transit: { mode: "car", time: "車程約 - 50m" },
       },
