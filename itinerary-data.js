@@ -4,7 +4,7 @@
 //
 // ── 每個行程卡片（event）可用的欄位 ──────────────────────
 //   time:     "10:20" 或 "Flexible Schedule"
-//   tag:      "flight" ✈️交通 | "hotel" 🏠住宿 | "food" 🍽️餐飲
+//   tag:      "flight" ✈️交通 | "hotel" 🏠住宿 | "food" 🍽️餐飲 | "ship" 🚢
 //             "shop" 🛍️購物  | "exp" ⭐體驗
 //   title:    "地點名稱"
 //   duration: "⚓ 預計停留 1h 30m"（可省略）
@@ -422,6 +422,7 @@ const itineraryData = {
         duration: "🌙 Good Night",
         address: "Ubud",
         notes: [
+          "問飯店隔日早餐是否可提供餐盒，或者前一天先到附近超商買好",
           "明天一早搭船去 Nusa Penida，行李先整理好",
         ],
       },
@@ -434,21 +435,25 @@ const itineraryData = {
     dateHeader: "9/15 (二) 📍Nusa Penida",
     events: [
       {
-        time: "7:00",
+        time: "6:00",
         tag: "hotel",
-        title: "Rumah Weda (早餐 & Check-out)",
+        title: "Rumah Weda (Check-out)",
         duration: "⚓ 預計停留 15m",
-        transit: { mode: "car", time: "車程約 - 1h 30m｜前往搭船" },
+        address: "No 88x, Jl. Raya, Ubud, Gianyar Regency",
+        mapUrl: "https://maps.app.goo.gl/4QGCjQ1JJpFEYY5b8",
+        notes: [
+          "預留登船手續 1h20m",
+          ],
+        transit: { mode: "car", time: "車程約 - 1h 55m｜前往搭船" },
       },
       {
-        time: "8:45",
-        tag: "flight",
+        time: "9:30",
+        tag: "ship",
         title: "搭船前往 Nusa Penida",
         duration: "⚓ 航程約 1h 30m",
         notes: [
-          "船票：<a href='https://www.klook.com/zh-TW/activity/45954-ferry-ticket-nusa-penida/' target='_blank' class='map-link'>Klook 訂票連結</a>",
+          "船票：9:30，預計航程45m",
           "登島後須付入島費",
-          "記得先把船票憑證存起來",
         ],
         transit: { mode: "car", time: "車程約 - 50m" },
       },
@@ -462,7 +467,7 @@ const itineraryData = {
       {
         time: "13:20",
         tag: "food",
-        title: "午餐（店家待定）",
+        title: "Slaza Penida Kitchen & Bar",
         duration: "⚓ 預計停留 1h 30m",
       },
       {
@@ -475,12 +480,17 @@ const itineraryData = {
         time: "Flexible Schedule",
         tag: "hotel",
         title: "Kaje Cottage & Restaurant (Check-in)",
+        notes: [
+          "整理&休息一下，準備去吃晚餐",
+        ],
+        transit: { mode: "walk", time: "約 - 1m" },
       },
       {
         time: "Flexible Schedule",
         tag: "food",
         title: "Eastside Penida Kitchen & Bar",
         duration: "⚓ 晚餐",
+        transit: { mode: "walk", time: "約 - 1m" },
       },
       {
         time: "Flexible Schedule",
@@ -507,7 +517,8 @@ const itineraryData = {
       {
         time: "Flexible Schedule",
         tag: "flight",
-        title: "從 Nusa Penida 搭船回本島",
+        title: "從 Nusa Penida 搭船loo回本島",
+        transit: { mode: "car", time: "車程約 - 15m (視逛街地點)" },
       },
       {
         time: "Flexible Schedule",
