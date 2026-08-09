@@ -59,6 +59,13 @@
   .tag-food { background-color: #FDECEC; color: #D67D7D; }
   .tag-hotel { background-color: #F0F4F8; color: #7B9EBD; }
 
+  /* 人員標籤（分頭行動時標明誰去哪） */
+  .event-who { font-size: 10px; padding: 4px 8px; border-radius: 12px; font-weight: 700; background-color: #EFEBE4; color: #8C8882; }
+
+  /* 分頭行動分隔線 */
+  .split-divider { display: flex; align-items: center; gap: 10px; padding: 20px 0; color: #D67D7D; font-size: 12px; font-weight: 700; letter-spacing: 1px; position: relative; z-index: 1; }
+  .split-divider::before, .split-divider::after { content: ''; flex: 1; border-top: 1px dashed #E8C5C5; }
+
   .event-title { font-size: 16px; font-weight: 700; color: #4A453F; padding-right: 24px; margin-bottom: 4px; }
   .event-duration { font-size: 12px; color: #8C8882; display: flex; align-items: center; font-weight: 500; }
 
@@ -238,8 +245,15 @@
     let html = '';
 
     dayData.events.forEach((event, index) => {
+      // 分隔線：{ divider: "🔀 分頭行動" }
+      if (event.divider) {
+        html += `<div class="split-divider">${event.divider}</div>`;
+        return;
+      }
+
       const isSolid = index % 2 === 1 ? 'solid' : '';
       const tag = getTag(event);
+      const whoHtml = event.who ? `<span class="event-who">${event.who}</span>` : '';
 
       const durationHtml = event.duration ? `<div class="event-duration">${event.duration}</div>` : '';
       const imagesHtml = buildImagesHtml(event);
@@ -263,6 +277,7 @@
               <div class="event-header">
                 <span class="event-time">${event.time || ''}</span>
                 <span class="event-tag ${tag.cls}">${tag.text}</span>
+                ${whoHtml}
               </div>
               <div class="event-title">${event.title || ''}</div>
               ${durationHtml}
@@ -283,7 +298,7 @@
       `;
 
       if (event.transit) {
-        const icon = event.transit.mode === 'car' ? '🚗' : '🛵';
+        const icon = { car: '🚗', scooter: '🛵', walk: '🚶' }[event.transit.mode] || '🚗';
         const docHtml = event.transit.docUrl ? `<a href="${event.transit.docUrl}" target="_blank" class="transit-doc">📄 ${event.transit.docName}</a>` : '';
         html += `
           <div class="transit-row">
