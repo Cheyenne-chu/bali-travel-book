@@ -121,7 +121,7 @@ const itineraryData = {
           "<b>前菜與小點(Snacks & Appetizers)</b><br>- 木烤小魷魚(Woodfired Baby Squid)<br>- 黃鰭鮪魚與鮭魚卵塔(Yellowfin Tuna & Salmon Roe Tartelette)<br>- 馬鈴薯千層(Potato Mille Feuille)<br>- 油甘魚刺身生醃(Hamachi Ceviche)",
           "<b>經典海鮮與主菜(Seafood & Mains)</b><br>- 炭烤章魚(Char-Grilled Octopus)<br>- 熟成鴨胸(Dry Aged Duck)、烤豬戰斧/帶骨豬排 (Kurobuta Pork Chop)",
           "<b>甜點推薦(Desserts)</b><br>- 百香果雪酪 (Passion Fruit Sorbet)",
-          "用餐時間到19:45,
+          "用餐時間到19:45",
         ],
         transit: { mode: "car", time: "15 min, 使用Gojek叫車" },
       },
@@ -515,7 +515,7 @@ const itineraryData = {
       {
         time: "5:30 - Sunrise",
         tag: "exp",
-        title: "Rumah Pohon "Tree House"",
+        title: "Rumah Pohon -Tree House",
         duration: "⚓ 預計停留 1h, 請在6:45前離開",
         images: ["TreeHouse.png"],
         mapUrl: "https://maps.app.goo.gl/u6FpX3gLwgVBxtwq8",
@@ -531,7 +531,7 @@ const itineraryData = {
         notes: [
           "預計8:00抵達港口，換票須提前1小時",
         ],
-        transit: { mode: "car", time: "車程：1h 10m｜前往搭船", docName: "船票", docUrl: "https://drive.google.com/file/d/1c6p591CxlyxQbi9GTSgwW6nwJ29at9IR/view?usp=drive_link" )" },
+        transit: { mode: "car", time: "車程：1h 10m｜前往搭船", docName: "船票", docUrl: "https://drive.google.com/file/d/1c6p591CxlyxQbi9GTSgwW6nwJ29at9IR/view?usp=drive_link" },
       },
       {
         time: "9:00",
