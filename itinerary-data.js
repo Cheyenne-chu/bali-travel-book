@@ -550,6 +550,7 @@ const itineraryData = {
         duration: "⚓ 預計停留 2h",
         hours: "10:00 – 22:00",
         price: "155,000+ IDR",
+        images: ["SapaSeafood"],
         mapUrl: "https://maps.app.goo.gl/u6iBWA2Psv88qgkJ8",
         notes: [
           "印尼菜、可刷卡",
@@ -562,11 +563,14 @@ const itineraryData = {
         tag: "exp",
         title: "Nyang Nyang Beach",
         duration: "⚓ 預計停留 3h 50m, 請在18:25前離開",
+        images: [
+          { src: "NyangNyangBeach-1", caption: "前往途中的小徑" },
+          { src: "NyangNyangBeach-2", caption: "安靜的沙灘" },
+        ],
         mapUrl: "https://maps.app.goo.gl/fXVoSjA8MZ6dvz6E7",
         notes: [
-          "拍攝時間：15:00-18:00",
-          "攝影師：AJ",
-          "方案：提供所有原始檔案、精修60張",
+          "拍攝時間：15:00-18:00 | 攝影師：AJ |方案：提供所有原始檔案、精修60張",
+          "走很多台階才能到達海灘，可以用25,000IDR搭乘摩托計程車往返停車場",
         ],
         transit: { mode: "car", time: "車程：30 mim" },
       },
@@ -575,6 +579,7 @@ const itineraryData = {
         tag: "exp",
         title: "Karma Spa",
         duration: "⚓ 預計停留 1h 40m, 請在20:30前離開",
+        images: ["Karma.jpg"],
         mapUrl: "https://maps.app.goo.gl/WDKqaH7LArU7zoem8",
         notes: [
           "建議方案：Sacred Valinese Massage 60分鐘(搭配椰子油/茉莉、依蘭精油的按摩)",
@@ -587,6 +592,8 @@ const itineraryData = {
         tag: "food",
         title: "Bartolo French/Italian Restaurant Uluwatu Bali",
         duration: "⚓ 預計停留 2h",
+        hours: "17:00 – 00:00",
+        price: "300,000+ IDR",
         images: [
           { src: "Restaurant_Bartolo-1.png", caption: "Bartolo" },
           { src: "Restaurant_Bartolo-2.png", caption: "義大利麵+卡喬佩佩醬" },
