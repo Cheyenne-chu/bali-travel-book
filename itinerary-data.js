@@ -43,7 +43,7 @@ const itineraryData = {
   // ─────────────── Day 1 ───────────────
   1: {
     tabName: "Day 1",
-    dateHeader: "9/11 (五) 📍Canggu",
+    dateHeader: "9/11 (五) 📍Kuta",
     events: [
       {
         time: "10:20",
@@ -56,7 +56,7 @@ const itineraryData = {
           "入境手續預留 1.5h",
           "請先換少許印尼盾 IDR",
         ],
-        transit: { mode: "car", time: "車程約 - 1h", docName: "包車憑證", docUrl: "#" },
+        transit: { mode: "car", time: "車程：1 hour, 飯店接駁、大廳舉牌、抵達付費450K" },
       },
       {
         time: "12:50",
@@ -67,9 +67,9 @@ const itineraryData = {
         address: "Gg. Klp. Gading No.4, Tibubeneng, Kec. Kuta Utara, Kabupaten Badung",
         mapUrl: "https://maps.app.goo.gl/JMtF1Qp1w2cJv6vK7",
         notes: [
-          "含早餐",
+          "Check-In 時間未到，先寄存行李",
         ],
-        transit: { mode: "scooter", time: "車程約 - 15m" },
+        transit: { mode: "car", time: "車程：15 min, 使用Gojek叫車" },
       },
       {
         time: "13:30",
@@ -85,10 +85,10 @@ const itineraryData = {
           "可以刷卡、口味偏辣",
           "推薦烤豬肉飯(Babi Guling)",
         ],
-        transit: { mode: "scooter", time: "車程約 - 15m (視逛街地點)" },
+        transit: { mode: "car", time: "車程：15 min, 使用Gojek叫車" },
       },
       {
-        time: "Flexible Schedule",
+        time: "Flexible",
         tag: "shop",
         title: "Jl. Pantai Pererenan",
         duration: "⚓ 預計停留 2h 30m",
@@ -105,10 +105,10 @@ const itineraryData = {
           "<b>飲食：</b><br>- Ettore Gelato Pererenan：可以試吃，最推開心果、草莓起司蛋糕、榛果",
           "<b>服飾店：</b><br>- Beige Store：價格合理<br>- Múse store. Pererenan：價格較貴、注意品質<br>- Lingery-Nina des Criquets：內衣、睡衣類",
         ],
-        transit: { mode: "scooter", time: "車程約 - 15m (視逛街地點)" },
+        transit: { mode: "car", time: "：15 min, 使用Gojek叫車" },
       },
       {
-        time: "18:00",
+        time: "17:45 (有預訂)",
         tag: "food",
         title: "Santanera",
         duration: "⚓ 預計停留 2h",
@@ -121,11 +121,12 @@ const itineraryData = {
           "<b>前菜與小點(Snacks & Appetizers)</b><br>- 木烤小魷魚(Woodfired Baby Squid)<br>- 黃鰭鮪魚與鮭魚卵塔(Yellowfin Tuna & Salmon Roe Tartelette)<br>- 馬鈴薯千層(Potato Mille Feuille)<br>- 油甘魚刺身生醃(Hamachi Ceviche)",
           "<b>經典海鮮與主菜(Seafood & Mains)</b><br>- 炭烤章魚(Char-Grilled Octopus)<br>- 熟成鴨胸(Dry Aged Duck)、烤豬戰斧/帶骨豬排 (Kurobuta Pork Chop)",
           "<b>甜點推薦(Desserts)</b><br>- 百香果雪酪 (Passion Fruit Sorbet)",
+          "用餐時間到19:45,
         ],
-        transit: { mode: "scooter", time: "車程約 - 15m" },
+        transit: { mode: "car", time: "15 min, 使用Gojek叫車" },
       },
       {
-        time: "Flexible Schedule",
+        time: "Flexible",
         tag: "hotel",
         title: "Jiva Jules by RE|VIVE",
         duration: "🌙 Good Night",
@@ -143,7 +144,7 @@ const itineraryData = {
   // ─────────────── Day 2 ───────────────
   2: {
     tabName: "Day 2",
-    dateHeader: "9/12 (六) 📍Canggu",
+    dateHeader: "9/12 (六) 📍Kuta",
     events: [
       {
         time: "10:00",
@@ -157,7 +158,7 @@ const itineraryData = {
           "預約10:00課程，3位。",
           "請著寬鬆或瑜珈衣服，並將頭髮綁起。",
         ],
-        transit: { mode: "scooter", time: "車程約 - 15m" },
+        transit: { mode: "car", time: "15 min, 使用Gojek叫車" },
       },
       {
         time: "11:15",
@@ -187,7 +188,7 @@ const itineraryData = {
           "主要賣紀念品、飾品、衣物，重複性稍高且通常沒標價",
           "殺價建議從3-5折開始砍，概念店通常不二價",
         ],
-        transit: { mode: "scooter", time: "車程約 - 15m" },
+        transit: { mode: "car", time: "15 min, 使用Gojek叫車" },
       },
       {
         time: "13:40",
@@ -201,7 +202,7 @@ const itineraryData = {
           "零食伴手禮",
           "推薦必買：",
         ],
-        transit: { mode: "scooter", time: "車程約 - 15m" },
+        transit: { mode: "car", time: "15 min, 使用Gojek叫車" },
       },
       {
         time: "14:40",
@@ -212,9 +213,8 @@ const itineraryData = {
         mapUrl: "https://maps.app.goo.gl/JMtF1Qp1w2cJv6vK7",
         notes: [
           "🧸🐶葶&倫需整理行李轉換飯店",
-          "機車歸還",
         ],
-        transit: { mode: "car", time: "車程約 - 40m" },
+        transit: { mode: "car", time: "40 min, 使用Gojek叫車" },
       },
       {
         time: "15:55",
@@ -263,7 +263,7 @@ const itineraryData = {
         transit: { mode: "walk", time: "走路約 - 3m 回飯店" },
       },
       {
-        time: "Flexible Schedule",
+        time: "Flexible",
         tag: "hotel",
         who: "🦁嘉嘉",
         title: "Jiva Jules by RE|VIVE",
@@ -334,7 +334,7 @@ const itineraryData = {
         ],
       },
       {
-        time: "Flexible Schedule",
+        time: "Flexible",
         tag: "hotel",
         title: "Stone Ridge Kintamani",
         duration: "🌙 Good Night",
@@ -444,7 +444,7 @@ const itineraryData = {
         notes: [
           "預留登船手續 1h20m",
           ],
-        transit: { mode: "car", time: "車程約 - 1h 55m｜前往搭船" },
+        transit: {mode: "car", time: "車程約 - 1h 55m｜前往搭船", docName: "船票", docUrl: "https://drive.google.com/file/d/1yqlUOINRb30bdpT0iEuAve7DxvFJ02lE/view?usp=drive_link"},
       },
       {
         time: "9:30",
@@ -513,46 +513,90 @@ const itineraryData = {
     dateHeader: "9/16 (三) 📍Uluwatu",
     events: [
       {
-        time: "Sunrise",
+        time: "5:30 - Sunrise",
         tag: "exp",
-        title: "Rumah Pohon「Tree House」看日出",
-      },
-      {
-        time: "Flexible Schedule",
-        tag: "flight",
-        title: "從 Nusa Penida 搭船loo回本島",
-        transit: { mode: "car", time: "車程約 - 15m (視逛街地點)" },
-      },
-      {
-        time: "Flexible Schedule",
-        tag: "food",
-        title: "Alma Tapas Bar - Uluwatu",
-        duration: "⚓ 午餐",
+        title: "Rumah Pohon "Tree House"",
+        duration: "⚓ 預計停留 1h, 請在6:45前離開",
+        images: ["TreeHouse.png"],
+        mapUrl: "https://maps.app.goo.gl/u6FpX3gLwgVBxtwq8",
         notes: [
-          "注意營業時間",
+          "預計8:00抵達港口，換票須提前1小時",
         ],
       },
       {
-        time: "Flexible Schedule",
-        tag: "exp",
-        title: "Blue Point Beach",
+        time: "6:45",
+        tag: "flight",
+        title: "從Penida搭船回本島",
+        duration: "⚓ 預計停留 1h",
+        notes: [
+          "預計8:00抵達港口，換票須提前1小時",
+        ],
+        transit: { mode: "car", time: "車程：1h 10m｜前往搭船", docName: "船票", docUrl: "https://drive.google.com/file/d/1c6p591CxlyxQbi9GTSgwW6nwJ29at9IR/view?usp=drive_link" )" },
       },
       {
-        time: "Flexible Schedule",
-        tag: "exp",
-        title: "Thomas Beach",
+        time: "9:00",
+        tag: "flight",
+        title: "從Penida搭船回本島",
+        duration: "⚓ 航程約 1h",
+        notes: [
+          "實際開船時間9:00，須預留1小時到現場換票",
+        ],
+        transit: { mode: "car", time: "車程：1 hour 45min" },
       },
       {
-        time: "Flexible Schedule",
+        time: "11:45 (有預訂)",
+        tag: "food",
+        title: "Sapa Seafood & Grill - Nusa Dua",
+        duration: "⚓ 預計停留 2h",
+        hours: "10:00 – 22:00",
+        price: "155,000+ IDR",
+        mapUrl: "https://maps.app.goo.gl/u6iBWA2Psv88qgkJ8",
+        notes: [
+          "印尼菜、可刷卡",
+          "雞肉印尼炒飯不錯、份量很多，但是白飯很硬建議不要點",
+        ],
+        transit: { mode: "car", time: "車程：50 mim" },
+      },
+      {
+        time: "14:35 (15:00開拍)",
+        tag: "exp",
+        title: "Nyang Nyang Beach",
+        duration: "⚓ 預計停留 3h 50m, 請在18:25前離開",
+        mapUrl: "https://maps.app.goo.gl/fXVoSjA8MZ6dvz6E7",
+        notes: [
+          "拍攝時間：15:00-18:00",
+          "攝影師：AJ",
+          "方案：提供所有原始檔案、精修60張",
+        ],
+        transit: { mode: "car", time: "車程：30 mim" },
+      },
+      {
+        time: "18:50 ",
         tag: "exp",
         title: "Karma Spa",
+        duration: "⚓ 預計停留 1h 40m, 請在20:30前離開",
+        mapUrl: "https://maps.app.goo.gl/WDKqaH7LArU7zoem8",
+        notes: [
+          "建議方案：Sacred Valinese Massage 60分鐘(搭配椰子油/茉莉、依蘭精油的按摩)",
+          "請店家先讓我們做Ocean Shower洗澡",
+        ],
+        transit: { mode: "car", time: "車程：30 mim" },
       },
       {
-        time: "Flexible Schedule",
+        time: "21:00 (有預訂)",
         tag: "food",
         title: "Bartolo French/Italian Restaurant Uluwatu Bali",
-        duration: "⚓ 晚餐",
-        transit: { mode: "car", time: "包車前往機場 - 約 2h" },
+        duration: "⚓ 預計停留 2h",
+        images: [
+          { src: "Restaurant_Bartolo-1.png", caption: "Bartolo" },
+          { src: "Restaurant_Bartolo-2.png", caption: "義大利麵+卡喬佩佩醬" },
+          { src: "Restaurant_Bartolo-3.png", caption: "提拉米蘇" },
+        ],
+        mapUrl: "https://maps.app.goo.gl/EutxXFRLfM7pUpZh9",
+        notes: [
+          "推薦：Pasta with cacio e pepe sauce(義大利麵+卡喬佩佩醬), Seafood linguine(海鮮義大利麵), Pici cacio e pepe with truffle(起司+黑胡椒+松露義大利麵), 提拉米蘇",
+        ],
+        transit: { mode: "car", time: "車程：40 mim" },
       },
       {
         time: "23:05",
