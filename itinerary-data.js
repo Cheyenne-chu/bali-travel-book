@@ -525,7 +525,7 @@ const itineraryData = {
       },
       {
         time: "6:45",
-        tag: "flight",
+        tag: "exp",
         title: "從Penida搭船回本島",
         duration: "⚓ 預計停留 1h",
         notes: [
@@ -535,7 +535,7 @@ const itineraryData = {
       },
       {
         time: "9:00",
-        tag: "flight",
+        tag: "ship",
         title: "從Penida搭船回本島",
         duration: "⚓ 航程約 1h",
         notes: [
