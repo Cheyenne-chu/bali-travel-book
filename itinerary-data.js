@@ -306,7 +306,7 @@ const itineraryData = {
           "與司機約定11:30來此地點接🧸🐶葶&倫，請提前Check-Out等司機",
         ],
         transit: { mode: "car", time: "車程：30 min" },
-      }
+      },
       {
         time: "12:00",
         tag: "shop",
