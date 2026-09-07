@@ -338,6 +338,20 @@
     closeModal();
   };
 
+  // 攔截所有 a 標籤的點擊事件，防止 iOS Web App 跳出 Safari UI
+  document.addEventListener('click', function(event) {
+    let target = event.target;
+    while (target && target.tagName !== 'A') {
+        target = target.parentNode;
+    }
+
+    // 如果點擊的是 a 標籤，且連結是站內連結，才進行攔截轉換
+    if (target && target.tagName === 'A' && target.host === window.location.host) {
+        event.preventDefault();
+        window.location.href = target.href;
+    }
+  });
+
 </script>
 </body>
 </html>
