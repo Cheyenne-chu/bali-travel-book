@@ -1,0 +1,99 @@
+/* ==========================================================
+   🌴 BALI 旅遊小書 — 共用樣式（四頁通用）
+   改配色、字體、導覽列、卡片外觀 → 只要改這一份！
+   各頁 <style> 內只留該頁自己特有的樣式。
+   ========================================================== */
+
+/* === 設計變數（整個 App 的色票都在這） === */
+:root {
+  --bg: #F6F5F0;          /* 燕麥奶底色 */
+  --ink: #4A453F;         /* 主要文字 */
+  --ink-soft: #8C8882;    /* 次要文字 */
+  --ink-faint: #B0ADA7;   /* 淡文字 */
+  --line: #E0DDD6;        /* 邊框線 */
+  --line-soft: #F0EFEA;   /* 更淡的線 */
+  --brown: #6B4D32;       /* 深棕（標題） */
+  --accent: #D4A373;      /* 主色：焦糖 */
+  --accent-bg: #FDF3E7;   /* 主色淡底 */
+  --rose: #D67D7D;        /* 玫瑰紅 */
+  --green: #55B97F;       /* 綠（完成狀態） */
+}
+
+/* === 基礎重置 === */
+*, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+  background-color: var(--bg);
+  font-family: 'Noto Sans TC', sans-serif;
+  color: var(--ink);
+  margin: 0; padding: 0;
+  display: flex; justify-content: center;
+  overflow-x: hidden;
+}
+
+.app-container {
+  width: 100%; max-width: 414px; min-height: 100vh;
+  padding: 24px 20px 80px 20px;
+  margin: 0 auto; position: relative;
+}
+
+/* === 常駐置頂區塊 === */
+.top-bar {
+  position: sticky; top: 0;
+  background-color: var(--bg);
+  z-index: 990;
+  margin: -24px -20px 16px -20px;
+  padding: 24px 20px 12px 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.header-title { font-family: 'Noto Serif TC', serif; font-size: 22px; letter-spacing: 2px; font-weight: 700; }
+.status-badge { background-color: #FFFFFF; color: var(--green); font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+
+.nav-tabs { display: flex; justify-content: space-between; padding: 0 4px; font-size: 14px; }
+.nav-tab { color: var(--ink-faint); font-weight: 500; text-decoration: none; transition: color 0.2s ease; }
+.nav-tab.active { color: var(--ink); font-weight: 700; border-bottom: 2px solid var(--ink); padding-bottom: 2px; }
+
+/* === 共用卡片 === */
+.card {
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(74, 69, 63, 0.04);
+  margin-bottom: 16px;
+  position: relative;
+}
+.card-header {
+  font-size: 15px; font-weight: 700;
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 8px;
+  color: var(--brown);
+}
+
+/* === 多圖相簿（左右滑動，首頁地圖 & 行程頁共用） === */
+.img-carousel { margin-bottom: 8px; }
+.carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 8px; scrollbar-width: none; border-radius: 12px; }
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-slide { flex: 0 0 100%; scroll-snap-align: center; }
+.carousel-slide img { width: 100%; height: 150px; object-fit: cover; border-radius: 12px; background-color: var(--bg); display: block; cursor: zoom-in; }
+.carousel-slide.tall img { height: 220px; }
+.carousel-caption { font-size: 12px; color: var(--ink-soft); font-weight: 500; text-align: center; margin-top: 6px; line-height: 1.4; }
+.carousel-dots { display: flex; justify-content: center; gap: 6px; margin-top: 8px; }
+.carousel-dot { width: 6px; height: 6px; border-radius: 3px; background-color: var(--line); transition: 0.3s; }
+.carousel-dot.active { background-color: var(--accent); width: 16px; }
+.carousel-hint { font-size: 11px; color: var(--ink-faint); text-align: center; margin-top: 4px; font-weight: 500; }
+
+/* === 圖片放大檢視 Lightbox（點縮圖開啟） === */
+.lb-overlay { position: fixed; inset: 0; background: rgba(24, 21, 18, 0.93); z-index: 2000; display: none; flex-direction: column; }
+.lb-overlay.show { display: flex; }
+.lb-top { display: flex; justify-content: space-between; align-items: center; padding: calc(12px + env(safe-area-inset-top)) 16px 12px 16px; }
+.lb-count { color: #FFFFFF; font-size: 13px; font-weight: 700; letter-spacing: 2px; font-family: 'Noto Serif TC', serif; }
+.lb-close { background: rgba(255,255,255,0.15); border: none; color: #FFFFFF; width: 36px; height: 36px; border-radius: 50%; font-size: 16px; cursor: pointer; }
+.lb-track { flex: 1; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.lb-track::-webkit-scrollbar { display: none; }
+.lb-slide { flex: 0 0 100%; scroll-snap-align: center; display: flex; align-items: center; justify-content: center; overflow: auto; -webkit-overflow-scrolling: touch; }
+.lb-slide img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+.lb-slide.zoomed { display: block; }
+.lb-slide.zoomed img { max-width: none; max-height: none; width: 240%; cursor: zoom-out; }
+.lb-caption { color: var(--line); text-align: center; font-size: 13px; font-weight: 500; padding: 12px 24px 4px 24px; min-height: 22px; }
+.lb-hint { color: var(--ink-soft); font-size: 11px; text-align: center; padding-bottom: calc(14px + env(safe-area-inset-bottom)); }
