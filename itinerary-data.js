@@ -56,7 +56,7 @@ const itineraryData = {
           "入境手續預留 1.5h",
           "請先換少許印尼盾 IDR",
         ],
-        transit: { mode: "car", time: "車程：1 hour, 飯店接駁、大廳舉牌、抵達付費450K" },
+        transit: { mode: "car", time: "車程：1 hour, 飯店接駁、大廳舉牌、抵達付費450K。What'sApp-Gus Bali Chauffeur" },
       },
       {
         time: "12:50",
@@ -232,7 +232,7 @@ const itineraryData = {
         notes: [
           "門票包含參觀一個小型展覽，展出繪畫和其他文物。",
         ],
-        transit: { mode: "car", time: "車程約 - 40m" },
+        transit: { mode: "car", time: "車程：40 min" },
       },
       // ⭐ 晚上開始分頭行動：卡片用 who 標籤標明誰去哪
       {
@@ -264,7 +264,7 @@ const itineraryData = {
           "從 Jiva Jules <b>走路約 3 分鐘</b>就到，不用擔心迷路！",
           "義式料理，推薦海鮮義大利麵，也有調酒和稻田景觀",
         ],
-        transit: { mode: "walk", time: "走路約 - 3m 回飯店" },
+        transit: { mode: "walk", time: "走路：3 min" },
       },
       {
         time: "Flexible",
@@ -293,7 +293,7 @@ const itineraryData = {
         notes: [
           "與司機約定11:00來此地點接🦁嘉嘉，請Check-Out等司機",
         ],
-        transit: { mode: "car", time: "車程：30 min," },
+        transit: { mode: "car", time: "車程：30 min, 包車全日(10h)900K，行程結束再付費。Line-Dino" },
       },
       {
         time: "11:30",
@@ -305,7 +305,7 @@ const itineraryData = {
         notes: [
           "與司機約定11:30來此地點接🧸🐶葶&倫，請提前Check-Out等司機",
         ],
-        transit: { mode: "car", time: "車程：30 min" },
+        transit: { mode: "car", time: "車程：30 min, 包車全日(10h)" },
       },
       {
         time: "12:00",
@@ -320,7 +320,7 @@ const itineraryData = {
           "價格比較高，記得殺價",
           "因為黃鵬倫哭腰行程太趕，所以午餐在這邊吃",
         ],
-        transit: { mode: "car", time: "車程：2 hours 15 min" },
+        transit: { mode: "car", time: "車程：2 hours 15 min, 包車全日(10h)，付費900K" },
       },
       {
         time: "16:30",
@@ -334,6 +334,7 @@ const itineraryData = {
           "休息一下! 享受飯店設施，也可以付費到房按摩",
           "記得預定隔日Jeep行程，$1,500K/3 Person(Same Jeep) 或 $800K/2 Person，這個金額是否含Hot Spring門票?",
         ],
+        transit: { mode: "Walk", time: "路程：2 min" },
       },
       {
         time: "Flexible",
@@ -348,6 +349,7 @@ const itineraryData = {
           "可以選BBQ 或 火鍋",
           "泳池可以下水，要下水記得帶泳衣",
         ],
+        transit: { mode: "Walk", time: "路程：2 min" },
       },
       {
         time: "Flexible",
@@ -391,7 +393,7 @@ const itineraryData = {
         notes: [
           "11:00 Check-Out",
         ],
-        transit: { mode: "car", time: "車程：8 min, 包車開始，費用900K，行程結束時付費"},
+        transit: { mode: "car", time: "車程：8 min, 全日包車(10h)，費用900K，行程結束時付費"},
       },
       {
         time: "11:10",
@@ -405,7 +407,7 @@ const itineraryData = {
         notes: [
           "推薦：提拉米蘇, 沒有特別哪個必點，普遍好評",
         ],
-        transit: { mode: "car", time: "車程：40 min" },
+        transit: { mode: "car", time: "車程：40 min, 全日包車(10h)" },
       },
       {
         time: "13:40",
@@ -420,7 +422,7 @@ const itineraryData = {
         notes: [
           "推薦：普普通通，當作吃飽飯散步",
         ],
-        transit: { mode: "car", time: "車程：30 min" },
+        transit: { mode: "car", time: "車程：30 min, 全日包車(10h)" },
       },
       {
         time: "15:00",
@@ -480,10 +482,10 @@ const itineraryData = {
   // ─────────────── Day 5 ───────────────
   5: {
     tabName: "Day 5",
-    dateHeader: "9/15 (二) 📍Nusa Penida",
+    dateHeader: "9/15 (二) 📍Ubud > Nusa Penida",
     events: [
       {
-        time: "6:00",
+        time: "7:45",
         tag: "hotel",
         title: "Rumah Weda (Check-out)",
         duration: "⚓ 預計停留 15m",
@@ -492,31 +494,54 @@ const itineraryData = {
         notes: [
           "預留登船手續 1h20m",
           ],
-        transit: {mode: "car", time: "車程約 - 1h 55m｜前往搭船", docName: "船票", docUrl: "https://drive.google.com/file/d/1yqlUOINRb30bdpT0iEuAve7DxvFJ02lE/view?usp=drive_link"},
+        transit: {mode: "car", time: "車程：30 min, 飯店接駁350K,抵達港口時支付"},
+      },
+      {
+        time: "8:30",
+        tag: "exp",
+        title: "Tara Resto(換票)",
+        duration: "⚓ 預計停留 1h",
+        address: "Tara Resto, Klook換票櫃台",
+        mapUrl: "https://maps.app.goo.gl/G6NK9Fd6L3rPxbEG7",
+        images: ["TaraResto.jpg"],
+        notes: [
+          "預留登船手續 1h，請在8:30抵達換票",
+          "記得先吃暈船藥",
+          ],
       },
       {
         time: "9:30",
         tag: "ship",
-        title: "前往Nusa Penida(Tara Resto換票)",
-        duration: "⚓ 航程約 1h 30m",
+        title: "Sanur Harbo > Nusa Penida",
+        duration: "⚓ 預計航程 1h",
+        address: "Sanur Harbour",
+        mapUrl: "https://maps.app.goo.gl/QYbWXbgHENR29amBA",
+        notes: [
+          "預留登船手續 1h，請在8:30抵達換票，領取實體票後，請前往*沙努爾新港*等候並登船",
+          "船隻名稱：Wahana Virendra Fast Boat",
+          ],
+        transit: {mode: "car", time: "航程：1 hour", docName: "船票", docUrl: "https://drive.google.com/file/d/1yqlUOINRb30bdpT0iEuAve7DxvFJ02lE/view?usp=drive_link"},
+      },
+      {
+        time: "10:30",
+        tag: "ship",
+        title: "Nusa Penida",
+        duration: "⚓ 與包車司機碰面",
         mapUrl: "https://maps.app.goo.gl/o1nLXr3cDtkshBFTA",
         notes: [
-          "告知計司機前往沙努爾馬塔哈里特比特海灘，到Tara Resto兌換櫃台換票，領取實體票後，請前往*沙努爾新港*等候並登船",
-          "船隻名稱：Wahana Virendra Fast Boat",
-          "船票：9:30，預計航程45m",
           "登島後須付入島費25,000/人（現場支付現金）",
         ],
-        transit: { mode: "car", time: "車程約 - 50m" },
+        transit: { mode: "car", time: "車程：50 min" },
       },
       {
-        time: "11:05",
+        time: "11:20",
         tag: "exp",
         title: "Tembeling Beach and Forest",
-        duration: "⚓ 預計停留 2h",
-        transit: { mode: "car", time: "車程約 - 15m" },
+        duration: "⚓ 預計停留 1.5h",
+        transit: { mode: "car", time: "車程：1 hours 10 min" },
       },
       {
-        time: "13:20",
+        time: "14:00",
         tag: "food",
         title: "Slaza Penida Kitchen & Bar",
         duration: "⚓ 預計停留 1h 30m",
@@ -531,12 +556,14 @@ const itineraryData = {
         notes: [
           "網上推薦：烤魚、芒果冰、漢堡，大部份都不錯，不太踩雷",
         ],
+        transit: { mode: "car", time: "車程：3 min" },
       },
       {
-        time: "14:50",
+        time: "15:33",
         tag: "exp",
         title: "Diamond Beach",
         duration: "⚓ 預計停留 2h",
+        transit: { mode: "car", time: "車程：5 min" },
       },
       {
         time: "Flexible",
@@ -545,7 +572,7 @@ const itineraryData = {
         notes: [
           "整理&休息一下，準備去吃晚餐",
         ],
-        transit: { mode: "walk", time: "約 - 1m" },
+        transit: { mode: "walk", time: "路程：1 min" },
       },
       {
         time: "Flexible",
@@ -560,7 +587,7 @@ const itineraryData = {
         notes: [
           "每道菜都好吃，不會踩雷",
         ],
-        transit: { mode: "walk", time: "約 - 1m" },
+        transit: { mode: "walk", time: "路程：1 min" },
       },
       {
         time: "Flexible",
@@ -568,7 +595,7 @@ const itineraryData = {
         title: "Kaje Cottage & Restaurant",
         duration: "🌙 Good Night",
         notes: [
-          "明天早起看日出（Rumah Pohon Tree House）",
+          "明天早起看日出（Rumah Pohon Tree House），請早點睡",
         ],
       },
     ],
