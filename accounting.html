@@ -17,7 +17,7 @@
   /* === 基礎重置 === */
   *, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-  /* === 基礎設定 (避免破版與置頂失效) === */
+  /* === 基礎設定 === */
   body {
     background-color: #F6F5F0; 
     font-family: 'Noto Sans TC', sans-serif;
@@ -69,6 +69,28 @@
   .summary-table tr:last-child td { border-bottom: none; padding-bottom: 0; }
   .text-highlight { color: #D4A373; }
 
+  /* === 結算矩陣區塊 (新增) === */
+  .matrix-wrapper { margin-top: 16px; border-top: 2px dashed #F0EFEA; padding-top: 16px; }
+  .matrix-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+  .matrix-title { font-size: 14px; font-weight: 700; color: #6B4D32; display: flex; align-items: center; gap: 8px; }
+  .matrix-toggle-icon { font-size: 12px; color: #B0ADA7; transition: transform 0.3s ease; }
+  .matrix-toggle-icon.open { transform: rotate(180deg); }
+  
+  .matrix-content { display: none; margin-top: 16px; animation: fadeIn 0.3s ease; }
+  .matrix-content.show { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+  
+  .matrix-currency-toggle { display: flex; background-color: #F6F5F0; border-radius: 8px; padding: 2px; width: 100px; margin-left: auto; margin-bottom: 12px; }
+  .m-curr-btn { flex: 1; text-align: center; font-size: 11px; padding: 4px 0; color: #B0ADA7; cursor: pointer; border-radius: 6px; font-weight: 700; }
+  .m-curr-btn.active { background-color: #FFFFFF; color: #4A453F; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
+  .matrix-table { width: 100%; border-collapse: collapse; font-size: 11px; text-align: center; }
+  .matrix-table th { color: #B0ADA7; font-weight: 500; padding: 8px 4px; border-bottom: 1px solid #F0EFEA; }
+  .matrix-table td { padding: 12px 4px; border-bottom: 1px dashed #F0EFEA; font-family: 'Noto Serif TC', serif; font-weight: 700; color: #D67D7D; }
+  .matrix-table th:first-child { text-align: left; background-color: #FAFAFA; border-radius: 8px 0 0 8px; color: #8C8882; font-size: 10px; }
+  .matrix-table td:first-child { text-align: left; font-family: 'Noto Sans TC', sans-serif; color: #6B4D32; background-color: #FAFAFA; border-radius: 8px 0 0 8px; }
+  .matrix-table td.empty-cell { color: #E0DDD6; }
+
   /* === 2. 記帳輸入卡片 === */
   .form-group { margin-bottom: 20px; position: relative; z-index: 2; }
   .form-label { font-size: 12px; color: #B0ADA7; margin-bottom: 8px; display: block; font-weight: 500; }
@@ -99,7 +121,7 @@
   .photo-upload-box input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
   .submit-btn { width: 100%; background-color: #4A453F; color: #FFFFFF; padding: 16px; border-radius: 12px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(74, 69, 63, 0.15); margin-top: 8px; }
 
-  /* === 3. 帳務明細清清單 === */
+  /* === 3. 帳務明細清單 === */
   .section-title { font-size: 15px; font-weight: 700; color: #6B4D32; margin: 32px 0 16px 4px; display: flex; align-items: center; gap: 8px; }
   .record-item { background-color: #FFFFFF; border-radius: 16px; padding: 16px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(74, 69, 63, 0.03); cursor: pointer; transition: background-color 0.2s; }
   .record-item:active { background-color: #FAFAFA; }
@@ -144,6 +166,33 @@
       <tr><td>🦁 嘉嘉</td><td id="sum-paid-jj">0</td><td id="sum-idr-jj" class="text-highlight">0</td><td id="sum-twd-jj" class="text-highlight">0</td></tr>
       <tr><td>🐶 倫倫</td><td id="sum-paid-ll">0</td><td id="sum-idr-ll" class="text-highlight">0</td><td id="sum-twd-ll" class="text-highlight">0</td></tr>
     </table>
+
+    <!-- 新增：結算矩陣區塊 -->
+    <div class="matrix-wrapper">
+      <div class="matrix-header" id="matrix-toggle">
+        <div class="matrix-title">💡 結清帳務明細 (誰該付誰)</div>
+        <div class="matrix-toggle-icon">▼</div>
+      </div>
+      <div class="matrix-content" id="matrix-content">
+        <div class="matrix-currency-toggle" id="matrix-currency">
+          <div class="m-curr-btn active" data-curr="TWD">TWD</div>
+          <div class="m-curr-btn" data-curr="IDR">IDR</div>
+        </div>
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>代墊 \ 應付</th>
+              <th>🧸 芷葶</th>
+              <th>🦁 嘉嘉</th>
+              <th>🐶 倫倫</th>
+            </tr>
+          </thead>
+          <tbody id="matrix-tbody">
+            <!-- 矩陣資料會由 JS 動態產生 -->
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
   <div class="card">
@@ -237,6 +286,9 @@
 
   const EXCHANGE_RATE = 0.002; 
   let editingRecordId = null; 
+  
+  // 儲存全域的債務抵銷結果，以利切換幣別時重新渲染
+  let globalNetDebtsTWD = {};
 
   document.getElementById('input-date').valueAsDate = new Date();
 
@@ -265,12 +317,64 @@
     splitBtns.forEach(btn => allActive ? btn.classList.remove('split-active') : btn.classList.add('split-active'));
   });
 
+  // 展開/折疊 結算矩陣
+  const matrixToggle = document.getElementById('matrix-toggle');
+  const matrixContent = document.getElementById('matrix-content');
+  const matrixIcon = document.querySelector('.matrix-toggle-icon');
+  matrixToggle.addEventListener('click', () => {
+    matrixContent.classList.toggle('show');
+    matrixIcon.classList.toggle('open');
+  });
+
+  // 矩陣幣別切換
+  const matrixCurrBtns = document.querySelectorAll('.m-curr-btn');
+  matrixCurrBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      matrixCurrBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderMatrixTable(btn.dataset.curr);
+    });
+  });
+
   // === 數字縮寫魔法 (K邏輯) ===
   const formatIDR = (num) => {
     let kValue = num / 1000;
     return kValue.toLocaleString('en-US', { maximumFractionDigits: 1 }) + 'K';
   };
   const formatTWD = (num) => Math.round(num).toLocaleString('en-US');
+
+  // 渲染結算矩陣
+  function renderMatrixTable(currencyStr) {
+    const tbody = document.getElementById('matrix-tbody');
+    tbody.innerHTML = '';
+    const users = ['芷葶', '嘉嘉', '倫倫'];
+    const icons = { '芷葶': '🧸', '嘉嘉': '🦁', '倫倫': '🐶' };
+
+    users.forEach(payer => {
+      let tr = document.createElement('tr');
+      let th = document.createElement('td');
+      th.innerText = `${icons[payer]} ${payer}`;
+      tr.appendChild(th);
+
+      users.forEach(debtor => {
+        let td = document.createElement('td');
+        if (payer === debtor) {
+          td.innerText = '-';
+          td.className = 'empty-cell';
+        } else {
+          let debtTWD = globalNetDebtsTWD[payer] && globalNetDebtsTWD[payer][debtor] ? globalNetDebtsTWD[payer][debtor] : 0;
+          if (debtTWD > 0) {
+            td.innerText = currencyStr === 'TWD' ? formatTWD(debtTWD) : formatIDR(debtTWD / EXCHANGE_RATE);
+          } else {
+            td.innerText = '-';
+            td.className = 'empty-cell';
+          }
+        }
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+  }
 
   // === 載入資料與計算 ===
   onSnapshot(collection(db, "expenses"), (snapshot) => {
@@ -283,6 +387,13 @@
       '倫倫': { paidIDR: 0, spentIDR: 0 }
     };
 
+    // 紀錄原始債務 (Payer 幫 Splitter 先墊了多少)
+    let grossDebtsTWD = {
+      '芷葶': { '芷葶': 0, '嘉嘉': 0, '倫倫': 0 },
+      '嘉嘉': { '芷葶': 0, '嘉嘉': 0, '倫倫': 0 },
+      '倫倫': { '芷葶': 0, '嘉嘉': 0, '倫倫': 0 }
+    };
+
     let docsData = [];
     snapshot.forEach(docSnap => {
       let data = docSnap.data();
@@ -290,28 +401,66 @@
       docsData.push(data);
       
       let amountInIDR = data.currency === 'IDR' ? data.amount : data.amount / EXCHANGE_RATE;
+      let amountInTWD = data.currency === 'TWD' ? data.amount : data.amount * EXCHANGE_RATE;
+
       if(totals[data.payer]) totals[data.payer].paidIDR += amountInIDR;
       
       if(data.splitters && data.splitters.length > 0) {
-        let splitAmount = amountInIDR / data.splitters.length;
+        let splitAmountIDR = amountInIDR / data.splitters.length;
+        let splitAmountTWD = amountInTWD / data.splitters.length;
+        
         data.splitters.forEach(person => {
-          if(totals[person]) totals[person].spentIDR += splitAmount;
+          if(totals[person]) totals[person].spentIDR += splitAmountIDR;
+          
+          // 計算債務 (人情債：代墊者幫該分攤者墊的錢)
+          if(person !== data.payer) {
+            grossDebtsTWD[data.payer][person] += splitAmountTWD;
+          }
         });
       }
     });
 
-    const users = ['芷葶', '嘉嘉', '倫倫'];
+    // 💡 抵銷邏輯 (如果A欠B 500, B欠A 200, 則結算為 A欠B 300)
+    globalNetDebtsTWD = {
+      '芷葶': { '芷葶': 0, '嘉嘉': 0, '倫倫': 0 },
+      '嘉嘉': { '芷葶': 0, '嘉嘉': 0, '倫倫': 0 },
+      '倫倫': { '芷葶': 0, '嘉嘉': 0, '倫倫': 0 }
+    };
+
+    const usersList = ['芷葶', '嘉嘉', '倫倫'];
+    for (let i = 0; i < usersList.length; i++) {
+       for (let j = i + 1; j < usersList.length; j++) {
+           let userA = usersList[i];
+           let userB = usersList[j];
+           
+           // A幫B墊的錢 (B欠A)
+           let bOwesA = grossDebtsTWD[userA][userB]; 
+           // B幫A墊的錢 (A欠B)
+           let aOwesB = grossDebtsTWD[userB][userA]; 
+
+           if (bOwesA > aOwesB) {
+               globalNetDebtsTWD[userA][userB] = bOwesA - aOwesB; // 最後 B 還是欠 A
+           } else if (aOwesB > bOwesA) {
+               globalNetDebtsTWD[userB][userA] = aOwesB - bOwesA; // 最後 A 還是欠 B
+           }
+       }
+    }
+
+    // 更新總覽表
     const ids = ['zt', 'jj', 'll'];
-    users.forEach((user, index) => {
+    usersList.forEach((user, index) => {
       let prefix = ids[index];
-      // 💡 計算代墊的台幣並顯示
       let paidTWD = totals[user].paidIDR * EXCHANGE_RATE;
       let spentTWD = totals[user].spentIDR * EXCHANGE_RATE;
       
-      document.getElementById(`sum-paid-${prefix}`).innerText = formatTWD(paidTWD); // 換成 TWD 顯示
+      document.getElementById(`sum-paid-${prefix}`).innerText = formatTWD(paidTWD);
       document.getElementById(`sum-idr-${prefix}`).innerText = formatIDR(totals[user].spentIDR);
       document.getElementById(`sum-twd-${prefix}`).innerText = formatTWD(spentTWD);
     });
+
+    // 更新結算矩陣表
+    const activeCurr = document.querySelector('.m-curr-btn.active').dataset.curr;
+    renderMatrixTable(activeCurr);
 
     docsData.sort((a, b) => new Date(b.date) - new Date(a.date));
     if(docsData.length === 0) {
@@ -425,6 +574,20 @@
       submitBtn.style.backgroundColor = "#4A453F";
     }
   });
+
+  // === 攔截所有 a 標籤點擊事件，防止 iOS Web App 跳出 Safari UI ===
+  document.addEventListener('click', function(event) {
+    let target = event.target;
+    while (target && target.tagName !== 'A') {
+        target = target.parentNode;
+    }
+
+    if (target && target.tagName === 'A' && target.host === window.location.host) {
+        event.preventDefault();
+        window.location.href = target.href;
+    }
+  });
+
 </script>
 </body>
 </html>
