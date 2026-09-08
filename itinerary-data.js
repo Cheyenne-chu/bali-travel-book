@@ -158,7 +158,7 @@ const itineraryData = {
           "預約10:00課程，3位。",
           "請著寬鬆或瑜珈衣服，並將頭髮綁起。",
         ],
-        transit: { mode: "car", time: "15 min, 使用Gojek叫車" },
+        transit: { mode: "car", time: "車程：15 min, 使用Gojek叫車" },
       },
       {
         time: "11:15",
@@ -188,7 +188,7 @@ const itineraryData = {
           "主要賣紀念品、飾品、衣物，重複性稍高且通常沒標價",
           "殺價建議從3-5折開始砍，概念店通常不二價",
         ],
-        transit: { mode: "car", time: "15 min, 使用Gojek叫車" },
+        transit: { mode: "car", time: "車程：15 min, 使用Gojek叫車" },
       },
       {
         time: "13:40",
@@ -206,7 +206,7 @@ const itineraryData = {
           "零食伴手禮",
           "推薦必買：Coconut Chip巧克力口味, 蒜香花生",
         ],
-        transit: { mode: "car", time: "15 min, 使用Gojek叫車" },
+        transit: { mode: "car", time: "車程：15 min, 使用Gojek叫車" },
       },
       {
         time: "14:40",
@@ -218,7 +218,7 @@ const itineraryData = {
         notes: [
           "🧸🐶葶&倫需整理行李轉換飯店",
         ],
-        transit: { mode: "car", time: "40 min, 使用Gojek叫車" },
+        transit: { mode: "car", time: "車程：40 min, 使用Gojek叫車" },
       },
       {
         time: "15:55",
@@ -334,7 +334,7 @@ const itineraryData = {
           "休息一下! 享受飯店設施，也可以付費到房按摩",
           "記得預定隔日Jeep行程，$1,500K/3 Person(Same Jeep) 或 $800K/2 Person，這個金額是否含Hot Spring門票?",
         ],
-        transit: { mode: "Walk", time: "路程：2 min" },
+        transit: { mode: "walk", time: "路程：2 min" },
       },
       {
         time: "Flexible",
@@ -349,7 +349,7 @@ const itineraryData = {
           "可以選BBQ 或 火鍋",
           "泳池可以下水，要下水記得帶泳衣",
         ],
-        transit: { mode: "Walk", time: "路程：2 min" },
+        transit: { mode: "walk", time: "路程：2 min" },
       },
       {
         time: "Flexible",
@@ -375,16 +375,17 @@ const itineraryData = {
         time: "4:00",
         tag: "exp",
         title: "Jeep tour for Sunrise",
-        duration: "⚓ 預計時長 4h",
-        hours: "4:00 – 8:00",
+        duration: "⚓ 預計時長 5h",
+        hours: "4:00 – 9:00",
         notes: [
           "此行程須在Check-In時預定。1.500.000/1-3 person",
           "行程：Black Lava, Sunrise Point, Hot Spring",
           "半夜可能會冷，帶小外套。去溫泉的話要帶泳衣&換洗衣物",
         ],
+        transit: { mode: "car", time: "4 hours tour, 1,300K 前一天付給飯店" },
       },
       {
-        time: "8:00",
+        time: "9:00",
         tag: "hotel",
         title: "Stone Ridge Kintamani (Check-out)",
         duration: "⚓ 預計停留 2h",
@@ -461,6 +462,7 @@ const itineraryData = {
         notes: [
           "Sourdough pizza酸種麵包披薩非常好吃，但份量很多",
           "義大利麵看起來也很好吃",
+          "附近有一間服飾店：Be Mine Fashion，可以去逛逛",
         ],
         transit: { mode: "car", time: "車程：2 min, 使用Gojek叫車" },
       },
@@ -492,7 +494,8 @@ const itineraryData = {
         address: "No 88x, Jl. Raya, Ubud, Gianyar Regency",
         mapUrl: "https://maps.app.goo.gl/4QGCjQ1JJpFEYY5b8",
         notes: [
-          "預留登船手續 1h20m",
+          "7:45 Check-Out",
+          "8:00 司機在飯店門口等",
           ],
         transit: {mode: "car", time: "車程：30 min, 飯店接駁350K,抵達港口時支付"},
       },
@@ -531,14 +534,14 @@ const itineraryData = {
         notes: [
           "登島後須付入島費25,000/人（現場支付現金）",
         ],
-        transit: { mode: "car", time: "車程：50 min" },
+        transit: { mode: "car", time: "車程：50 min, 全日包車1,600K(2日費用)，討論先付1,000K，What'sApp-Ajieee" },
       },
       {
         time: "11:20",
         tag: "exp",
         title: "Tembeling Beach and Forest",
         duration: "⚓ 預計停留 1.5h",
-        transit: { mode: "car", time: "車程：1 hours 10 min" },
+        transit: { mode: "car", time: "車程：1 hours 10 min, 全日包車(2日)" },
       },
       {
         time: "14:00",
@@ -556,14 +559,14 @@ const itineraryData = {
         notes: [
           "網上推薦：烤魚、芒果冰、漢堡，大部份都不錯，不太踩雷",
         ],
-        transit: { mode: "car", time: "車程：3 min" },
+        transit: { mode: "car", time: "車程：3 min, 全日包車(2日)" },
       },
       {
         time: "15:33",
         tag: "exp",
         title: "Diamond Beach",
         duration: "⚓ 預計停留 2h",
-        transit: { mode: "car", time: "車程：5 min" },
+        transit: { mode: "car", time: "車程：5 min, 全日包車(2日)，抵達付部分費用" },
       },
       {
         time: "Flexible",
@@ -594,6 +597,9 @@ const itineraryData = {
         tag: "hotel",
         title: "Kaje Cottage & Restaurant",
         duration: "🌙 Good Night",
+        images: ["KajeCottage.jpg"],
+        address: "jalan raya pelilit, Pejukutan, Kec. Nusa Penida, Kabupaten Klungkung",
+        mapUrl: "https://maps.app.goo.gl/CxDKrE4nz1ueEeUr7",
         notes: [
           "明天早起看日出（Rumah Pohon Tree House），請早點睡",
         ],
@@ -604,29 +610,59 @@ const itineraryData = {
   // ─────────────── Day 6 ───────────────
   6: {
     tabName: "Day 6",
-    dateHeader: "9/16 (三) 📍Uluwatu",
+    dateHeader: "9/16 (三) 📍Nusa Penida > Uluwatu",
     events: [
+      {
+        time: "5:30 ",
+        tag: "hotel",
+        title: "Kaje Cottage & Restaurant",
+        duration: "⚓ CheckOut 或短暫離開",
+        images: ["KajeCottage.jpg"],
+        address: "jalan raya pelilit, Pejukutan, Kec. Nusa Penida, Kabupaten Klungkung",
+        mapUrl: "https://maps.app.goo.gl/CxDKrE4nz1ueEeUr7",
+        notes: [
+          "可與司機討論，看完日出再回飯店，或者直接前往港口，將會影響是否可以回飯店吃早餐",
+          "此飯店有含免費早餐",
+        ],
+        transit: { mode: "car", time: "車程：5 min, 全日包車1,600K(2日費用)，What'sApp-Ajieee" },
+      },
       {
         time: "5:30 - Sunrise",
         tag: "exp",
         title: "Rumah Pohon -Tree House",
-        duration: "⚓ 預計停留 1h, 請在6:45前離開",
+        duration: "⚓ 預計停留 30 min, 請在6:10前離開，或直接前往港口",
         images: ["TreeHouse.png"],
         address: "6JC8+HPW, Pejukutan, Kec. Nusa Penida, Kabupaten Klungkung",
         mapUrl: "https://maps.app.goo.gl/u6FpX3gLwgVBxtwq8",
         notes: [
-          "預計8:00抵達港口，換票須提前1小時",
+          "應該是6:00才開門，但應該可以先到。",
+          "門票25K，拍照另外付75K(2分鐘)。",
         ],
+        transit: { mode: "car", time: "車程：5 min, 全日包車1,600K(2日費用)" },
       },
       {
-        time: "6:45",
+        time: "6:50",
+        tag: "hotel",
+        title: "Kaje Cottage & Restaurant",
+        duration: "⚓ 預計停留 30 min, 請在6:50前離開",
+        images: ["KajeCottage.jpg"],
+        address: "jalan raya pelilit, Pejukutan, Kec. Nusa Penida, Kabupaten Klungkung",
+        mapUrl: "https://maps.app.goo.gl/CxDKrE4nz1ueEeUr7",
+        notes: [
+          "應該是6:00才開門，但應該可以先到。",
+          "門票25K，拍照另外付75K(2分鐘)。",
+        ],
+        transit: { mode: "car", time: "車程：1 hour 15 min, 全日包車1,600K(2日費用)，抵達時付剩餘費用" },
+      },
+      {
+        time: "8:00",
         tag: "exp",
         title: "從Penida搭船回本島",
         duration: "⚓ 預計停留 1h",
         notes: [
           "預計8:00抵達港口，換票須提前1小時",
         ],
-        transit: { mode: "car", time: "車程：1h 10m｜前往搭船", docName: "船票", docUrl: "https://drive.google.com/file/d/1c6p591CxlyxQbi9GTSgwW6nwJ29at9IR/view?usp=drive_link" },
+        transit: { mode: "car", time: "航程：1h｜前往搭船", docName: "船票", docUrl: "https://drive.google.com/file/d/1c6p591CxlyxQbi9GTSgwW6nwJ29at9IR/view?usp=drive_link" },
       },
       {
         time: "9:00",
@@ -636,7 +672,7 @@ const itineraryData = {
         notes: [
           "實際開船時間9:00，須預留1小時到現場換票",
         ],
-        transit: { mode: "car", time: "車程：1 hour 45min" },
+        transit: { mode: "car", time: "車程：1 hour 45min, 全日包車(10h)，行程結束再付費700K。Line-Dino" },
       },
       {
         time: "11:45 (有預訂)",
@@ -652,7 +688,7 @@ const itineraryData = {
           "印尼菜、可刷卡",
           "雞肉印尼炒飯不錯、份量很多，但是白飯很硬建議不要點",
         ],
-        transit: { mode: "car", time: "車程：50 mim" },
+        transit: { mode: "car", time: "車程：50 mim, 全日包車(10h)" },
       },
       {
         time: "14:35 (15:00開拍)",
@@ -669,7 +705,7 @@ const itineraryData = {
           "拍攝時間：15:00-18:00 | 攝影師：AJ |方案：提供所有原始檔案、精修60張",
           "走很多台階才能到達海灘，可以用25,000IDR搭乘摩托計程車往返停車場",
         ],
-        transit: { mode: "car", time: "車程：30 mim" },
+        transit: { mode: "car", time: "車程：30 mim, 全日包車(10h)" },
       },
       {
         time: "18:50 ",
@@ -683,7 +719,7 @@ const itineraryData = {
           "建議方案：Sacred Valinese Massage 60分鐘(搭配椰子油/茉莉、依蘭精油的按摩)",
           "請店家先讓我們做Ocean Shower洗澡",
         ],
-        transit: { mode: "car", time: "車程：30 mim" },
+        transit: { mode: "car", time: "車程：30 mim, 全日包車(10h)" },
       },
       {
         time: "21:00 (有預訂)",
@@ -702,7 +738,7 @@ const itineraryData = {
         notes: [
           "推薦：Pasta with cacio e pepe sauce(義大利麵+卡喬佩佩醬), Seafood linguine(海鮮義大利麵), Pici cacio e pepe with truffle(起司+黑胡椒+松露義大利麵), 提拉米蘇",
         ],
-        transit: { mode: "car", time: "車程：40 mim" },
+        transit: { mode: "car", time: "車程：40 mim, 全日包車(10h)，抵達時付費700K" },
       },
       {
         time: "23:05",
@@ -726,6 +762,9 @@ const itineraryData = {
         time: "3:05",
         tag: "flight",
         title: "抵達 - 新加坡樟宜機場(SIN)",
+        notes: [
+          "吃早餐稍作休息，等候MRT 5:30發車",
+        ],
         transit: { mode: "car", time: "轉機空檔" },
       },
       {
